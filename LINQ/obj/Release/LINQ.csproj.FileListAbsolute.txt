@@ -1,0 +1,6 @@
+C:\Users\admin\Downloads\11-06-2015\11-06-2015\LINQ\bin\Release\LINQ.dll.config
+C:\Users\admin\Downloads\11-06-2015\11-06-2015\LINQ\bin\Release\LINQ.dll
+C:\Users\admin\Downloads\11-06-2015\11-06-2015\LINQ\bin\Release\LINQ.pdb
+C:\Users\admin\Downloads\11-06-2015\11-06-2015\LINQ\obj\Release\LINQ.csprojResolveAssemblyReference.cache
+C:\Users\admin\Downloads\11-06-2015\11-06-2015\LINQ\obj\Release\LINQ.dll
+C:\Users\admin\Downloads\11-06-2015\11-06-2015\LINQ\obj\Release\LINQ.pdb

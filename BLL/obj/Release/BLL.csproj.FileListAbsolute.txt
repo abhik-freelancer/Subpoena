@@ -1,0 +1,7 @@
+C:\Users\admin\Downloads\11-06-2015\11-06-2015\BLL\bin\Release\BLL.dll
+C:\Users\admin\Downloads\11-06-2015\11-06-2015\BLL\bin\Release\BLL.pdb
+C:\Users\admin\Downloads\11-06-2015\11-06-2015\BLL\bin\Release\LINQ.dll
+C:\Users\admin\Downloads\11-06-2015\11-06-2015\BLL\bin\Release\LINQ.pdb
+C:\Users\admin\Downloads\11-06-2015\11-06-2015\BLL\obj\Release\BLL.csprojResolveAssemblyReference.cache
+C:\Users\admin\Downloads\11-06-2015\11-06-2015\BLL\obj\Release\BLL.dll
+C:\Users\admin\Downloads\11-06-2015\11-06-2015\BLL\obj\Release\BLL.pdb

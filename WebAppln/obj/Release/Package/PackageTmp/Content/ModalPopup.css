@@ -1,0 +1,67 @@
+﻿body{
+	background-color:#ffffff;
+	 background:url(../Images/InputBGSmall.png) repeat-x left bottom #fff;
+	background-position:center bottom;
+	background-repeat:repeat-x;
+	font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;	 
+	padding-bottom:20px;
+}
+
+.Container
+{
+	margin:auto;
+	min-height:400px;
+	background:#ffffff;
+	max-width:850px;
+	min-width:1000px;
+	border:solid 1px #fff;
+	padding:0 20px 20px 20px;
+}
+
+.ToolBar
+{
+	border:solid 1px #d4d4d4;
+	padding:10px;
+	margin-bottom:20px;
+}
+
+.GridContainer
+{
+	background:#ECF5FB;
+	min-height:700px;
+	border:solid 1px #d4d4d4;
+}
+
+
+ 
+.popup_Container {
+	background-color:#fffeb2;
+	border:2px solid #000000;
+	padding: 0px 0px 0px 0px;
+}
+
+ 
+
+.TitlebarLeft 
+{
+	float:left;
+	padding-left:5px;
+	padding-top:5px;
+	font-family:Arial, Helvetica, sans-serif;
+	font-weight:bold;
+	font-size:12px;
+	color:#FFFFFF;
+}
+.TitlebarRight 
+{
+	background:url(../Images/cross_icon_normal.png);
+	background-position:right;
+	background-repeat:no-repeat;
+	height:15px;
+	width:16px;
+	float:right;
+	cursor:pointer;
+	margin-right:5px;
+	margin-top:5px;
+}
+

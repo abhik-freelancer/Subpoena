@@ -1,0 +1,259 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="WebAppln.SiteMaster" %>
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head id="Head1" runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%: Page.Title %> - Excellerator :: Health Insurance</title>
+
+        <asp:PlaceHolder ID="PlaceHolder1" runat="server">
+        <%: Scripts.Render(BundleTable.Bundles.ResolveBundleUrl("~/bundles/modernizr")) %>
+             
+    </asp:PlaceHolder>
+    <webopt:BundleReference runat="server" Path="~/Content/css" />
+
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <link rel="stylesheet" href="Content/Site.css" type="text/css" />
+    <link rel="stylesheet" href="Content/component.css" type="text/css" />
+    <script src="../Scripts/Loading/jquery-1.11.0.min.js"></script>
+      <style>
+    #spinner
+    {
+        /*position: fixed;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        z-index: 9999;*/
+        /*Change your loading image here*/ 
+        /*background: url(../Images/loading45.gif) 50% 50% no-repeat #ede9df;*/
+
+       position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+   /* background: #fff;*/
+    z-index: 99;
+ background:url(../Images/whiteTrans.png) left top transparent;
+    }
+
+    #preloader1 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+   /* background: #fff;*/
+    z-index: 99;
+ background:url(../Images/whiteTrans.png) left top transparent;
+ 
+}
+</style>
+    <%--<script>
+
+        //Change the 5000 to a value which you need so that loading image shows till your page completely
+        $(window).load(function () { $("#spinner").fadeOut(5000); })
+    </script>--%>
+  </head>
+<body>
+
+    <form runat="server">
+      
+       <%-- <div id="spinner"></div>--%>
+          <%-- <div id="preloader1"><div id="status">
+        <div id="circleG">
+            <div id="circleG_1" class="circleG"></div>
+            <div id="circleG_2" class="circleG"></div>
+            <div id="circleG_3" class="circleG"></div> 
+        </div></div>
+    </div>--%>
+    
+        <myajax:ToolkitScriptManager runat="server" ID="main">
+            <Scripts>
+                <asp:ScriptReference Path="~/Scripts/classie.js" />
+                <asp:ScriptReference Path="~/Scripts/modernizr.custom.js" />
+                <asp:ScriptReference Path="~/Scripts/jquery-1.10.2.min.js" />
+            </Scripts>
+        </myajax:ToolkitScriptManager>
+
+       
+        
+         <ul id="gn-menu" class="gn-menu-main">
+           <!-- <li class="gn-trigger">-->
+                <!--<a class="gn-icon gn-icon-menu"><span>Menu</span></a>-->
+                <nav class="gn-menu-wrapper">
+                    <div class="gn-scroller">
+                        <ul class="gn-menu" id="menu">
+   		                <li>
+                                           
+                                <a class="gn-icon gn-icon-home" href="Dashboard.aspx">Home</a>
+                                            
+                        </li>
+                            <li>
+                                
+                                <a class="gn-icon gn-icon-stack" href="AddBenefitPlan.aspx">Inventory</a>
+
+                            </li>
+
+                            <li>
+
+                                <a class="gn-icon gn-icon-qgroup" href="AddClientGroup.aspx">Order</a>
+
+                            </li>
+                            <li>
+
+                                <a class="gn-icon gn-icon-impTemp" href="AddEmployee.aspx">Invoice</a>
+
+                            </li>
+
+                            <li>
+
+                                <a class="gn-icon gn-icon-location" href="AddUsers.aspx">Location</a>
+
+                            </li>
+                            <li>
+
+                                <a class="gn-icon gn-icon-location" href="PolicyRate.aspx">Search Location (s)</a>
+
+                            </li>
+
+                            <li>
+
+                                <a class="gn-icon gn-icon-customer" href="ToAddaBrokerage.aspx">Customer</a>
+
+                            </li>
+
+                            <%--<li>
+
+                                <a class="gn-icon gn-icon-job" href="SupplierView.aspx">Supplier</a>
+
+                            </li>
+
+ <li>
+                                <a class="gn-icon gn-icon-stackoverflow" href="WorkOrderView.aspx">Non Inventory Work Order</a>
+
+                            </li>
+                             <li>
+                                <a class="gn-icon gn-icon-stackoverflow" href="WorkOrderInvoiceView.aspx">Non Inventory Invoice</a>
+
+                            </li>
+                            <li>
+
+                                <a class="gn-icon gn-icon-auditView" href="/AuditView">Reports &amp; Settings</a>
+
+                            </li>--%>
+
+
+                           
+
+                        </ul>
+                    </div>
+                    <!-- /gn-scroller -->
+                </nav>
+           <!-- </li>-->
+
+        </ul>
+
+        <div class="HeaderOuter">
+            <div class="navbar navbar-inverse navbar-fixed-top">
+                <div class="container">
+                    <div class="navbar-header">
+       
+                   <a id="A1" class="navbar-brand" runat="server" href="~/ContentPages/AddBenefitPlan.aspx"><img src="../Images/logoNew4.png" alt="ABRC" title="ABRC"  /></a>
+                </div>
+
+                
+
+
+                <div class="navbar-collapse collapse">
+                  
+       
+                             <div class="logoutBTNCont" runat="server" id="divLogOut">
+                                <a href="../login.aspx" class="logout"><img src="../Images/blankImg.png" title="Logout"/></a>
+                            </div>
+                             <asp:Label CssClass="welcomeUser" visible="false" runat="server" id="lblWelcome">
+                                <span>Welcome</span> Admin
+                            </asp:Label>
+
+                    <nav>
+		<div id='cssmenu'>
+        	<ul>
+            	<li><a href="Dashboard.aspx">Home</a></li>
+            	<li><a href="ToAddaBrokerage.aspx">Brokerage</a></li>
+                <li><a href="AddUsers.aspx">User</a></li>
+                <li><a href="AddClientGroup.aspx">Client Group</a></li>
+                <li><a href="AddEmployee.aspx">Employee</a></li>
+                <li><a href="AddBenefitPlan.aspx">Benefit Plan</a></li>
+                <li><a href="PolicyRate.aspx">Policy</a></li>
+                <li><a href="ViewEmployeeInsuranceRate.aspx">Emp Insur. Rate</a></li>
+                <li><a href="MedicalRecommendation.aspx">Medical Recomm.</a></li>                
+                <li><a href="DentalPlan1.aspx">DentalPlan</a></li>
+                <li><a href="VisionPlan.aspx">VisionPlan</a></li>
+                 
+            </ul>
+</div>
+        </nav>
+       
+                   
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="bodyOuter">
+        <div class="container body-content">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server">
+            </asp:ContentPlaceHolder>
+            <hr />
+        </div>
+        </div>
+        <%--this is the modal popup for the delete confirmation--%>
+        <asp:Panel runat="server" ID="DivDeleteConfirmation" Style="display: none;" class="popupConfirmation">
+            <div class="popup_Container">
+                <div class="popup_Titlebar" id="PopupHeader">
+                    <div class="TitlebarLeft">
+                        Delete Record
+                    </div>
+                    <div class="TitlebarRight" onclick="$get('ButtonDeleteCancel').click();">
+                    </div>
+                </div>
+                <div class="popup_Body">
+                    <p>
+                        Are you sure, you want to delete this record?
+                    </p>
+                </div>
+                <div style="float: left; margin-left: 25px; margin-top:-37px">
+                    <input id="ButtonDeleleOkay" value="Ok" type="button" class="popup_addCustomerBtn" />
+                    <input id="ButtonDeleteCancel" value="Cancel" type="button" class="popup_addCustomerBtn" />
+                </div>
+            </div>
+        </asp:Panel>
+        <div class="footerouter">
+            <footer>
+                <p>&copy; <%: DateTime.Now.Year %>  - Excellerator :: Health Insurance. All Rights Reserved.
+                    <a target="_blank" href="http://www.thethinkerz.com">Powerd by</a>
+
+                </p>
+            </footer>
+        </div>
+    </form>
+    <script type="text/javascript">
+
+        $(function () {
+            // this will get the full URL at the address bar
+            var url = window.location.href;
+         
+            // passes on every "a" tag 
+            $("#cssmenu a").each(function () {
+                // checks if its the same on the address bar
+                if (url +".aspx" == (this.href)) {
+                    $(this).closest("a").addClass("selectedNav");
+                }
+            });
+
+        });
+    </script>
+</body>
+</html>
