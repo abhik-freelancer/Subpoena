@@ -43,3 +43,13 @@ D:\Proj\Subpoena\Solution\Subpoena\07-02-2015\Local\LINQ\bin\Debug\LINQ.dll
 D:\Proj\Subpoena\Solution\Subpoena\07-02-2015\Local\LINQ\bin\Debug\LINQ.pdb
 D:\Proj\Subpoena\Solution\Subpoena\07-02-2015\Local\LINQ\obj\Debug\LINQ.dll
 D:\Proj\Subpoena\Solution\Subpoena\07-02-2015\Local\LINQ\obj\Debug\LINQ.pdb
+C:\Users\dibyendu.roy\Desktop\DZ\Subpoena\LINQ\bin\Debug\LINQ.dll.config
+C:\Users\dibyendu.roy\Desktop\DZ\Subpoena\LINQ\bin\Debug\LINQ.dll
+C:\Users\dibyendu.roy\Desktop\DZ\Subpoena\LINQ\bin\Debug\LINQ.pdb
+C:\Users\dibyendu.roy\Desktop\DZ\Subpoena\LINQ\obj\Debug\LINQ.dll
+C:\Users\dibyendu.roy\Desktop\DZ\Subpoena\LINQ\obj\Debug\LINQ.pdb
+D:\Proj\Subpoena\Solution\Subpoena\Upload_in_The_Server\Local\LINQ\bin\Debug\LINQ.dll.config
+D:\Proj\Subpoena\Solution\Subpoena\Upload_in_The_Server\Local\LINQ\bin\Debug\LINQ.dll
+D:\Proj\Subpoena\Solution\Subpoena\Upload_in_The_Server\Local\LINQ\bin\Debug\LINQ.pdb
+D:\Proj\Subpoena\Solution\Subpoena\Upload_in_The_Server\Local\LINQ\obj\Debug\LINQ.dll
+D:\Proj\Subpoena\Solution\Subpoena\Upload_in_The_Server\Local\LINQ\obj\Debug\LINQ.pdb

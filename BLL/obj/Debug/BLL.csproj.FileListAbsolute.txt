@@ -58,3 +58,17 @@ D:\Proj\Subpoena\Solution\Subpoena\07-02-2015\Local\BLL\obj\Debug\BLL.pdb
 D:\Proj\Subpoena\Solution\Subpoena\07-02-2015\Local\BLL\bin\Debug\LINQ.dll
 D:\Proj\Subpoena\Solution\Subpoena\07-02-2015\Local\BLL\bin\Debug\LINQ.pdb
 D:\Proj\Subpoena\Solution\Subpoena\07-02-2015\Local\BLL\obj\Debug\BLL.csprojResolveAssemblyReference.cache
+C:\Users\dibyendu.roy\Desktop\DZ\Subpoena\BLL\bin\Debug\BLL.dll
+C:\Users\dibyendu.roy\Desktop\DZ\Subpoena\BLL\bin\Debug\BLL.pdb
+C:\Users\dibyendu.roy\Desktop\DZ\Subpoena\BLL\bin\Debug\LINQ.dll
+C:\Users\dibyendu.roy\Desktop\DZ\Subpoena\BLL\bin\Debug\LINQ.pdb
+C:\Users\dibyendu.roy\Desktop\DZ\Subpoena\BLL\obj\Debug\BLL.csprojResolveAssemblyReference.cache
+C:\Users\dibyendu.roy\Desktop\DZ\Subpoena\BLL\obj\Debug\BLL.dll
+C:\Users\dibyendu.roy\Desktop\DZ\Subpoena\BLL\obj\Debug\BLL.pdb
+D:\Proj\Subpoena\Solution\Subpoena\Upload_in_The_Server\Local\BLL\bin\Debug\BLL.dll
+D:\Proj\Subpoena\Solution\Subpoena\Upload_in_The_Server\Local\BLL\bin\Debug\BLL.pdb
+D:\Proj\Subpoena\Solution\Subpoena\Upload_in_The_Server\Local\BLL\bin\Debug\LINQ.dll
+D:\Proj\Subpoena\Solution\Subpoena\Upload_in_The_Server\Local\BLL\bin\Debug\LINQ.pdb
+D:\Proj\Subpoena\Solution\Subpoena\Upload_in_The_Server\Local\BLL\obj\Debug\BLL.csprojResolveAssemblyReference.cache
+D:\Proj\Subpoena\Solution\Subpoena\Upload_in_The_Server\Local\BLL\obj\Debug\BLL.dll
+D:\Proj\Subpoena\Solution\Subpoena\Upload_in_The_Server\Local\BLL\obj\Debug\BLL.pdb
