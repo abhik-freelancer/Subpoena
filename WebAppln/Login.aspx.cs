@@ -16,13 +16,66 @@ namespace WebAppln
 
         protected void btn_SignIn_Click(object sender, EventArgs e)
         {
+            if(txtUserName.Text !="" && txtPassword.Text !="")
+            {
             AccreditationDataContext objDb = new AccreditationDataContext();
             objDb.Connection.ConnectionString = System.Configuration.ConfigurationManager.AppSettings["constr"];
             //LINQ.User client = objDb.Users.Where(D => D.UserName == txtUserName.Text).Single();
-            int cnt = objDb.Users.Where(D => D.UserName == txtUserName.Text).Count();
-            if(cnt==1)
+            var user = objDb.TblUserRegistrations.Where(D => D.UserEmail == txtUserName.Text.Trim() && D.Active==true).FirstOrDefault();
+            if (user != null)
             {
-                Response.Redirect("ContentPages/Dashboard.aspx");
+                if (user.HashPass == DbConnection.GetHash(txtPassword.Text))
+                {
+                    Session["UserEmail"] = txtUserName.Text.Trim();
+                    Session["GroupId"] = user.Group;
+                    Session["UserRole"] = user.userRole;
+                    if (user.userRole == "Detective")
+                    {
+                        Session["HomePage"] = "PageforDetective.aspx";
+                        Response.Redirect("ContentPages/PageforDetective.aspx");
+                    }
+                    else if (user.userRole == "subpoenaproducer")
+                    {
+                        Session["HomePage"] = "HomePageForSubProducerUsers.aspx";
+                        Response.Redirect("ContentPages/HomePageForSubProducerUsers.aspx");
+
+                    }
+                    else if (user.userRole == "Otherusers")
+                    {
+                        Session["HomePage"] = "OtherUsers.aspx";
+                        Response.Redirect("ContentPages/OtherUsers.aspx");
+
+                    }
+                    else if (user.userRole == "SuperAdmin" || user.userRole == "Admin")
+                    {
+                        Session["HomePage"] = "AdminUsers.aspx";
+                        Response.Redirect("ContentPages/AdminUsers.aspx");
+
+                    }
+                    else if (user.userRole == "GroupLeader")
+                    {
+                        Session["HomePage"] = "Dashboard.aspx";
+                        Response.Redirect("ContentPages/Dashboard.aspx");
+
+                    }
+                }
+                else
+                {
+                    lbFailureText.Text = "OOPS! Password mismatch";
+
+                }
+            }
+            else
+            {
+                lbFailureText.Text = "This is not active";
+
+            }
+
+            }
+            else
+            {
+                lbFailureText.Text = "Please Enter Username/Password";
+
             }
                
 

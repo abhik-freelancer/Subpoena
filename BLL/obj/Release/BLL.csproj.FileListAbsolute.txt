@@ -5,3 +5,10 @@ C:\Users\admin\Downloads\11-06-2015\11-06-2015\BLL\bin\Release\LINQ.pdb
 C:\Users\admin\Downloads\11-06-2015\11-06-2015\BLL\obj\Release\BLL.csprojResolveAssemblyReference.cache
 C:\Users\admin\Downloads\11-06-2015\11-06-2015\BLL\obj\Release\BLL.dll
 C:\Users\admin\Downloads\11-06-2015\11-06-2015\BLL\obj\Release\BLL.pdb
+O:\Subpoena-master\BLL\bin\Release\BLL.dll
+O:\Subpoena-master\BLL\bin\Release\BLL.pdb
+O:\Subpoena-master\BLL\bin\Release\LINQ.dll
+O:\Subpoena-master\BLL\bin\Release\LINQ.pdb
+O:\Subpoena-master\BLL\obj\Release\BLL.csprojResolveAssemblyReference.cache
+O:\Subpoena-master\BLL\obj\Release\BLL.dll
+O:\Subpoena-master\BLL\obj\Release\BLL.pdb

@@ -70,3 +70,17 @@ C:\Users\dibyendu.roy\Desktop\DZ\Subpoena\BLL\bin\Debug\BLL.pdb
 C:\Users\dibyendu.roy\Desktop\DZ\Subpoena\BLL\obj\Debug\BLL.csprojResolveAssemblyReference.cache
 C:\Users\dibyendu.roy\Desktop\DZ\Subpoena\BLL\obj\Debug\BLL.dll
 C:\Users\dibyendu.roy\Desktop\DZ\Subpoena\BLL\obj\Debug\BLL.pdb
+O:\Subpoena-master\BLL\bin\Debug\BLL.dll
+O:\Subpoena-master\BLL\bin\Debug\BLL.pdb
+O:\Subpoena-master\BLL\obj\Debug\BLL.dll
+O:\Subpoena-master\BLL\obj\Debug\BLL.pdb
+O:\Subpoena-master\BLL\bin\Debug\LINQ.dll
+O:\Subpoena-master\BLL\bin\Debug\LINQ.pdb
+O:\Subpoena-master\BLL\obj\Debug\BLL.csprojResolveAssemblyReference.cache
+D:\Test\subpeona\Net\Subpoena-master\Subpoena-master\BLL\bin\Debug\BLL.dll
+D:\Test\subpeona\Net\Subpoena-master\Subpoena-master\BLL\bin\Debug\BLL.pdb
+D:\Test\subpeona\Net\Subpoena-master\Subpoena-master\BLL\bin\Debug\LINQ.dll
+D:\Test\subpeona\Net\Subpoena-master\Subpoena-master\BLL\bin\Debug\LINQ.pdb
+D:\Test\subpeona\Net\Subpoena-master\Subpoena-master\BLL\obj\Debug\BLL.csprojResolveAssemblyReference.cache
+D:\Test\subpeona\Net\Subpoena-master\Subpoena-master\BLL\obj\Debug\BLL.dll
+D:\Test\subpeona\Net\Subpoena-master\Subpoena-master\BLL\obj\Debug\BLL.pdb

@@ -14,7 +14,8 @@ namespace WebAppln
         //private const string AntiXsrfTokenKey = "__AntiXsrfToken";
         //private const string AntiXsrfUserNameKey = "__AntiXsrfUserName";
         //private string _antiXsrfTokenValue;
-
+        public string GroupName="";
+        public string HomePage = "";
         //protected void Page_Init(object sender, EventArgs e)
         //{
         //    // The code below helps to protect against XSRF attacks
@@ -68,7 +69,11 @@ namespace WebAppln
 
         protected void Page_Load(object sender, EventArgs e)
         {
-           // var userData = (Users)Session["UserData"];
+            if (Session["UserRole"] != null)
+            {
+                GroupName = Session["UserRole"].ToString();
+                HomePage = Session["HomePage"].ToString();
+            }
            // if (userData != null)
                 lblWelcome.Text = "Welcome : ";  //+ userData.FirstName + " " + userData.LastName;
             // else Response.Redirect(ResolveClientUrl("Login.aspx"));

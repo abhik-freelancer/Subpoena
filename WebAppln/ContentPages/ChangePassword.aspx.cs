@@ -13,7 +13,6 @@ using System.Xml.Linq;
 using LINQ;
 using System.Security.Permissions;
 
-
 namespace Website.Pages
 {
   //  [PrincipalPermission(SecurityAction.Demand)]
@@ -24,9 +23,38 @@ namespace Website.Pages
 
             if (!IsPostBack)
             {
+                if (Session["GroupId"] == null || Session["UserEmail"] == null)
+                {
+                    Response.Redirect("../Login.aspx");
+                }
+                if (Request.QueryString["EditId"] != null && int.Parse(Request.QueryString["EditId"].ToString()) > 0)
+                {
+                    ViewData(int.Parse(Request.QueryString["EditId"].ToString()));
+                }
                 HideForm();
-                ViewData();
+                //ViewData();
             }
+
+        }
+        public void ViewData(int editid)
+        {
+            //ClearForm();
+            AccreditationDataContext db = new AccreditationDataContext();
+            db.Connection.ConnectionString = System.Configuration.ConfigurationManager.AppSettings["constr"];
+            var group =
+                (from c in db.TblPasswordChanges
+                 where c.PasswordChangeId == editid
+                 select c).FirstOrDefault();
+
+            txtEmail.Text = group.EmailAddress;
+
+            txtTempPassword.Text = group.TempPassword;
+            txtNewPassword.Text = group.NewPassword;
+            txtRetypPassword.Text = group.RetypePassword;
+            //DropDownState.Text = group.Address1;
+            //txtZipcode.Text = group.Zipcode;
+            // DropDownCountry.Text = group.Address1;
+            hdneditId.Value = editid.ToString();
 
         }
         public static bool IsExistEmail(string Email)
@@ -38,64 +66,62 @@ namespace Website.Pages
         }
         protected void btnSubmit_Click(object sender, EventArgs e)
         {
-            if (txtEmail.Text.Trim().Length > 0 && txtTempPassword.Text.Trim().Length > 0 && txtNewPassword.Text.Trim().Length > 0 && txtRetypPassword.Text.Trim().Length > 0)
-            {
-                if (!IsExistEmail(txtEmail.Text.Trim()))
+           
+                if (hdneditId.Value != null && hdneditId.Value != "" && int.Parse(hdneditId.Value.ToString()) > 0)
                 {
-                    if (string.Compare(txtNewPassword.Text.Trim(), txtRetypPassword.Text.Trim()).Equals(0))
+                    AccreditationDataContext objDB = new AccreditationDataContext();
+                    objDB.Connection.ConnectionString = System.Configuration.ConfigurationManager.AppSettings["constr"];
+                    using (AccreditationDataContext group = new AccreditationDataContext())
                     {
-                        using (AccreditationDataContext passwordchange = new AccreditationDataContext())
+                        LINQ.TblPasswordChange grp = objDB.TblPasswordChanges.First(D => D.PasswordChangeId == int.Parse(hdneditId.Value.ToString()));
+
+                        grp.EmailAddress = txtEmail.Text.Trim();
+                        grp.TempPassword = txtTempPassword.Text.Trim();
+                        grp.NewPassword = txtNewPassword.Text.Trim();
+                        grp.RetypePassword = txtRetypPassword.Text.Trim();
+                      
+                        grp.Active = true;
+                        objDB.SubmitChanges();
+
+                    }
+                }else{
+
+                    if (!IsExistEmail(txtEmail.Text.Trim()))
+                    {
+                        if (string.Compare(txtNewPassword.Text.Trim(), txtRetypPassword.Text.Trim()).Equals(0))
                         {
-                            TblPasswordChange passwordchange1 = new TblPasswordChange
+                            using (AccreditationDataContext passwordchange = new AccreditationDataContext())
                             {
-                                EmailAddress = txtEmail.Text.Trim(),
-                                TempPassword = txtTempPassword.Text.Trim(),
-                                NewPassword = txtNewPassword.Text.Trim(),
-                                RetypePassword = txtRetypPassword.Text.Trim(),
-                            };
-                            passwordchange.Connection.ConnectionString = System.Configuration.ConfigurationManager.AppSettings["constr"];
-                            passwordchange.TblPasswordChanges.InsertOnSubmit(passwordchange1);
-                            passwordchange.SubmitChanges();
-                            ClearForm();
-                            ViewData();
-                            HideForm();
-                           // Utilities.CreateMessageLabel(this, BLL.Constants.Insert, true);
+                                TblPasswordChange passwordchange1 = new TblPasswordChange
+                                {
+                                    EmailAddress = txtEmail.Text.Trim(),
+                                    TempPassword = txtTempPassword.Text.Trim(),
+                                    NewPassword = txtNewPassword.Text.Trim(),
+                                    RetypePassword = txtRetypPassword.Text.Trim(),
+                                };
+                                passwordchange.Connection.ConnectionString = System.Configuration.ConfigurationManager.AppSettings["constr"];
+                                passwordchange.TblPasswordChanges.InsertOnSubmit(passwordchange1);
+                                passwordchange.SubmitChanges();
+                              
+                                // Utilities.CreateMessageLabel(this, BLL.Constants.Insert, true);
+                            }
                         }
-                    }
-                    else
-                    {
-                       // Utilities.CreateMessageLabel(this, BLL.Constants.UnableToChangePassword, false);
+
                     }
                 }
-                else
-                {
-                   // Utilities.CreateMessageLabel(this, BLL.Constants.PasswordChnaged, false);
-                }
-            }
-            else
-            {
-               // Utilities.CreateMessageLabel(this, BLL.Constants.NotInserted, false);
-            }
+
+
+                Response.Redirect("PasswordList.aspx");
+                return;
 
         }
 
-        private void ViewData()
-        {
-            ClearForm();
-            AccreditationDataContext db = new AccreditationDataContext();
-            db.Connection.ConnectionString = System.Configuration.ConfigurationManager.AppSettings["constr"];
-            var passwordchange =
-                from c in db.TblPasswordChanges
-                select c;
-
-            GridView1.DataSource = passwordchange;
-            GridView1.DataBind();
-        }
+       
 
        
         protected void btnView_Click(object sender, EventArgs e)
         {
-            ViewData();
+            //ViewData();
             HideForm();
         }
 
@@ -132,69 +158,30 @@ namespace Website.Pages
 
         protected void btnEmailSearch_Click(object sender, EventArgs e)
         {
-            showData();
+           // showData();
                         
         }
 
-        public void showData()
-        {
-            AccreditationDataContext db = new AccreditationDataContext();
-            db.Connection.ConnectionString = System.Configuration.ConfigurationManager.AppSettings["constr"];
-            var registration =
-                from c in db.TblPasswordChanges
-                where c.EmailAddress.Contains(txtEmailSearch.Text)
-                select c;
+        //public void showData()
+        //{
+        //    AccreditationDataContext db = new AccreditationDataContext();
+        //    db.Connection.ConnectionString = System.Configuration.ConfigurationManager.AppSettings["constr"];
+        //    var registration =
+        //        from c in db.TblPasswordChanges
+        //        where c.EmailAddress.Contains(txtEmailSearch.Text)
+        //        select c;
 
-            GridView1.DataSource = registration;
-            GridView1.DataBind();
-        }
-        protected void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
-        {
-            GridView1.PageIndex = e.NewPageIndex;
-            showData();
-        }
+         
+        //}
+        
 
-        protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
-        {
-            if (e.Row.RowType == DataControlRowType.DataRow)
-            {
-                Label lblPasswordChangeId = (Label)e.Row.FindControl("lblPasswordChangeId");
-                Label lblEmailAddress = (Label)e.Row.FindControl("lblEmailAddress");
-                Label lblTempPassword = (Label)e.Row.FindControl("lblTempPassword");
-                Label lblNewPassword = (Label)e.Row.FindControl("lblNewPassword");
-                Label lblRetypePassword = (Label)e.Row.FindControl("lblRetypePassword");
-
-
-                if (lblPasswordChangeId != null) lblPasswordChangeId.Text = ((LINQ.TblPasswordChange)e.Row.DataItem).PasswordChangeId.ToString();
-
-                if (lblEmailAddress != null) lblEmailAddress.Text = Convert.ToString(((LINQ.TblPasswordChange)e.Row.DataItem).EmailAddress);
-                if (lblTempPassword != null) lblTempPassword.Text = Convert.ToString(((LINQ.TblPasswordChange)e.Row.DataItem).TempPassword);
-                if (lblNewPassword != null) lblNewPassword.Text = Convert.ToString(((LINQ.TblPasswordChange)e.Row.DataItem).NewPassword);
-                if (lblRetypePassword != null) lblRetypePassword.Text = Convert.ToString(((LINQ.TblPasswordChange)e.Row.DataItem).RetypePassword);
-                
-            }
-
-        }
-
+   
         protected void btnReset_Click(object sender, EventArgs e)
         {
             ClearForm();
         }
 
-        protected void GridView1_RowDeleting(object sender, GridViewDeleteEventArgs e)
-        {
-
-        }
-
-        protected void GridView1_RowEditing(object sender, GridViewEditEventArgs e)
-        {
-
-        }
-
-
-
-
-
+     
 
     }
 }

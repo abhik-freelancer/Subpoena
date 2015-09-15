@@ -85,15 +85,6 @@ namespace WebAppln {
         protected global::System.Web.UI.WebControls.Button btn_SignIn;
         
         /// <summary>
-        /// lnkForgotPassword control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton lnkForgotPassword;
-        
-        /// <summary>
         /// ForgotPassword_ModalPopupExtender control.
         /// </summary>
         /// <remarks>

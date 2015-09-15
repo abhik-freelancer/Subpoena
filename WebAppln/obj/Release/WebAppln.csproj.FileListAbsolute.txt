@@ -11,3 +11,13 @@ C:\Users\admin\Downloads\11-06-2015\11-06-2015\WebAppln\obj\Release\WebAppln.csp
 C:\Users\admin\Downloads\11-06-2015\11-06-2015\WebAppln\obj\Release\WebAppln.dll
 C:\Users\admin\Downloads\11-06-2015\11-06-2015\WebAppln\obj\Release\WebAppln.pdb
 C:\Users\admin\Downloads\11-06-2015\11-06-2015\WebAppln\bin\AjaxMin.dll
+O:\Subpoena-master\WebAppln\bin\WebAppln.dll
+O:\Subpoena-master\WebAppln\bin\WebAppln.pdb
+O:\Subpoena-master\WebAppln\bin\BLL.dll
+O:\Subpoena-master\WebAppln\bin\LINQ.dll
+O:\Subpoena-master\WebAppln\bin\BLL.pdb
+O:\Subpoena-master\WebAppln\bin\LINQ.pdb
+O:\Subpoena-master\WebAppln\obj\Release\WebAppln.csprojResolveAssemblyReference.cache
+O:\Subpoena-master\WebAppln\obj\Release\WebAppln.dll
+O:\Subpoena-master\WebAppln\obj\Release\WebAppln.pdb
+O:\Subpoena-master\WebAppln\bin\Microsoft.ScriptManager.jQuery.UI.Combined.dll

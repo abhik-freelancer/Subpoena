@@ -1,189 +1,318 @@
-﻿<%@ Page Language="C#" MasterPageFile="../Site.master" AutoEventWireup="true" CodeBehind="PageforDetective.aspx.cs" 
+﻿<%@ Page Language="C#" MasterPageFile="../Site.master" AutoEventWireup="true" CodeBehind="PageforDetective.aspx.cs"
     Inherits="Website.Pages.PageforDetective" Title=":: Page for Detective ::" %>
 
+<asp:Content ID="Content22" ContentPlaceHolderID="MainContent" runat="server">
 
+    <div class="mainBgBx">
+        <div class="page">
 
+            <div class="hdLine">
+                Home Page for Detectives
+            </div>
+            <!--hdLine-->
 
-<asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-         <asp:Button ID="btnNewSubpoena" runat="server" Text="New Subpoena" OnClick="btnNewSubpoena_Click" />       
-        
-         <div class="Grid" id="tblNewDubpoena" runat="server"> 
-            <div class="gridOuterDiv">       
-    
-                <asp:GridView ID="GridView2" runat="server" AutoGenerateColumns="false"   CssClass="gridtable"  AllowPaging="True" PageSize="10" onpageindexchanging="GridView2_PageIndexChanging" >
-                <HeaderStyle CssClass="header" />
-                        <RowStyle  CssClass="RowStyle"/>
-                        <RowStyle CssClass="RowStyle" />
-                        <EmptyDataRowStyle CssClass="EmptyRowStyle" />
-                        <PagerStyle CssClass="PagerStyle" />
-                        <SelectedRowStyle CssClass="SelectedRowStyle" />
-                        <HeaderStyle CssClass="HeaderStyle" />
-                        <EditRowStyle CssClass="EditRowStyle" />
-                        <AlternatingRowStyle CssClass="AltRowStyle" />
-                        <AlternatingRowStyle CssClass="alternate" />
-                    <Columns>
-                   
-                        <asp:BoundField DataField="CaseId" HeaderText="Case ID" />
-                        <asp:BoundField DataField="StateId" HeaderText="State" />
-                        <asp:BoundField DataField="OfficialName" HeaderText="Official Name" />
-                        <asp:BoundField DataField="DetativeName" HeaderText="Detective Name" />
-                        <asp:BoundField DataField="Date" HeaderText="Date" />
-                        <asp:BoundField DataField="Status" HeaderText="Status" />
-                        <asp:BoundField DataField="" HeaderText="Subpoena" />   
-                    </Columns>
-                </asp:GridView>
-                </div>  
-        </div>     
-        
-        
-    <div>
-    <h3>
-       <asp:Label BackColor ="Yellow" ID="lblSubheading" runat="server" Text="Display Archived Subpoena"></asp:Label>
-    </h3>
-    </div>
-    
-    <div class="searchContainer" id="tblForm" runat="server">
-                <div class="searchTextboxBlock">
-                    <label class="fullLbl">Case Id:</label>
-                    <asp:TextBox ID="txtCaseId" runat="server" MaxLength="50" Width="100%"></asp:TextBox>                   
+            <div class="colmArea">
+                <div class="colmA">
+                     <asp:Calendar id="Calendar1"  OnDayRender="Calendar1_DayRender" 
+           ShowGridLines="True" 
+           ShowTitle="True"
+           OnSelectionChanged="Calendar1_SelectionChanged"
+           runat="server"/>
                 </div>
-                 <div class="searchTextboxBlock">
-                    <label class="fullLbl">Official:</label>
-                    <asp:TextBox ID="txtOfficial" runat="server" MaxLength="50" Width="100%"></asp:TextBox>                   
-                </div>
-                <div class="searchTextboxBlock">
-                    <label class="fullLbl">Status:</label>
-                    <asp:TextBox ID="txtStatus" runat="server" MaxLength="50" Width="100%"></asp:TextBox>                   
-                </div>
-                 <div class="searchTextboxBlock">
-                    <label class="fullLbl">Date:</label>
-                    <asp:TextBox ID="txtDate" runat="server" MaxLength="50" Width="100%"></asp:TextBox>                   
-                </div>
-                <div class="searchTextboxBlockTransparent">
-                    <br />
-                    <asp:Button ID="btnExportxls" ValidationGroup="check" runat="server" Text="Export to Excel" OnClick="btnExporttoExcel_Click"
-                        CssClass="addCustomerBtn" />
-                </div>
-                
-                <div class="searchTextboxBlockTransparent">
-                    <br />
-                    <asp:Button ID="btnSearch" ValidationGroup="check" runat="server" Text="Search Subpoena" OnClick="btnSearchSubpoena_Click"
-                        CssClass="addCustomerBtn" />
+                <div class="colmB">
+                    <div class="hdCC">
+                        <span><a href="/ContentPages/SubpoenaProducers">New Subpoeana</a></span>
+                    </div>
 
-                </div>
-                </div>
-                <div>
-                    <div class="searchTextboxBlock">
-                    <label class="fullLbl">Page Size:</label>
-                    <asp:DropDownList ID="DrpPageSize" runat="server" AutoPostBack="True" OnSelectedIndexChanged="PageSize_SelectedIndexChanged">
-                        <asp:ListItem Value="10">10</asp:ListItem>
-                        <asp:ListItem Value="20">20</asp:ListItem>
-                        <asp:ListItem Value="100">100</asp:ListItem>
-                        <asp:ListItem Value="4">All</asp:ListItem>
-                    </asp:DropDownList>
-                </div>
-                    
-                </div>
-          
-     <div class="Grid" id="Div1" runat="server"> 
-            <div class="gridOuterDiv">       
-    
-       
-            
-            <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="false"   CssClass="gridtable"  AllowPaging="True" PageSize="10" onpageindexchanging="GridView1_PageIndexChanging" >
-                <HeaderStyle CssClass="header" />
-                        <RowStyle  CssClass="RowStyle"/>
-                        <RowStyle CssClass="RowStyle" />
-                        <EmptyDataRowStyle CssClass="EmptyRowStyle" />
-                        <PagerStyle CssClass="PagerStyle" />
-                        <SelectedRowStyle CssClass="SelectedRowStyle" />
-                        <HeaderStyle CssClass="HeaderStyle" />
-                        <EditRowStyle CssClass="EditRowStyle" />
-                        <AlternatingRowStyle CssClass="AltRowStyle" />
-                        <AlternatingRowStyle CssClass="alternate" />
-                    <Columns>
-                        <asp:TemplateField HeaderText="Subpoena Frm Id" Visible="False">
-                                <ItemTemplate>
-                                    <asp:Label ID="lblSubpoenaFrmId" runat="server" ></asp:Label>
-                                </ItemTemplate>                       
-                            </asp:TemplateField>
+                    <div class="tblBxBB">
+                       
+                        <table class="hdingIt">
+                            <tr>
+                                <th>Case ID</th>
+                                <th>SubpoenaName</th>
+                               <%-- <th>Heading</th>--%>
+                                <th>Official Name</th>
+                                <th>Detactive Name</th>
+                                <th>Date</th>
+                               <%-- <th>Status</th>--%>
+                                <th>Subpoeana Pdf</th>
+                            </tr>
+                             <asp:PlaceHolder ID="DBDataPlaceHolder" runat="server"></asp:PlaceHolder>  
                             
-                        <asp:TemplateField HeaderText="Case ID">
-                                <ItemTemplate>
-                                    <asp:Label ID="lblCaseId" runat="server" ></asp:Label>
-                                </ItemTemplate>    
-                        </asp:TemplateField>                       
-                        <asp:TemplateField HeaderText="State ID" Visible="False">
-                                <ItemTemplate>
-                                    <asp:Label ID="lblStateId" runat="server" ></asp:Label>
-                                </ItemTemplate>                       
-                            </asp:TemplateField>
-                            
-                        <asp:TemplateField HeaderText="State Name">
-                                <ItemTemplate>
-                                    <asp:Label ID="lblStateName" runat="server" ></asp:Label>
-                                </ItemTemplate>     
-                         </asp:TemplateField>          
-                        <asp:TemplateField HeaderText="County Id" Visible="False">
-                                <ItemTemplate>
-                                    <asp:Label ID="lblCountyid" runat="server" ></asp:Label>
-                                </ItemTemplate>                       
-                         </asp:TemplateField>
+                        </table>
+                           
+                    </div>
+                </div>
+                <div class="magic"></div>
+            </div>
+            <!--colmArea-->
+
+            <div class="inPtSec">
+                <div class="hdln2">
+                    Display Archived ..
+                </div>
+
+                <div class="inClm">
+                    <div class="SerchformBlock">
+                        <div class="inGrup">
+                            <label class="lblIt">Case ID</label>
+                            <asp:TextBox class="infldIt spclSize" id="txtCaseId" runat="server" type="text" ></asp:TextBox>
+                        </div>
+
+                    </div>
+
+                     <div class="SerchformBlock">
+                         <div class="inGrup">
+                            <label class="lblIt">Status</label>
+                           <asp:TextBox class="infldIt spclSize" runat="server" id="txtStatus"  type="text" ></asp:TextBox>
+                        </div>
+
+                    </div>
+
+                     <div class="SerchformBlock">
+                         <div class="inGrup">
+                            <label class="lblIt">Official</label>
+                          <asp:TextBox class="infldIt spclSize" runat="server" id="txtOfficial" type="text" ></asp:TextBox>
+                        </div>
+
+                    </div>
+
+                     <div class="SerchformBlock">
+                         <div class="inGrup">
+                            <label class="lblIt">Date</label>
+                            <asp:TextBox class="infldIt spclSize" id="txtDate" runat="server" TextMode="Date"  type="text" ></asp:TextBox>
+                        </div>
+
+                    </div>
+
+                    <div class="SerchformBlock ">
+                        <div class="srcBtnB">
+                             <asp:Button ID="bntSearch" CssClass="FormButtonImp" runat="server" Text="Search Case" OnClick="bntSearch_Click" />
                           
-                        <asp:TemplateField HeaderText="Cunty Name">
-                                <ItemTemplate>
-                                    <asp:Label ID="lblCountyName" runat="server" ></asp:Label>
-                                </ItemTemplate> 
-                        </asp:TemplateField>
- 
-                        <asp:TemplateField HeaderText="Official Name">
-                                <ItemTemplate>
-                                    <asp:Label ID="lblOfficialName" runat="server" ></asp:Label>
-                                </ItemTemplate> 
-                        </asp:TemplateField>
-                        <asp:TemplateField HeaderText="Detective Name">
-                                <ItemTemplate>
-                                    <asp:Label ID="lbldeDetetiveName" runat="server" ></asp:Label>
-                                </ItemTemplate> 
-                        </asp:TemplateField>
-                        <asp:TemplateField HeaderText="Date">
-                                <ItemTemplate>
-                                    <asp:Label ID="lblDate" runat="server" ></asp:Label>
-                                </ItemTemplate> 
-                        </asp:TemplateField>
-                        <asp:TemplateField HeaderText="Status">
-                                <ItemTemplate>
-                                    <asp:Label ID="lblStatus" runat="server" ></asp:Label>
-                                </ItemTemplate>              
-                        </asp:TemplateField>
+                        </div>
+                    </div>
+
+
+
                     
-                    
-                    
-                    
-                    
-                    
-                    
-                       <%-- <asp:BoundField DataField="CaseId" HeaderText="Case ID" />
-                        <asp:BoundField DataField="StateId" HeaderText="State" />
-                        <asp:BoundField DataField="OfficialName" HeaderText="Official Name" />
-                        <asp:BoundField DataField="DetativeName" HeaderText="Detective Name" />
-                        <asp:BoundField DataField="Date" HeaderText="Date" />
-                        <asp:BoundField DataField="Status" HeaderText="Status" />
-                        <asp:BoundField DataField="" HeaderText="Subpoena" />--%>
-                                            
-                         
-                                       
-                       <%-- <asp:TemplateField HeaderText="Action">
-                            <ItemTemplate >
-                                <asp:LinkButton ID="lnkEdit" runat="server" CommandArgument='<%# Eval("UserId")%>'
-                                    CommandName="cmdEdit" Text="Edlit"></asp:LinkButton>
-                                &nbsp;&nbsp;---&nbsp;&nbsp;
-                                <asp:LinkButton ID="lnkDelete" runat="server" CommandArgument='<%# Eval("Countryid")%>'
-                                    CommandName="cmdDelete" Text="Delete"></asp:LinkButton>
-                            </ItemTemplate>
-                        </asp:TemplateField>--%>
-                    </Columns>
-                </asp:GridView>
-          </div>    
+                    <div class="magic"></div>
+                </div>
+                <!--inClm-->
+            </div>
+            <!--inPtSec-->
+
+            <div class="listArea">
+
+                <%--<div class="listCntrl">
+                    <div class="cntrAA">
+                        <a href="#" class="exprBtn">Export to Excel</a>
+                    </div>
+                    <div class="cntrBB">
+                        <select class="pagEr">
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                    </div>
+                    <div class="magic"></div>
+                </div>--%>
+
+                <div class="tablBox">
+
+                    <div class="preview">
+
+                        <div class="preview">
+                            <table id="jqgrid"></table>
+                            <div id="pager_jqgrid"></div>
+                            <div class="clearfix"></div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+            <!--listArea-->
+
+        </div>
+        <!--page-->
     </div>
-    </asp:Content>
+
+    <script type="text/javascript">
+
+        // ----------------------------------------------------------------------------------------------------
+        jQuery("#jqgrid").jqGrid({
+            url: '../Handler1.ashx',
+            mtype: 'POST',
+            postData: { QueryString: "<%=sqlQuery %>" },
+            datatype: 'json',
+            height: '360',
+            colNames: ['SubpoenaFrmId', 'CaseId', 'Subpoena Name', 'Official Name', 'Detative Name', 'Date', 'PDFPath'], // 'Actions',
+            colModel: [
+                //{ name: 'act', index: 'act', sortable: false, search: false, width: 70 },
+                 { name: 'SubpoenaFrmId', label: 'SubpoenaFrmId', hidden: true },
+                { name: 'CaseId', index: 'CaseId', sortable: true },
+                { name: 'SubpoenaName', index: 'SubpoenaName', sortable: true },
+                { name: 'OfficialName', index: 'OfficialName', sortable: true },
+                { name: 'DetativeName', index: 'DetativeName', sortable: true },
+                { name: 'Date', index: 'Date', sortable: true },
+                 { name: 'PDFPath', index: 'PDFPath', sortable: true }
+            ],
+
+            rowNum: 10,
+            rowList: [10, 20, 30],
+            pager: '#pager_jqgrid',
+            sortname: 'SubpoenaFrmId',
+            toolbarfilter: true,
+            viewrecords: true,
+            sortorder: "asc",
+            gridComplete: function () {
+                var ids = jQuery("#jqgrid").jqGrid('getDataIDs');
+                for (var i = 0; i < ids.length; i++) {
+                    var cl = ids[i];
+                    be = "<span class='btn btn-xs btn-default btn-quick' title='Edit Row' onclick=\"editRow('" + cl + "'); \"><i class='fa fa-pencil'></i></span>";
+                    //se = "<button class='btn btn-xs btn-default btn-quick' title='Save Row' onclick=\"jQuery('#jqgrid').saveRow('"+cl+"');\"><i class='fa fa-save'></i></button>";
+                    ca = "<span class='btn btn-xs btn-default btn-quick delete_row' title='Delete Row' onclick=\"deleteRow('" + cl + "');\"><i class='fa fa-times'></i></span>";
+
+                    jQuery("#jqgrid").jqGrid('setRowData', ids[i], { act: be + ca });  //act:be+se+ca
+                }
+            },
+            editurl: "",
+            multiselect: false,
+            autowidth: true,
+        });
+        // ----------------------------------------------------------------------------------------------------
+
+        //enable datepicker
+        function pickDate(cellvalue, options, cell) {
+            setTimeout(function () {
+                jQuery(cell).find('input[type=text]')
+                        .datepicker({ format: 'yyyy-mm-dd', autoclose: true });
+            }, 0);
+        }
+
+        jQuery("#jqgrid").jqGrid('navGrid', "#pager_jqgrid", {
+            edit: false,
+            add: false,
+            del: false,
+            search: false,
+            refresh: true
+        });
+        jQuery("#jqgrid").jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false, defaultSearch: 'cn' });
+        //jQuery("#jqgrid").jqGrid('inlineNav', "#pager_jqgrid");
+
+        /* Add tooltips */
+        jQuery('.navtable .ui-pg-button').tooltip({
+            container: 'body'
+        });
+
+        // Get Selected ID's
+        jQuery("a.get_selected_ids").bind("click", function () {
+            s = jQuery("#jqgrid").jqGrid('getGridParam', 'selarrrow');
+            alert(s);
+        });
+
+        // Select/Unselect specific Row by id
+        jQuery("a.select_unselect_row").bind("click", function () {
+            jQuery("#jqgrid").jqGrid('setSelection', "13");
+        });
+
+        // Select/Unselect specific Row by id
+        jQuery("a.delete_row").bind("click", function () {
+
+            var su = jQuery("#jqgrid").jqGrid('delRowData', 1);
+            if (su) alert("Succes. Write custom code to delete row from server"); else alert("Already deleted or not in list");
+        });
+
+        function editRow(row_ID) {
+            var sitename = jQuery("#jqgrid").getCell(row_ID, 'GrpId');
+            //location.href = 'Modify?USR_ID=' + sitename;
+            //alert(sitename);
+            window.location.href = 'GroupCreation1.aspx?EditId=' + sitename;
+            //window.open();
+            //History.replaceState({ state: 3 }, "State 3", "#MBO=Define=id=" + sitename)
+            // ClickHeaderLinkMenu(url);
+        }
+        function deleteRow(row_ID) {
+            if (confirm("Do you Want to Delete this record ? ")) {
+                var sitename = jQuery("#jqgrid").getCell(row_ID, 'GrpId');
+                // e.preventDefault();
+                var url = "GroupList.aspx?Type=deleted&&DeleteId=" + sitename;
+                window.location.href = url;
+                //  jQuery.ajax({
+                //      method: "GET",
+                //      datatype: 'text',
+                //      url: url,
+                //      data: {}
+                //  })
+                //.done(function (msg) {
+                //    //alert(msg);
+
+                //}).always(function () {
+                //    //location.reload(true);
+                //    //jQuery('#jqgrid').GridDestroy();
+                //    jQuery("#jqgrid").trigger('reloadGrid');
+                //});
+            }
+
+            //window.open('GroupCreation1.aspx?DeleteId=' + sitename);
+            // alert(sitename);
+            //var url = '$siteRoot/User/Modify.html?USR_ID=' + sitename;
+            //History.replaceState({ state: 3 }, "State 3", "#MBO=Define=id=" + sitename)
+            // ClickHeaderLinkMenu(url);
+        }
+
+        // On Resize
+        jQuery(window).resize(function () {
+
+            if (window.afterResize) {
+                clearTimeout(window.afterResize);
+            }
+
+            window.afterResize = setTimeout(function () {
+
+                /**
+                    After Resize Code
+                    .................
+                **/
+
+                jQuery("#jqgrid").jqGrid('setGridWidth', jQuery(".ui-jqgrid").parent().width());
+
+            }, 500);
+
+        });
+
+
+        jQuery(".ui-jqgrid").removeClass("ui-widget ui-widget-content");
+        jQuery(".ui-jqgrid-view").children().removeClass("ui-widget-header ui-state-default");
+        jQuery(".ui-jqgrid-labels, .ui-search-toolbar").children().removeClass("ui-state-default ui-th-column ui-th-ltr");
+        jQuery(".ui-jqgrid-pager").removeClass("ui-state-default");
+        jQuery(".ui-jqgrid").removeClass("ui-widget-content");
+
+        jQuery(".ui-jqgrid-htable").addClass("table table-bordered table-hover");
+        jQuery(".ui-pg-div").removeClass().addClass("btn btn-sm btn-primary");
+        jQuery(".ui-icon.ui-icon-plus").removeClass().addClass("fa fa-plus");
+        jQuery(".ui-icon.ui-icon-pencil").removeClass().addClass("fa fa-pencil");
+        jQuery(".ui-icon.ui-icon-trash").removeClass().addClass("fa fa-trash-o");
+        jQuery(".ui-icon.ui-icon-search").removeClass().addClass("fa fa-search");
+        jQuery(".ui-icon.ui-icon-refresh").removeClass().addClass("fa fa-refresh");
+        jQuery(".ui-icon.ui-icon-disk").removeClass().addClass("fa fa-save").parent(".btn-primary").removeClass("btn-primary").addClass("btn-success");
+        jQuery(".ui-icon.ui-icon-cancel").removeClass().addClass("fa fa-times").parent(".btn-primary").removeClass("btn-primary").addClass("btn-danger");
+
+        jQuery(".ui-icon.ui-icon-seek-prev").wrap("");
+        jQuery(".ui-icon.ui-icon-seek-prev").removeClass().addClass("fa fa-backward");
+
+        jQuery(".ui-icon.ui-icon-seek-first").wrap("");
+        jQuery(".ui-icon.ui-icon-seek-first").removeClass().addClass("fa fa-fast-backward");
+
+        jQuery(".ui-icon.ui-icon-seek-next").wrap("");
+        jQuery(".ui-icon.ui-icon-seek-next").removeClass().addClass("fa fa-forward");
+
+        jQuery(".ui-icon.ui-icon-seek-end").wrap("");
+        jQuery(".ui-icon.ui-icon-seek-end").removeClass().addClass("fa fa-fast-forward");
+
+
+
+    </script>
+
+</asp:Content>

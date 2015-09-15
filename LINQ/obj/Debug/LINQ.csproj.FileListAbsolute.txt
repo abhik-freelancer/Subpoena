@@ -54,3 +54,13 @@ C:\Users\dibyendu.roy\Desktop\DZ\Subpoena\LINQ\bin\Debug\LINQ.pdb
 C:\Users\dibyendu.roy\Desktop\DZ\Subpoena\LINQ\obj\Debug\LINQ.csprojResolveAssemblyReference.cache
 C:\Users\dibyendu.roy\Desktop\DZ\Subpoena\LINQ\obj\Debug\LINQ.dll
 C:\Users\dibyendu.roy\Desktop\DZ\Subpoena\LINQ\obj\Debug\LINQ.pdb
+O:\Subpoena-master\LINQ\bin\Debug\LINQ.dll.config
+O:\Subpoena-master\LINQ\bin\Debug\LINQ.dll
+O:\Subpoena-master\LINQ\bin\Debug\LINQ.pdb
+O:\Subpoena-master\LINQ\obj\Debug\LINQ.dll
+O:\Subpoena-master\LINQ\obj\Debug\LINQ.pdb
+D:\Test\subpeona\Net\Subpoena-master\Subpoena-master\LINQ\bin\Debug\LINQ.dll.config
+D:\Test\subpeona\Net\Subpoena-master\Subpoena-master\LINQ\bin\Debug\LINQ.dll
+D:\Test\subpeona\Net\Subpoena-master\Subpoena-master\LINQ\bin\Debug\LINQ.pdb
+D:\Test\subpeona\Net\Subpoena-master\Subpoena-master\LINQ\obj\Debug\LINQ.dll
+D:\Test\subpeona\Net\Subpoena-master\Subpoena-master\LINQ\obj\Debug\LINQ.pdb

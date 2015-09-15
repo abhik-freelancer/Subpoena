@@ -12,35 +12,223 @@ using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
 using LINQ;
 using System.Security.Permissions;
+using System.Text;
 
 namespace Website.Pages
 {
    // [PrincipalPermission(SecurityAction.Demand)]
     public partial class PageforDetective : System.Web.UI.Page
     {
+        public string sqlQuery = "";
+        StringBuilder htmlTable = new StringBuilder();
+        string[] holidays1 = new String[10];
+        public TblUserRegistration CurrentUser
+        {
+            get
+            {
+                AccreditationDataContext db = new AccreditationDataContext();
+                db.Connection.ConnectionString = System.Configuration.ConfigurationManager.AppSettings["constr"];
+                var user = (from c in db.TblUserRegistrations
+                            where c.UserEmail == Session["UserEmail"].ToString()
+                            select c).FirstOrDefault();
+                return user;
+            }
+        }
+        public TblGroupCreation CurrentUserGroup
+        {
+            get
+            {
+                AccreditationDataContext db = new AccreditationDataContext();
+                db.Connection.ConnectionString = System.Configuration.ConfigurationManager.AppSettings["constr"];
+                var group = (from c in db.TblGroupCreations
+                             where c.GrpId == int.Parse(Session["GroupId"].ToString())
+                             select c).FirstOrDefault();
+                return group;
+
+            }
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Session["GroupId"] == null || Session["UserEmail"] == null)
+            {
+                Response.Redirect("../Login.aspx");
+            }
             if (!IsPostBack)
             {
-                HideForm();
-                ViewData(); 
+                                            
             }
+            ViewData();
+            Createselecteddate();
+        }
+
+        private void Createselecteddate()
+        {
+            AccreditationDataContext db = new AccreditationDataContext();
+            db.Connection.ConnectionString = System.Configuration.ConfigurationManager.AppSettings["constr"];
+            var subpoena =
+                from c in db.TblSubpoenaFrms
+                where (c.Status != "Submit" && c.DetectiveId == CurrentUser.UserId)
+                select c;
+            int i = 0;
+            foreach (var item in subpoena)
+            {
+                holidays1[i] = item.Date.ToShortDateString();
+                i++;
+            }
+
+        }
+
+        void MonthChange(Object sender, MonthChangedEventArgs e)
+        {
+
+            if (e.NewDate.Month > e.PreviousDate.Month)
+            {
+               // Message.Text = "You moved forward one month.";
+            }
+            else
+            {
+              //  Message.Text = "You moved backwards one month.";
+            }
+
+        }
+
+        protected void Calendar1_SelectionChanged(object sender, EventArgs e)
+        {
+            Createselecteddate();
+            //lblDates.Text = "You selected these dates:<br />";
+
+            //foreach (DateTime dt in MyCalendar.SelectedDates)
+            //{
+            //    lblDates.Text += dt.ToLongDateString() + "<br />";
+            //}
+
+        }
+
+        protected void Calendar1_DayRender(object sender, DayRenderEventArgs e)
+        {
+            //string aHoliday;
+            DateTime theDate = e.Day.Date;
+           // aHoliday = holidays[theDate.Month, theDate.Day];
+            for (int i = 0; i < holidays1.Length; i++)
+                if (Convert.ToDateTime(holidays1[i]) == theDate)
+                {
+                    e.Day.IsSelectable = false;
+                    //e.Cell. = false;
+                    e.Cell.BackColor = System.Drawing.Color.Red;
+                    // e.Cell.Controls.Add(aLabel);
+                }
+
+            //if (aHoliday != null)
+            //{
+            //    Label aLabel = new Label();
+            //    aLabel.Text = " <br>" + aHoliday;
+            //    e.Cell.BackColor = System.Drawing.Color.Yellow;
+            //    e.Cell.Controls.Add(aLabel);
+            //}
 
         }
 
         private void ViewData()
         {
+             //<th>Case ID</th>
+             //                   <th>State</th>
+             //                   <th>Heading</th>
+             //                   <th>Official Name</th>
+             //                   <th>Detactive Name</th>
+             //                   <th>Date</th>
+             //                   <th>Status</th>
+             //                   <th>Heading</th>
+
             //ClearForm();
             AccreditationDataContext db = new AccreditationDataContext();
             db.Connection.ConnectionString = System.Configuration.ConfigurationManager.AppSettings["constr"];
             var subpoena =
                 from c in db.TblSubpoenaFrms
-                where (c.Status != "new")
-                select c;
+                where (c.Status != "New" && c.DetectiveId == CurrentUser.UserId)
+                select new { c.CaseId,
+                    state=db.TblStates.Where(x=>x.StateId==c.StateId).FirstOrDefault().StateName, 
+                c.SubpoenaName,
+                c.OfficialName,
+                c.Date,
+                c.Status,
+                c.PDFPath,
+                c.DetativeName
+                };
+            foreach(var xval in subpoena)
+            {
+                htmlTable.Append("<tr >");
+                htmlTable.Append("<td>" + xval.CaseId + "</td>");
+                htmlTable.Append("<td>" + xval.SubpoenaName + "</td>");
+                htmlTable.Append("<td>" + xval.OfficialName + "</td>");
+                htmlTable.Append("<td>" + xval.DetativeName + "</td>");
+                htmlTable.Append("<td>" + xval.Date + "</td>");
+                //htmlTable.Append("<td>" + xval.Status + "</td>");
+                htmlTable.Append("<td>  <a href='../PdfReport/" + xval.PDFPath + "' target=\"_blank\">Pdf</a></td>");
+              
+                htmlTable.Append("</tr>"); 
 
-            GridView1.DataSource = subpoena;
-            GridView1.DataBind();
+            }
+             DBDataPlaceHolder.Controls.Add(new Literal { Text = htmlTable.ToString() });  
+                 
+           // GridView1.DataSource = subpoena;
+           // GridView1.DataBind();
         }
+        protected void bntSearch_Click(object sender, EventArgs e)
+        {
+            //ViewData();
+            string subquery = " Status='Close'";
+            if (txtCaseId.Text != "")
+            {
+                subquery += " and CaseId='" + txtCaseId.Text+"'";
+            }
+            if (txtDate.Text != "")
+            {
+                subquery += " and Date='" + txtDate.Text + "'";
+            }
+            if (txtStatus.Text != "")
+            {
+                subquery += " and Status='" + txtStatus.Text + "'";
+            }
+            if (txtOfficial.Text != "")
+            {
+                subquery += " and OfficialName='" + txtOfficial.Text + "'";
+            }
+            //if (txtCaseId.Text != "")
+            //{
+            //    subquery += " and CaseId='" + txtCaseId.Text + "'";
+            //}
+
+
+            sqlQuery = "SELECT  SubpoenaFrmId,CaseId, SubpoenaName, OfficialName, DetativeName, Date, PDFPath  FROM  (SELECT  ROW_NUMBER() OVER (ORDER BY   ##ID##   ##desc##) as row,* FROM TblSubpoenaFrm  WHERE  " + subquery + "  and  ##filters## ) L   Where   ##paging##  ";
+        }
+
+        //protected void Calendar2_DayRender(object sender, DayRenderEventArgs e)
+        //{
+        //    AccreditationDataContext db = new AccreditationDataContext();
+        //    db.Connection.ConnectionString = System.Configuration.ConfigurationManager.AppSettings["constr"];
+        //    var subpoena =
+        //        from c in db.TblSubpoenaFrms
+        //        where (c.Status != "Submit" && c.DetectiveId == CurrentUser.UserId)
+        //        select c;
+        //    foreach (var xval in subpoena)
+        //    {
+        //        DateTime dte = Calendar1.SelectedDate;
+
+        //        if (e.Day.Date == xval.Date)
+        //        {
+        //            e.Day.IsSelectable = false;
+        //            e.Cell.ForeColor = System.Drawing.Color.Red;
+        //        }
+        //        else
+        //        {
+        //            e.Cell.ForeColor = System.Drawing.Color.Green;
+        //        }
+        //    }
+
+        //}
+
+
         private void ViewNewSubpoena()
         {
             //ClearForm();
@@ -51,8 +239,8 @@ namespace Website.Pages
                 where (c.Status=="new")
                 select c;
 
-            GridView2.DataSource = subpoena1;
-            GridView2.DataBind();
+            //GridView2.DataSource = subpoena1;
+           // GridView2.DataBind();
         }
         private void HideForm()
         {
@@ -90,106 +278,7 @@ namespace Website.Pages
             }
         }
 
-        protected void btnSearchSubpoena_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        protected void btnNewSubpoena_Click(object sender, EventArgs e)
-        {
-            ViewNewSubpoena();
-        }
-        protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
-        {
-
-            if (e.Row.RowType == DataControlRowType.DataRow)
-            {
-                Label lblSubpoenaFrmId = (Label)e.Row.FindControl("lblSubpoenaFrmId");
-                Label lblCaseId = (Label)e.Row.FindControl("lblCaseId");
-                Label lblStateId = (Label)e.Row.FindControl("lblStateId");
-                Label lblStateName = (Label)e.Row.FindControl("lblStateName");
-                Label lblCountyName = (Label)e.Row.FindControl("lblCountyName");
-                Label lblCountyid = (Label)e.Row.FindControl("lblCountyid");
-                Label lblOfficialName = (Label)e.Row.FindControl("lblOfficialName");
-                Label lbldeDetetiveName = (Label)e.Row.FindControl("lbldeDetetiveName");
-                Label lblDate = (Label)e.Row.FindControl("lblDate");
-                Label lblStatus = (Label)e.Row.FindControl("lblStatus");
-
-                Label lblActive = (Label)e.Row.FindControl("lblActive");
-                Label lblCreatedBy = (Label)e.Row.FindControl("lblCreatedBy");
-                Label lblCreatedOn = (Label)e.Row.FindControl("lblCreatedOn");
-                Label lblUpdatedBy = (Label)e.Row.FindControl("lblUpdatedBy");
-                Label lblUpdatedOn = (Label)e.Row.FindControl("lblUpdatedOn");
-
-
-
-                DropDownList DropDownState = (DropDownList)e.Row.FindControl("DropDownState");
-
-                DropDownList DropDownCountry = (DropDownList)e.Row.FindControl("DropDownCountry");
-
-                if (lblSubpoenaFrmId != null) lblSubpoenaFrmId.Text = ((LINQ.TblSubpoenaFrm)e.Row.DataItem).SubpoenaFrmId.ToString();
-                if (lblCaseId != null) lblCaseId.Text = ((LINQ.TblSubpoenaFrm)e.Row.DataItem).CaseId.ToString();
-                //if (lblStateId != null) lblStateId.Text = ((LINQ.TblSubpoenaFrm)e.Row.DataItem).TblState.StateId.ToString();
-                //if (lblStateName != null) lblStateName.Text = ((LINQ.TblSubpoenaFrm)e.Row.DataItem).TblState.StateName.ToString();
-                if (lblCountyid != null) lblCountyid.Text = ((LINQ.TblSubpoenaFrm)e.Row.DataItem).TblCounty.CountyId.ToString();
-                if (lblCountyName != null) lblCountyName.Text = ((LINQ.TblSubpoenaFrm)e.Row.DataItem).TblCounty.CountyName.ToString();                
-                if (lblOfficialName != null) lblOfficialName.Text = Convert.ToString(((LINQ.TblSubpoenaFrm)e.Row.DataItem).OfficialName);
-                if (lbldeDetetiveName != null) lbldeDetetiveName.Text = Convert.ToString(((LINQ.TblSubpoenaFrm)e.Row.DataItem).DetativeName);
-                if (lblDate != null) lblDate.Text = Convert.ToString(((LINQ.TblSubpoenaFrm)e.Row.DataItem).Date);
-                if (lblStatus != null) lblStatus.Text = Convert.ToString(((LINQ.TblSubpoenaFrm)e.Row.DataItem).Status);
-                if (lblActive != null) lblActive.Text = ((LINQ.TblSubpoenaFrm)e.Row.DataItem).Active.ToString();
-
-
-            }
-
-
-        }
-
-        protected void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
-        {
-
-        }
-        protected void GridView2_PageIndexChanging(object sender, GridViewPageEventArgs e)
-        {
-
-        }
-        protected void PageSize_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            LoadnSetGridPageSize();
-            ViewData();
-
-        }
-        private void LoadnSetGridPageSize()
-        {
-            AccreditationDataContext objDB = new AccreditationDataContext();
-            objDB.Connection.ConnectionString = System.Configuration.ConfigurationManager.AppSettings["constr"];
-            int cnt = Convert.ToInt16(((from D in objDB.TblSubpoenaFrms
-                                        select D)).Count());
-
-
-            
-            var subpoena =
-                from c in objDB.TblSubpoenaFrms
-                where (c.Status != "new")
-                select c;
-            //GridView1.DataSource = subpoena;
-            //GridView1.DataBind();
-
-
-            //var subpoena =
-            //    from c in objDB.TblSubpoenaFrms
-            //    where c.ContactName.Contains(txtBrokerName.Text) && c.TaxSSN.Contains(txtTaxId.Text)
-            //    && c.Active.Equals(true)
-            //    select c;
-
-            GridView1.PageSize = DrpPageSize.SelectedValue.Equals("4",
-                StringComparison.InvariantCultureIgnoreCase)
-                ? cnt
-                : int.Parse(DrpPageSize.SelectedValue);
-            GridView1.DataSource = subpoena;
-            GridView1.DataBind();
-        }
-
+     
 
 
     }

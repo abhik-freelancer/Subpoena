@@ -22,76 +22,75 @@ namespace Website.Pages
         {
             if (!IsPostBack)
             {
+                if (Session["GroupId"] == null || Session["UserEmail"] == null)
+                {
+                    Response.Redirect("../Login.aspx");
+                }
                 HideForm();
-               // ShowForm();               
-                ViewData();
+               
                 showState();
                 showCountry();
-               
+                // ShowForm();  
+                if (Request.QueryString["EditId"] != null && int.Parse(Request.QueryString["EditId"].ToString()) > 0)
+                {
+                    ViewData(int.Parse(Request.QueryString["EditId"].ToString()));
+                }
+
             }
 
         }
 
-        //protected void btnSubmit_Click(object sender, EventArgs e)
-        //{
-        //    using (AccreditationDataContext group = new AccreditationDataContext())
-        //    {
-        //        TblGroupCreation group1 = new TblGroupCreation
-        //        {
-        //            GrpName = txtGroupName.Text.Trim(),
-        //            Address1 = txtAddress1.Text.Trim(),
-        //            Address2 = txtAddress2.Text.Trim(),
-        //            City = txtCity.Text.Trim(),
-        //            StateId = Convert.ToInt16(DropDownState.SelectedItem.Value),
-        //            Zipcode = 700152,
-        //            //Zipcode = txtZipcode.Text.ToString(),
-        //            CountryId = Convert.ToInt16(DropDownCountry.SelectedItem.Value),
-
-
-        //            //Active =1,
-        //            //CreatedBy="XX",
-        //            //CreatedOn=System.DateTime.Now,
-        //            //UpdatedBy="YY",
-        //            //UpdatedOn = System.DateTime.Now,
-        //        };
-        //        group.Connection.ConnectionString = System.Configuration.ConfigurationManager.AppSettings["constr"];
-        //        group.TblGroupCreations.InsertOnSubmit(group1);
-        //        group.SubmitChanges();
-        //        ClearForm();
-        //        ViewData();
-
-        //        //{                    
-        //        //    db.Connection.ConnectionString = System.Configuration.ConfigurationManager.AppSettings["constr"];
-        //        //    var group =
-        //        //        from c in db.TblGroupCreations
-        //        //        where (c.StateId == Convert.ToInt32(e.CommandArgument.ToString()))
-        //        //        select c;
-        //        //    lblID.Text = e.CommandArgument.ToString();
-        //        //    foreach (TblGroupCreation cntry in country)
-        //        //    {
-        //        //         = cntry.CountryName;
-        //        //        txtCountryCode.Text = cntry.CountryCode;
-        //        //    }
-        //        //    btnSave.Visible = false;
-        //        //    btnUpdate.Visible = true;
-        //        //}
-
-
-
-        //    }
-        //}
-        public void ViewData()
+        public void ViewData(int editid)
         {
-            ClearForm();
+            //ClearForm();
             AccreditationDataContext db = new AccreditationDataContext();
             db.Connection.ConnectionString = System.Configuration.ConfigurationManager.AppSettings["constr"];
             var group =
-                from c in db.TblGroupCreations
-                where c.Active.Equals(true)
+                (from c in db.TblGroupCreations
+                 where c.GrpId == editid
+                 select c).FirstOrDefault();
+
+            txtGroupName.Text = group.GrpName;
+
+            txtAddress1.Text = group.Address1;
+            txtAddress2.Text = group.Address2;
+            txtCity.Text = group.City;
+            //DropDownState.Text = group.Address1;
+            txtZipcode.Text = group.Zipcode;
+            // DropDownCountry.Text = group.Address1;
+            hdneditId.Value = editid.ToString();
+
+
+            var state =
+                from c in db.TblStates
                 select c;
 
-            GridView1.DataSource = group;
-            GridView1.DataBind();
+            if (state.Count() > 0)
+            {
+                DropDownState.DataSource = state;
+                DropDownState.DataTextField = "StateName";
+                DropDownState.DataValueField = "StateId";
+                DropDownState.DataBind();
+                DropDownState.Items.Insert(0, new ListItem("----Select State----", "0"));
+                DropDownState.SelectedValue = group.StateId.ToString();
+                DropDownState.DataBind();
+            }
+
+            var country =
+                from c in db.TblCounties
+                select c;
+
+            if (country.Count() > 0)
+            {
+                DropDownCountry.DataSource = country;
+                DropDownCountry.DataTextField = "CountyName";
+                DropDownCountry.DataValueField = "CountyId";
+                DropDownCountry.DataBind();
+                DropDownCountry.Items.Insert(0, new ListItem("----Select Country----", "0"));
+                DropDownCountry.SelectedValue = group.CountryId.ToString();
+                DropDownCountry.DataBind();
+            }
+
         }
 
         public void showState()
@@ -108,7 +107,7 @@ namespace Website.Pages
                 DropDownState.DataTextField = "StateName";
                 DropDownState.DataValueField = "StateId";
                 DropDownState.DataBind();
-                DropDownState.Items.Insert(0, "----Select State----");
+                DropDownState.Items.Insert(0, new ListItem("----Select State----", "0"));
 
             }
 
@@ -127,31 +126,31 @@ namespace Website.Pages
                 DropDownCountry.DataTextField = "CountryName";
                 DropDownCountry.DataValueField = "CountryId";
                 DropDownCountry.DataBind();
-                DropDownCountry.Items.Insert(0, "----Select Country----");
+                DropDownCountry.Items.Insert(0, new ListItem("----Select Country----", "0"));
 
             }
 
         }
         protected void btnView_Click(object sender, EventArgs e)
         {
-            ViewData();
+            // ViewData();
             HideForm();
         }
 
         public void HideForm()
         {
             //tblForm.Visible = false;
-            tblGrid.Visible = true;
-           // btnView.Visible = false;
+            //  tblGrid.Visible = true;
+            // btnView.Visible = false;
             //btnAddNew.Visible = true;
 
         }
         public void ShowForm()
         {
             //tblForm.Visible = true;
-            tblGrid.Visible = false;
-           // btnView.Visible = true;
-           // btnAddNew.Visible = false;
+            //tblGrid.Visible = false;
+            // btnView.Visible = true;
+            // btnAddNew.Visible = false;
         }
         public void ClearForm()
         {
@@ -161,7 +160,7 @@ namespace Website.Pages
             txtCity.Text = string.Empty;
             txtZipcode.Text = string.Empty;
             DropDownState.SelectedIndex = 0;
-            DropDownCountry.SelectedIndex = 0; 
+            DropDownCountry.SelectedIndex = 0;
 
         }
 
@@ -173,24 +172,78 @@ namespace Website.Pages
             btnSubmit1.Visible = true;
         }
 
-        public static bool IsExistGroup(string GroupName)
+        public static bool IsExistGroup(string GroupName, int editid)
         {
-            
+
             AccreditationDataContext db = new AccreditationDataContext();
             db.Connection.ConnectionString = System.Configuration.ConfigurationManager.AppSettings["constr"];
+            if (editid > 0 && db.TblGroupCreations.Where(d => d.GrpName == GroupName).Count() == 1)
+            {
+                return true;
+            }
+
             return db.TblGroupCreations.Where(d => d.GrpName == GroupName).Any();
+
         }
 
         protected void btnSubmit1_Click(object sender, EventArgs e)
         {
-            if (DropDownCountry.SelectedIndex > 0 && DropDownState.SelectedIndex > 0 && txtGroupName.Text.Trim() != string.Empty && txtAddress1.Text.Trim() != string.Empty && txtCity.Text.Trim() != string.Empty)
-            //if (txtGroupName.Text.Trim().Length > 0 && txtLastName.Text.Trim().Length > 0 && txtEmail.Text.Trim().Length > 0 && Convert.ToInt16(DropDownGroup.SelectedItem.Value)>0)
+            //if (DropDownCountry.SelectedIndex > 0 && DropDownState.SelectedIndex > 0 && txtGroupName.Text.Trim() != string.Empty && txtAddress1.Text.Trim() != string.Empty && txtCity.Text.Trim() != string.Empty)
+            ////if (txtGroupName.Text.Trim().Length > 0 && txtLastName.Text.Trim().Length > 0 && txtEmail.Text.Trim().Length > 0 && Convert.ToInt16(DropDownGroup.SelectedItem.Value)>0)
+            //{
+            if (btnSubmit1.Text.Equals("Submit"))
             {
-                if (btnSubmit1.Text.Equals("Submit"))
-                {
-                    if (!IsExistGroup(txtGroupName.Text.Trim()))
-                    {
 
+
+                if (hdneditId.Value != null && hdneditId.Value != "" && int.Parse(hdneditId.Value.ToString()) > 0)
+                {
+
+                    AccreditationDataContext objDB = new AccreditationDataContext();
+                    objDB.Connection.ConnectionString = System.Configuration.ConfigurationManager.AppSettings["constr"];
+                    using (AccreditationDataContext group = new AccreditationDataContext())
+                    {
+                        LINQ.TblGroupCreation grp = objDB.TblGroupCreations.First(D => D.GrpId == int.Parse(hdneditId.Value.ToString()));
+                        if (grp.GrpName.Trim() == txtGroupName.Text.Trim())
+                        {
+                            grp.GrpName = txtGroupName.Text.Trim();
+                            grp.Address1 = txtAddress1.Text.Trim();
+                            grp.Address2 = txtAddress2.Text.Trim();
+                            grp.City = txtCity.Text.Trim();
+                            grp.StateId = Convert.ToInt16(DropDownState.SelectedItem.Value);
+                            grp.Zipcode = txtZipcode.Text;
+                            grp.CountryId = Convert.ToInt16(DropDownCountry.SelectedItem.Value);
+                            grp.Active = true;
+                            objDB.SubmitChanges();
+                        }
+                        else
+                        {
+                            if (!IsExistGroup(txtGroupName.Text.Trim(), int.Parse(hdneditId.Value.ToString())))
+                            {
+                                grp.GrpName = txtGroupName.Text.Trim();
+                                grp.Address1 = txtAddress1.Text.Trim();
+                                grp.Address2 = txtAddress2.Text.Trim();
+                                grp.City = txtCity.Text.Trim();
+                                grp.StateId = Convert.ToInt16(DropDownState.SelectedItem.Value);
+                                grp.Zipcode = txtZipcode.Text;
+                                grp.CountryId = Convert.ToInt16(DropDownCountry.SelectedItem.Value);
+                                grp.Active = true;
+                                objDB.SubmitChanges();
+                            }
+                            else
+                            {
+                                Response.Write("<script>alert('This Group Name Already exist.')</script>");
+                                return;
+                                //Utilities.CreateMessageLabel(this, BLL.Constants.UnableToCreateGroup, false);
+                            }
+                        }
+
+                    }
+
+                }
+                else
+                {
+                    if (!IsExistGroup(txtGroupName.Text.Trim(), 0))
+                    {
                         using (AccreditationDataContext group = new AccreditationDataContext())
                         {
                             TblGroupCreation group1 = new TblGroupCreation
@@ -200,98 +253,38 @@ namespace Website.Pages
                                 Address2 = txtAddress2.Text.Trim(),
                                 City = txtCity.Text.Trim(),
                                 StateId = Convert.ToInt16(DropDownState.SelectedItem.Value),
-                                //Zipcode = txtZipcode.ToString(),
+                                Zipcode = txtZipcode.Text,
                                 CountryId = Convert.ToInt16(DropDownCountry.SelectedItem.Value),
+                                Active = true,
                             };
                             group.Connection.ConnectionString = System.Configuration.ConfigurationManager.AppSettings["constr"];
                             group.TblGroupCreations.InsertOnSubmit(group1);
                             group.SubmitChanges();
-                            ClearForm();
-                            ViewData();
-                            HideForm();
-                            //Utilities.CreateMessageLabel(this, BLL.Constants.Insert, true);
-                            
-                        }
 
+
+                        }
                     }
                     else
                     {
+                        Response.Write("<script>alert('This Group Name Already exist.')</script>");
+                        return;
                         //Utilities.CreateMessageLabel(this, BLL.Constants.UnableToCreateGroup, false);
                     }
+
                 }
-                else
-                {
-                    //Utilities.CreateMessageLabel(this, BLL.Constants.NotInserted, false);
-                }
-            }
-                 else 
-                {
-                    Update((int)Session["GrpId"], txtGroupName.Text, txtAddress1.Text, txtAddress2.Text,
-                        txtCity.Text, Convert.ToInt32(DropDownState.SelectedItem.Value),
-                        Convert.ToInt32(DropDownCountry.SelectedItem.Value)
-                        );
-                            btnSubmit1.Text = "Submit";
-                }
-                            ClearForm();
-                            ViewData();
-                            HideForm();
-     }
-            
-        
-       protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
-        {
-        // try
-        //{
-            if (e.Row.RowType == DataControlRowType.DataRow)
-            {
-                Label lblGrpId = (Label)e.Row.FindControl("lblGrpId");
-                Label lblGrpName = (Label)e.Row.FindControl("lblGrpName");
-                Label lblAddress1 = (Label)e.Row.FindControl("lblAddress1");
-                Label lblAddress2 = (Label)e.Row.FindControl("lblAddress2");
-                Label lblCity = (Label)e.Row.FindControl("lblCity");
-                Label lblStateId = (Label)e.Row.FindControl("lblStateId");
-                Label lblStateName = (Label)e.Row.FindControl("lblStateName");
-                //Label lblZipCode = (Label)e.Row.FindControl("lblZipCode");
-                Label lblCountryName = (Label)e.Row.FindControl("lblCountryName");
-                Label lblCountryid = (Label)e.Row.FindControl("lblCountryid");
-                Label lblActive = (Label)e.Row.FindControl("lblActive");
-                Label lblCreatedBy = (Label)e.Row.FindControl("lblCreatedBy");
-                Label lblCreatedOn = (Label)e.Row.FindControl("lblCreatedOn");
-                Label lblUpdatedBy = (Label)e.Row.FindControl("lblUpdatedBy");
-                Label lblUpdatedOn = (Label)e.Row.FindControl("lblUpdatedOn");
 
 
 
-                DropDownList DropDownState = (DropDownList)e.Row.FindControl("DropDownState");
-
-                DropDownList DropDownCountry = (DropDownList)e.Row.FindControl("DropDownCountry");
-
-                if (lblGrpId != null) lblGrpId.Text = ((LINQ.TblGroupCreation)e.Row.DataItem).GrpId.ToString();
-                if (lblGrpName != null) lblGrpName.Text = ((LINQ.TblGroupCreation)e.Row.DataItem).GrpName.ToString();
-                if (lblAddress1 != null) lblAddress1.Text = Convert.ToString(((LINQ.TblGroupCreation)e.Row.DataItem).Address1);
-                if (lblAddress2 != null) lblAddress2.Text = Convert.ToString(((LINQ.TblGroupCreation)e.Row.DataItem).Address2);
-                if (lblCity != null) lblCity.Text = Convert.ToString(((LINQ.TblGroupCreation)e.Row.DataItem).City);
-
-                if (lblStateId != null) lblStateId.Text = ((LINQ.TblGroupCreation)e.Row.DataItem).TblState.StateId.ToString();
-                if (lblStateName != null) lblStateName.Text = ((LINQ.TblGroupCreation)e.Row.DataItem).TblState.StateName.ToString();
-                // if (ZipCode != null) ZipCode.Text = Convert.ToString(((LINQ.TblGroupCreation)e.Row.DataItem).ZipCode);
-                if (lblCountryName != null) lblCountryName.Text = ((LINQ.TblGroupCreation)e.Row.DataItem).TblCountry.CountryName.ToString();
-                if (lblCountryid != null) lblCountryid.Text = ((LINQ.TblGroupCreation)e.Row.DataItem).TblCountry.CountryId.ToString();
-                if (lblActive != null) lblActive.Text = ((LINQ.TblGroupCreation)e.Row.DataItem).TblCountry.Active.ToString();
-
-                //if (lblCreatedBy != null) lblCreatedBy.Text = ((LINQ.TblGroupCreation)e.Row.DataItem).CreatedBy.ToString();
-                //if (lblCreatedOn != null) lblCreatedOn.Text = ((LINQ.TblGroupCreation)e.Row.DataItem).CreatedOn.ToString();
-                //if (lblUpdatedBy != null) lblUpdatedBy.Text = ((LINQ.TblGroupCreation)e.Row.DataItem).UpdatedBy.ToString();
-                //if (lblUpdatedOn != null) lblUpdatedOn.Text = ((LINQ.TblGroupCreation)e.Row.DataItem).UpdatedOn.ToString();
             }
 
-           //}
-           // catch (Exception e1)
-           // {
-           //     // Throw an HttpException with customized message.
-           //     throw new HttpException("not an integer");
-           // }
+
+
+            Response.Redirect("GroupList.aspx");
+            return;
         }
+
+
+
 
         protected void btnGrpSearch_Click(object sender, EventArgs e)
         {
@@ -300,89 +293,26 @@ namespace Website.Pages
         }
         public void showData()
         {
-            AccreditationDataContext db = new AccreditationDataContext();
-            db.Connection.ConnectionString = System.Configuration.ConfigurationManager.AppSettings["constr"];
-            var group =
-                from c in db.TblGroupCreations
-                where c.GrpName.Contains(txtGrpSearch.Text) && c.Active.Equals(true)
-                select c;
+            //AccreditationDataContext db = new AccreditationDataContext();
+            //db.Connection.ConnectionString = System.Configuration.ConfigurationManager.AppSettings["constr"];
+            //var group =
+            //    from c in db.TblGroupCreations
+            //    where c.GrpName.Contains(txtGrpSearch.Text) && c.Active.Equals(true)
+            //    select c;
 
-            GridView1.DataSource = group;
-            GridView1.DataBind(); 
-        
+            //GridView1.DataSource = group;
+            //GridView1.DataBind(); 
+
         }
 
 
-        protected void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
-        {
-            GridView1.PageIndex = e.NewPageIndex;
-            showData();
-        }
+
 
         protected void btnReset_Click(object sender, EventArgs e)
         {
             ClearForm();
         }
 
-        protected void GridView1_RowDeleting(object sender, GridViewDeleteEventArgs e)
-        {
-            try
-            {
-                bool boolmsg = Delete(Convert.ToInt32(((Label)GridView1.Rows[e.RowIndex].FindControl("lblGrpId")).Text)); 
-                if (boolmsg)
-                {
-                    // Utilities.CreateMessageLabel(this, BLL.Constants.Delete, true);
-                    ViewData();
-                }
-                else
-                {
-                    // Utilities.CreateMessageLabel(this, BLL.Constants.NotDeleted, false);
-                }
-            }
-            catch (Exception ex)
-            {
-                // Utilities.CreateMessageLabel(this, BLL.Constants.DataBaseTransacFailed, true);
-            }
-        }
-        protected void GridView1_RowEditing(object sender, GridViewEditEventArgs e)
-        {
-            try
-            {
-                Session["GrpId"] = Convert.ToInt32(((Label)GridView1.Rows[e.NewEditIndex].FindControl("lblGrpId")).Text);
-
-                txtGroupName.Text = ((Label)GridView1.Rows[e.NewEditIndex].FindControl("lblGrpName")).Text;
-                txtAddress1.Text = ((Label)GridView1.Rows[e.NewEditIndex].FindControl("lblAddress1")).Text;
-                txtAddress2.Text = ((Label)GridView1.Rows[e.NewEditIndex].FindControl("lblAddress2")).Text;
-                txtCity.Text = ((Label)GridView1.Rows[e.NewEditIndex].FindControl("lblCity")).Text;
-                //txtZipcode.Text = ((Label)GridView1.Rows[e.NewEditIndex].FindControl("lblZipCode")).Text;
-
-                showState();
-                string StateName = ((Label)GridView1.Rows[e.NewEditIndex].FindControl("lblStateName")).Text;
-                for (int i = 0; i < DropDownState.Items.Count; i++)
-                {
-                    if (DropDownState.Items[i].Text == StateName)
-                        DropDownState.Items[i].Selected = true;
-                }
-                showCountry();
-                string CountryName = ((Label)GridView1.Rows[e.NewEditIndex].FindControl("lblCountryName")).Text;
-                for (int i = 0; i < DropDownCountry.Items.Count; i++)
-                {
-                    if (DropDownCountry.Items[i].Text == CountryName)
-                        DropDownCountry.Items[i].Selected = true;
-                }
-
-
-
-                btnSubmit1.Text = "Update";
-                btnSubmit1.CommandArgument = "Edit";
-                
-                
-            }
-            catch (Exception a)
-            {
-
-            }
-        }
 
 
         #region  Delete Group
@@ -425,123 +355,28 @@ namespace Website.Pages
                 grp.Address2 = Address2;
                 grp.City = City;
                 grp.StateId = StateId;
-               // grp.Zipcode = Zipcode;
+                // grp.Zipcode = Zipcode;
                 grp.CountryId = CountryId;
-               
+
                 objDB.SubmitChanges();
-               // report = BLL.Constants.Update;
+                // report = BLL.Constants.Update;
             }
             catch (Exception ex)
             {
-              //  report = BLL.Constants.NotUpdated;
+                //  report = BLL.Constants.NotUpdated;
             }
 
-          //  return report;
+            //  return report;
         }
         #endregion
-        protected void GridView1_Sorting(object sender, GridViewSortEventArgs e)
-        {
-            GridView1.EditIndex = -1;
-            GridView1.PageIndex = 0;
-            if ((SortExpression == e.SortExpression) && (SortDirection == SortDirection.Ascending))
-            {
-                e.SortDirection = SortDirection.Descending;
-            }
-            using (AccreditationDataContext db = new AccreditationDataContext())
-            {
-                {
-                    GridView1.DataSource = ColumnSort(e.SortExpression, e.SortDirection.ToString());
-                    GridView1.DataBind();
-                }
-                SortExpression = e.SortExpression;
-                SortDirection = e.SortDirection;
-            }
-        }
-
-        public static IEnumerable<LINQ.TblGroupCreation> ColumnSort(string sortExpression, string direction)
-        {
-            AccreditationDataContext dbContext = new AccreditationDataContext();
-            dbContext.Connection.ConnectionString = System.Configuration.ConfigurationManager.AppSettings["constr"];
-            IEnumerable<LINQ.TblGroupCreation> bgs = null;
-            switch (sortExpression)
-            {
-                case "GrpName":
-                    if (direction.ToUpper().Contains("ASC"))
-                        bgs = from d in dbContext.TblGroupCreations where d.Active.Equals(true) orderby d.GrpName ascending select d;
-                    else
-                        bgs = from d in dbContext.TblGroupCreations where d.Active.Equals(true) orderby d.GrpName descending select d;
-                    return bgs;                
-
-                case "StateName":
-                    if (direction.ToUpper().Contains("ASC"))
-                        bgs = from d in dbContext.TblGroupCreations where d.Active.Equals(true) orderby d.TblState.StateName ascending select d;
-                    else
-                        bgs = from d in dbContext.TblGroupCreations where d.Active.Equals(true) orderby d.TblState.StateName descending select d;
-                    return bgs;
-                case "CountryName":
-                    if (direction.ToUpper().Contains("ASC"))
-                        bgs = from d in dbContext.TblGroupCreations where d.Active.Equals(true) orderby d.TblCountry.CountryName ascending select d;
-                    else
-                        bgs = from d in dbContext.TblGroupCreations where d.Active.Equals(true) orderby d.TblCountry.CountryName descending select d;
-                    return bgs;
-                default:
-                    bgs = from d in dbContext.TblGroupCreations where d.Active.Equals(true) orderby d.GrpName ascending select d;
-                    return bgs;
-
-            }
-        }
-        public string SortExpression
-        {
-            get
-            {
-                return (string)ViewState["SortExpression"] ?? String.Empty;
-            }
-            set
-            {
-                ViewState["SortExpression"] = value;
-            }
-        }
-
-        public SortDirection SortDirection
-        {
-            get
-            {
-                object o = ViewState["SortDirection"];
-                return o != null ? (SortDirection)o : SortDirection.Ascending;
-            }
-            set
-            {
-                ViewState["SortDirection"] = value;
-            }
-        }
 
 
-        //public DataTable GetDataFromDataBase(string searchtext)
-        //{
-        //    //DataTable _objdt = new DataTable();
-        //    //string querystring = "";
-        //    //querystring = "select * from TblGroupCreation";
-        //    //if (querystring != "")
-        //    //{
-        //    //    querystring += " where GrpName like '%" + txtGrpSearch.Text + "%';";
-        //    //}
-        //    //OleDbConnection _objcon = new OleDbConnection(connectionstring);
-        //    //OleDbDataAdapter _objda = new OleDbDataAdapter(querystring, _objcon);
-        //    //_objcon.Open();
-        //    //_objda.Fill(_objdt);
-        //    //return _objdt;
-        //} 
-         
-        //    {
-        //else       
-        //Utilities.CreateMessageLabel(this, BLL.Constants.BlankField, false);
-        //    }
 
-        
+
     }
-        //protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
-        //{
-           
-        //}
-      
-    }
+    //protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
+    //{
+
+    //}
+
+}

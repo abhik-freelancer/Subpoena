@@ -1,0 +1,107 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+body {width:100%; height:auto; margin:0 auto; padding:0; background:#CCC; font-family:Arial, Helvetica, sans-serif;}
+
+img {border:thin none #0066FF;}
+
+p, h1, h2, h3, h4, h5, h6, ul, li {
+margin:0px;
+padding:0px;
+list-style-type:none;
+}
+
+a {text-decoration:none}
+
+.magic {clear:both; padding:0px; margin:0px;  height:0px; width:0px;}
+.page {width:1000px; height:auto; margin:0 auto; font-family:Arial, Helvetica, sans-serif; }
+
+
+.mainBgBx {}
+.mainBgBx .page {padding:20px 0 40px 0;}
+    	
+.hdLine {background:#ffcc00; font-size:14px; color:#DB0629; border:1px solid #888a57; font-weight:bold; padding:4px;
+		margin:0 0 10px 0;}
+
+.colmArea {margin: 0 0 16px 0; min-height:210px;}
+
+.colmA {width:28%; min-height:100px; float:left;}
+
+.colmB {width:72%; padding:0 0 0 10px; box-sizing:border-box; float:left;}
+
+.hdCC {font-size:14px; font-weight:bold;}
+.hdCC span {background:#595959; padding:4px; color:#ffcc00; display:inline-block; margin:0 0 6px 0;}
+
+.tblBxBB {}
+
+
+table.hdingIt {width:100%; font-size:12px; color:#BE2E0C; border-spacing:0; text-align:left;}
+table.hdingIt tr {}
+table.hdingIt th {background:#B2B2B2;padding:5px; border-bottom:3px solid #ccc; }
+table.hdingIt td {background:#fff;padding:7px 4px ; border-bottom:1px solid #dedede;}
+
+
+
+
+.inPtSec {}
+
+.hdln2 {background: #ffcc00;
+    font-size: 14px;
+    color: #DB0629;
+    border: 1px solid #888a57;
+    font-weight: bold;
+    padding: 4px;
+    margin: 0 0 10px 0;}
+
+.inClm {}
+
+.inAAA {width:40%; box-sizing:border-box; float:left;}
+.inBBB {width:40%; box-sizing:border-box; float:left;}
+.inCCC {width:20%; box-sizing:border-box; float:left;}
+
+.inGrup {margin:0 0 10px 0;}
+.lblIt {display:inline-block; min-width:100px; font-size:13px; line-height:26px; font-weight:bold; color:#333;}
+.infldIt { height:26px; box-sizing:border-box; display:inline-block; padding:0 4px; width:180px; border:1px solid #999;
+		outline:none;}
+.infldIt:focus {box-shadow:0 0 4px #CCC inset;}
+
+.srcBtnB {margin:36px 0 0 0;}
+.srcBtn {background:#414141; color:#fff; box-sizing:border-box; outline:none; border:none; height:26px; padding:0 30px;
+		cursor:pointer; border-radius:2px;}
+.srcBtn:hover {box-shadow:0 0 6px #000 inset;}
+
+
+.listArea {margin:10px 0 0 0;}
+        
+.listCntrl {background:#fff; padding:8px 18px;  }
+.cntrAA {float:left; font-size:12px;}
+
+.exprBtn {background:#414141; color:#fff; box-sizing:border-box; outline:none; border:none; height:22px; padding:0 20px;
+		cursor:pointer; border-radius:2px; display:inline-block; line-height:22px;}
+.exprBtn:hover {box-shadow:0 0 6px #000 inset;}
+
+.cntrBB {float:right;}
+
+.pagEr {height:22px; box-sizing:border-box; display:inline-block; padding:0 0px; min-width:80px;  border:1px solid #999;
+		outline:none;}
+.pagEr:focus {box-shadow:0 0 4px #CCC inset;}
+
+.tablBox {}
+
+table.hdingIt {}
+table.hdingIt tr {}
+table.hdingIt td {}
+
+table.listLop {}
+table.listLop tr {}
+table.listLop td {}
+
+
+
+
+
+
+
+
+

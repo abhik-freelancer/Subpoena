@@ -4,3 +4,9 @@ C:\Users\admin\Downloads\11-06-2015\11-06-2015\LINQ\bin\Release\LINQ.pdb
 C:\Users\admin\Downloads\11-06-2015\11-06-2015\LINQ\obj\Release\LINQ.csprojResolveAssemblyReference.cache
 C:\Users\admin\Downloads\11-06-2015\11-06-2015\LINQ\obj\Release\LINQ.dll
 C:\Users\admin\Downloads\11-06-2015\11-06-2015\LINQ\obj\Release\LINQ.pdb
+O:\Subpoena-master\LINQ\bin\Release\LINQ.dll.config
+O:\Subpoena-master\LINQ\bin\Release\LINQ.dll
+O:\Subpoena-master\LINQ\bin\Release\LINQ.pdb
+O:\Subpoena-master\LINQ\obj\Release\LINQ.csprojResolveAssemblyReference.cache
+O:\Subpoena-master\LINQ\obj\Release\LINQ.dll
+O:\Subpoena-master\LINQ\obj\Release\LINQ.pdb

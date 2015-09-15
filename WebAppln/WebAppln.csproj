@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -44,10 +44,27 @@
     <Reference Include="AjaxMin">
       <HintPath>..\packages\AjaxMin.5.14.5506.26202\lib\net40\AjaxMin.dll</HintPath>
     </Reference>
+    <Reference Include="AspNet.ScriptManager.jQuery, Version=2.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\AspNet.ScriptManager.jQuery.2.1.4\lib\net45\AspNet.ScriptManager.jQuery.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="AspNet.ScriptManager.jQuery.UI.Combined, Version=1.11.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AspNet.ScriptManager.jQuery.UI.Combined.1.11.4\lib\net45\AspNet.ScriptManager.jQuery.UI.Combined.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="itextsharp">
       <HintPath>DLL\itextsharp.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.ScriptManager.jQuery.UI.Combined, Version=1.8.20.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ScriptManager.jQuery.UI.Combined.1.8.20.1\lib\net40\Microsoft.ScriptManager.jQuery.UI.Combined.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -71,9 +88,6 @@
     </Reference>
     <Reference Include="AspNet.ScriptManager.bootstrap">
       <HintPath>C:\Users\dibyendu.roy\Documents\Visual Studio 2013\Projects\11-06-2015\packages\AspNet.ScriptManager.bootstrap.3.0.0\lib\net45\AspNet.ScriptManager.bootstrap.dll</HintPath>
-    </Reference>
-    <Reference Include="AspNet.ScriptManager.jQuery">
-      <HintPath>C:\Users\dibyendu.roy\Documents\Visual Studio 2013\Projects\11-06-2015\packages\AspNet.ScriptManager.jQuery.1.10.2\lib\net45\AspNet.ScriptManager.jQuery.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ScriptManager.MSAjax">
       <HintPath>C:\Users\dibyendu.roy\Documents\Visual Studio 2013\Projects\11-06-2015\packages\Microsoft.AspNet.ScriptManager.MSAjax.5.0.0\lib\net45\Microsoft.ScriptManager.MSAjax.dll</HintPath>
@@ -167,11 +181,56 @@
     <Content Include="Account\ResetPasswordConfirmation.aspx" />
     <Content Include="Account\TwoFactorAuthenticationSignIn.aspx" />
     <Content Include="Account\VerifyPhoneNumber.aspx" />
+    <Content Include="ActiveSupoena.aspx" />
+    <Content Include="bin\AjaxControlToolkit.dll" />
+    <Content Include="bin\AjaxMin.dll" />
+    <Content Include="bin\Antlr3.Runtime.dll" />
+    <Content Include="bin\AspNet.ScriptManager.bootstrap.dll" />
+    <Content Include="bin\AspNet.ScriptManager.jQuery.dll" />
+    <Content Include="bin\AspNet.ScriptManager.jQuery.UI.Combined.dll" />
+    <Content Include="bin\BLL.dll" />
+    <Content Include="bin\BLL.pdb" />
+    <Content Include="bin\EntityFramework.dll" />
+    <Content Include="bin\EntityFramework.SqlServer.dll" />
+    <Content Include="bin\itextsharp.dll" />
+    <Content Include="bin\LINQ.dll" />
+    <Content Include="bin\LINQ.pdb" />
+    <Content Include="bin\Microsoft.AspNet.FriendlyUrls.dll" />
+    <Content Include="bin\Microsoft.AspNet.Identity.Core.dll" />
+    <Content Include="bin\Microsoft.AspNet.Identity.EntityFramework.dll" />
+    <Content Include="bin\Microsoft.AspNet.Identity.Owin.dll" />
+    <Content Include="bin\Microsoft.AspNet.Web.Optimization.WebForms.dll" />
+    <Content Include="bin\Microsoft.Owin.dll" />
+    <Content Include="bin\Microsoft.Owin.Host.SystemWeb.dll" />
+    <Content Include="bin\Microsoft.Owin.Security.Cookies.dll" />
+    <Content Include="bin\Microsoft.Owin.Security.dll" />
+    <Content Include="bin\Microsoft.Owin.Security.Facebook.dll" />
+    <Content Include="bin\Microsoft.Owin.Security.Google.dll" />
+    <Content Include="bin\Microsoft.Owin.Security.MicrosoftAccount.dll" />
+    <Content Include="bin\Microsoft.Owin.Security.OAuth.dll" />
+    <Content Include="bin\Microsoft.Owin.Security.Twitter.dll" />
+    <Content Include="bin\Microsoft.ScriptManager.MSAjax.dll" />
+    <Content Include="bin\Microsoft.ScriptManager.WebForms.dll" />
+    <Content Include="bin\Microsoft.Web.Infrastructure.dll" />
+    <Content Include="bin\Newtonsoft.Json.dll" />
+    <Content Include="bin\Owin.dll" />
+    <Content Include="bin\System.Web.Optimization.dll" />
+    <Content Include="bin\System.Web.Providers.dll" />
+    <Content Include="bin\WebAppln.dll" />
+    <Content Include="bin\WebAppln.pdb" />
+    <Content Include="bin\WebGrease.dll" />
+    <Content Include="ChangePasswordSecure.aspx" />
     <Content Include="Contact.aspx" />
     <Content Include="ContentPages\ChangePassword.aspx" />
+    <Content Include="ContentPages\AdminUsers.aspx" />
+    <Content Include="ContentPages\HomePageForSubProducerUsers.aspx" />
+    <Content Include="ContentPages\PasswordList.aspx" />
+    <Content Include="ContentPages\SubpoeanaProduserLanding.aspx" />
+    <Content Include="ContentPages\UserRegList.aspx" />
     <Content Include="ContentPages\Dashboard.aspx" />
     <Content Include="ContentPages\Error.aspx" />
     <Content Include="ContentPages\GroupCreation1.aspx" />
+    <Content Include="ContentPages\GroupList.aspx" />
     <Content Include="ContentPages\OtherUsers.aspx" />
     <Content Include="ContentPages\PageforDetective.aspx" />
     <Content Include="ContentPages\SubpoenaProducers.aspx" />
@@ -201,8 +260,18 @@
     <Content Include="Content\fonts\ecoicons\Read Me.txt" />
     <Content Include="Content\fonts\fontawsome\fontawesome-webfont.svg" />
     <Content Include="Content\fonts\icomoon\icomoon.svg" />
+    <Content Include="Content\layout-jqgrid.css" />
     <Content Include="Content\ModalPopup.css" />
     <Content Include="Content\Site.css" />
+    <Content Include="Content\themes\base\accordion.css" />
+    <Content Include="Content\themes\base\all.css" />
+    <Content Include="Content\themes\base\autocomplete.css" />
+    <Content Include="Content\themes\base\base.css" />
+    <Content Include="Content\themes\base\button.css" />
+    <Content Include="Content\themes\base\core.css" />
+    <Content Include="Content\themes\base\datepicker.css" />
+    <Content Include="Content\themes\base\dialog.css" />
+    <Content Include="Content\themes\base\draggable.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -231,6 +300,7 @@
     <Content Include="Content\themes\base\jquery.ui.slider.css" />
     <Content Include="Content\themes\base\jquery.ui.tabs.css" />
     <Content Include="Content\themes\base\jquery.ui.theme.css" />
+    <Content Include="Content\themes\base\menu.css" />
     <Content Include="Content\themes\base\minified\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\minified\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\minified\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -257,7 +327,19 @@
     <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
+    <Content Include="Content\themes\base\progressbar.css" />
+    <Content Include="Content\themes\base\resizable.css" />
+    <Content Include="Content\themes\base\selectable.css" />
+    <Content Include="Content\themes\base\selectmenu.css" />
+    <Content Include="Content\themes\base\slider.css" />
+    <Content Include="Content\themes\base\sortable.css" />
+    <Content Include="Content\themes\base\spinner.css" />
+    <Content Include="Content\themes\base\tabs.css" />
+    <Content Include="Content\themes\base\theme.css" />
+    <Content Include="Content\themes\base\tooltip.css" />
+    <Content Include="Content\ui.jqgrid.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="html.aspx" />
     <Content Include="Images\accent.png" />
     <Content Include="Images\asc.gif" />
     <Content Include="Images\barMenu.png" />
@@ -315,6 +397,7 @@
     <Content Include="Images\whiteTrans.png" />
     <Content Include="Images\wUser.png" />
     <Content Include="Login.aspx" />
+    <Content Include="Logout.aspx" />
     <Content Include="packages.config" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
@@ -337,8 +420,17 @@
     <Content Include="Content\fonts\icomoon\icomoon.ttf" />
     <Content Include="Content\fonts\icomoon\icomoon.woff" />
     <Content Include="ImageHandler.ashx" />
-    <None Include="Properties\PublishProfiles\Excellerator.pubxml" />
-    <None Include="Properties\PublishProfiles\SpeedEnforcer.pubxml" />
+    <Content Include="Handler1.ashx" />
+    <Content Include="bin\WebAppln.dll.config" />
+    <Content Include="PdfReport\20150823002039571_Subpoeana.pdf" />
+    <Content Include="PdfReport\20150823003350564_Subpoeana.pdf" />
+    <Content Include="PdfReport\20150823003700294_Subpoeana.pdf" />
+    <Content Include="PdfReport\20150823003818625_Subpoeana.pdf" />
+    <Content Include="PdfReport\20150823004327357_Subpoeana.pdf" />
+    <Content Include="PdfReport\SubpoeanaPdfReport.pdf" />
+    <Content Include="PdfReport\TestPdfReport.pdf" />
+    <Content Include="PdfReport\TestPdfReport1.pdf" />
+    <None Include="Properties\PublishProfiles\Subpoeana.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Pages\images\1.png" />
     <Content Include="Pages\images\25-03-2015 15-48-26_2.jpg" />
@@ -361,8 +453,11 @@
     <Content Include="Pages\Uploads\IMG_04062015_154711.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <None Include="Scripts\jquery-2.1.4.intellisense.js" />
+    <Content Include="Scripts\jquery-2.1.4.js" />
+    <Content Include="Scripts\jquery-2.1.4.min.js" />
+    <Content Include="Scripts\jquery-ui-1.11.4.js" />
+    <Content Include="Scripts\jquery-ui-1.11.4.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
@@ -400,10 +495,10 @@
     </Content>
     <Content Include="Bundle.config" />
     <None Include="Project_Readme.html" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Site.Mobile.Master" />
     <Content Include="Settings\AppSettings.config" />
     <Content Include="Settings\ConnectionStrings.config" />
+    <Content Include="Scripts\jquery-2.1.4.min.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -517,6 +612,13 @@
     <Compile Include="Account\VerifyPhoneNumber.aspx.designer.cs">
       <DependentUpon>VerifyPhoneNumber.aspx</DependentUpon>
     </Compile>
+    <Compile Include="ActiveSupoena.aspx.cs">
+      <DependentUpon>ActiveSupoena.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ActiveSupoena.aspx.designer.cs">
+      <DependentUpon>ActiveSupoena.aspx</DependentUpon>
+    </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="About.aspx.cs">
       <DependentUpon>About.aspx</DependentUpon>
@@ -528,6 +630,13 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="ChangePasswordSecure.aspx.cs">
+      <DependentUpon>ChangePasswordSecure.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ChangePasswordSecure.aspx.designer.cs">
+      <DependentUpon>ChangePasswordSecure.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Contact.aspx.cs">
       <DependentUpon>Contact.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -541,6 +650,41 @@
     </Compile>
     <Compile Include="ContentPages\ChangePassword.aspx.designer.cs">
       <DependentUpon>ChangePassword.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ContentPages\AdminUsers.aspx.cs">
+      <DependentUpon>AdminUsers.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ContentPages\AdminUsers.aspx.designer.cs">
+      <DependentUpon>AdminUsers.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ContentPages\HomePageForSubProducerUsers.aspx.cs">
+      <DependentUpon>HomePageForSubProducerUsers.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ContentPages\HomePageForSubProducerUsers.aspx.designer.cs">
+      <DependentUpon>HomePageForSubProducerUsers.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ContentPages\PasswordList.aspx.cs">
+      <DependentUpon>PasswordList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ContentPages\PasswordList.aspx.designer.cs">
+      <DependentUpon>PasswordList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ContentPages\SubpoeanaProduserLanding.aspx.cs">
+      <DependentUpon>SubpoeanaProduserLanding.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ContentPages\SubpoeanaProduserLanding.aspx.designer.cs">
+      <DependentUpon>SubpoeanaProduserLanding.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ContentPages\UserRegList.aspx.cs">
+      <DependentUpon>UserRegList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ContentPages\UserRegList.aspx.designer.cs">
+      <DependentUpon>UserRegList.aspx</DependentUpon>
     </Compile>
     <Compile Include="ContentPages\Dashboard.aspx.cs">
       <DependentUpon>Dashboard.aspx</DependentUpon>
@@ -562,6 +706,13 @@
     </Compile>
     <Compile Include="ContentPages\GroupCreation1.aspx.designer.cs">
       <DependentUpon>GroupCreation1.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ContentPages\GroupList.aspx.cs">
+      <DependentUpon>GroupList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ContentPages\GroupList.aspx.designer.cs">
+      <DependentUpon>GroupList.aspx</DependentUpon>
     </Compile>
     <Compile Include="ContentPages\OtherUsers.aspx.cs">
       <DependentUpon>OtherUsers.aspx</DependentUpon>
@@ -608,6 +759,16 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Handler1.ashx.cs">
+      <DependentUpon>Handler1.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="html.aspx.cs">
+      <DependentUpon>html.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="html.aspx.designer.cs">
+      <DependentUpon>html.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -615,6 +776,15 @@
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Logout.aspx.cs">
+      <DependentUpon>Logout.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Logout.aspx.designer.cs">
+      <DependentUpon>Logout.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DbConnectionController.cs" />
+    <Compile Include="Models\Filter.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Site.Master.cs">

@@ -2874,10 +2874,13 @@ namespace LINQ
 		private int _UserId;
 		
 		private string _UserFirstName;
-		
+       
 		private string _UserLastName;
-		
+        private string _userRole;
 		private string _UserEmail;
+
+        private string _TempPass;
+        private string _HashPass;
 		
 		private int _Group;
 		
@@ -2903,6 +2906,12 @@ namespace LINQ
     partial void OnUserFirstNameChanged();
     partial void OnUserLastNameChanging(string value);
     partial void OnUserLastNameChanged();
+    partial void OnuserRoleChanging(string value);
+    partial void OnuserRoleChanged();
+    partial void OnTempPassChanging(string value);
+    partial void OnTempPassChanged();
+    partial void OnHashPassChanging(string value);
+    partial void OnHashPassChanged();
     partial void OnUserEmailChanging(string value);
     partial void OnUserEmailChanged();
     partial void OnGroupChanging(int value);
@@ -2984,6 +2993,73 @@ namespace LINQ
 				}
 			}
 		}
+
+
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_userRole", DbType = "VarChar(100) NOT NULL", CanBeNull = false)]
+        public string userRole
+        {
+            get
+            {
+                return this._userRole;
+            }
+            set
+            {
+                if ((this._userRole != value))
+                {
+                    this.OnuserRoleChanging(value);
+                    this.SendPropertyChanging();
+                    this._userRole = value;
+                    this.SendPropertyChanged("userRole");
+                    this.OnuserRoleChanged();
+                }
+            }
+        }
+
+
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_TempPass", DbType = "VarChar(100)")]
+        public string TempPass
+        {
+            get
+            {
+                return this._TempPass;
+            }
+            set
+            {
+                if ((this._TempPass != value))
+                {
+                    this.OnTempPassChanging(value);
+                    this.SendPropertyChanging();
+                    this._TempPass = value;
+                    this.SendPropertyChanged("TempPass");
+                    this.OnTempPassChanged();
+                }
+            }
+        }
+
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_HashPass", DbType = "VarChar(150)")]
+        public string HashPass
+        {
+            get
+            {
+                return this._HashPass;
+            }
+            set
+            {
+                if ((this._HashPass != value))
+                {
+                    this.OnHashPassChanging(value);
+                    this.SendPropertyChanging();
+                    this._HashPass = value;
+                    this.SendPropertyChanged("HashPass");
+                    this.OnHashPassChanged();
+                }
+            }
+        }
+
+
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserEmail", DbType="VarChar(100) NOT NULL", CanBeNull=false)]
 		public string UserEmail
@@ -27617,8 +27693,11 @@ namespace LINQ
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
 		private int _SubpoenaFrmId;
+        private int _DetectiveId;
 		
 		private string _CaseId;
+
+        private string _SaveType;
 		
 		private int _StateId;
 		
@@ -27694,6 +27773,8 @@ namespace LINQ
 		
 		private EntityRef<TblCounty> _TblCounty;
 		
+
+        
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -27702,6 +27783,11 @@ namespace LINQ
     partial void OnSubpoenaFrmIdChanged();
     partial void OnCaseIdChanging(string value);
     partial void OnCaseIdChanged();
+    partial void OnSaveTypeChanging(string value);
+    partial void OnSaveTypeChanged();
+        
+    partial void OnDetectiveIdChanging(int value);
+    partial void OnDetectiveIdChanged();
     partial void OnStateIdChanging(int value);
     partial void OnStateIdChanged();
     partial void OnCountyIdChanging(int value);
@@ -27800,6 +27886,27 @@ namespace LINQ
 				}
 			}
 		}
+
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_DetectiveId", DbType = "Int NOT NULL")]
+        public int DetectiveId
+        {
+            get
+            {
+                return this._DetectiveId;
+            }
+            set
+            {
+                if ((this._DetectiveId != value))
+                {
+                    this.OnDetectiveIdChanging(value);
+                    this.SendPropertyChanging();
+                    this._DetectiveId = value;
+                    this.SendPropertyChanged("DetectiveId");
+                    this.OnDetectiveIdChanged();
+                }
+            }
+        }
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CaseId", DbType="VarChar(100)")]
 		public string CaseId
@@ -27820,6 +27927,26 @@ namespace LINQ
 				}
 			}
 		}
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_SaveType", DbType = "VarChar(100)")]
+        public string SaveType
+        {
+            get
+            {
+                return this._SaveType;
+            }
+            set
+            {
+                if ((this._SaveType != value))
+                {
+                    this.OnSaveTypeChanging(value);
+                    this.SendPropertyChanging();
+                    this._SaveType = value;
+                    this.SendPropertyChanged("SaveType");
+                    this.OnSaveTypeChanged();
+                }
+            }
+        }
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StateId", DbType="Int NOT NULL")]
 		public int StateId
