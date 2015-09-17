@@ -115,6 +115,7 @@ namespace Website.Pages
             var stsubpoeanrs =
                 from c in db.TblSubpoenaFrms
                 where c.SaveType == "Save"
+                && c.CreatedBy == Session["UserEmail"].ToString().Trim()
                 select c;
 
             if (stsubpoeanrs.Count() > 0)
@@ -174,8 +175,8 @@ namespace Website.Pages
             //    && txtNatureofBsns1.Text.Trim() != string.Empty && txtAddr1.Text.Trim() != string.Empty)
             string queryautonum = " select isnull(MAX(CaseId),0)+1 from TblSubpoenaFrm where  ISNUMERIC(CaseId)=1";
             DataSet Result = DbConnection.GetMultitableTableData(queryautonum);
-            try
-            {
+            //try
+            //{
                 if (btnSave.Text.Equals("Save"))
                 {
 
@@ -277,10 +278,10 @@ namespace Website.Pages
                 }
                 Response.Redirect("SubpoenaProducers.aspx");
                 return;
-            }
-            catch(Exception Ex)
-            {
-            }
+          //  }
+            //catch(Exception Ex)
+            //{
+            //}
 
         }
 
@@ -1257,7 +1258,9 @@ namespace Website.Pages
             txtSubpoenaName.Text=stsubpoeanrs.SubpoenaName;
             DrpDwnState.SelectedValue=stsubpoeanrs.StateId.ToString();
             DrpDwnCounty.SelectedValue=stsubpoeanrs.CountyId.ToString();
+         //   if(DropDownDetective.Attributes.
             DropDownDetective.SelectedValue = stsubpoeanrs.DetectiveId.ToString();
+       //     DropDownDetective.SelectedItem.Text = stsubpoeanrs.DetativeName.ToString();
             txtSupervisor.Text=stsubpoeanrs.Supervisor;
             txtRepresentative.Text=stsubpoeanrs.Representative;
             txtDate.Text=stsubpoeanrs.Date.ToString();
