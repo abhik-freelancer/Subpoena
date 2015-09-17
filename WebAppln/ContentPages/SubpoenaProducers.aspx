@@ -4,12 +4,12 @@
         <div class="col-xs-4 form-group"> <a href="/ContentPages/SubpoenaProducers">Add New Subpoena </a></div>
            
         <div class="col-xs-4 form-group">
-            <asp:Label ID="Label4" Text="Open A Saved Subpoeana" runat="server"> </asp:Label>
+            <asp:Label ID="Label4" Text="Open A Saved Subpoena" runat="server"> </asp:Label>
             <asp:DropDownList ID="ExistingSubpoeanaList" CssClass="form-control" runat="server" OnSelectedIndexChanged="OnchangeexistingSubPoeana" AutoPostBack="true" TabIndex="2">
             </asp:DropDownList>
         </div>
          <div class="col-xs-4 form-group">
-             <asp:Label ID="Label21" Text="Choose Subpoeana Tempalte" runat="server"> </asp:Label>
+             <asp:Label ID="Label21" Text="Choose Subpoena Template" runat="server"> </asp:Label>
             <asp:DropDownList ID="ChooseSubpoeanaTempalte" CssClass="form-control" runat="server" OnSelectedIndexChanged="ChooseSubpoeanaTempalteSubPoeana" AutoPostBack="true" TabIndex="2">
                 <asp:ListItem Text="Subpoena Duces Tecum" Value="0" />
                 <asp:ListItem Text="Subpoena Duces Tecum 1" Value="1" />
@@ -65,7 +65,7 @@
 
     <div class="row">
         <div class="col-xs-12 form-group">
-            To: Office of the State Attorney  First judical Circuit :
+            To: Office of the State Attorney  First judicial  Circuit :
         </div>
     </div>
     <div class="row">
