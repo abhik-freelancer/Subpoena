@@ -8442,6 +8442,8 @@ namespace LINQ
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
 		private int _CountyId;
+
+        private int _StateId;
 		
 		private string _CountyCode;
 		
@@ -8518,6 +8520,26 @@ namespace LINQ
 				}
 			}
 		}
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_StateId", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = false, IsDbGenerated = true)]
+        public int StateId
+        {
+            get
+            {
+                return this._StateId;
+            }
+            set
+            {
+                if ((this._StateId != value))
+                {
+                    this.OnCountyIdChanging(value);
+                    this.SendPropertyChanging();
+                    this._StateId = value;
+                    this.SendPropertyChanged("StateId");
+                    this.OnCountyIdChanged();
+                }
+            }
+        }
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CountyCode", DbType="VarChar(50)")]
 		public string CountyCode

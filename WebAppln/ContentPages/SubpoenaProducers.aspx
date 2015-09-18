@@ -23,7 +23,7 @@
         <input type="hidden" runat="server" ID="txtEditSubpoeanaId" value="" />
         <div class="col-xs-4 form-group">
             <asp:Label ID="Label23" Text="State *:" runat="server"> </asp:Label>
-            <asp:DropDownList ID="DrpDwnState" CssClass="form-control" runat="server" TabIndex="2">
+            <asp:DropDownList ID="DrpDwnState" CssClass="form-control" runat="server" TabIndex="2" AutoPostBack="True" OnSelectedIndexChanged="OnchangeDrpDwnState">
             </asp:DropDownList>
             <asp:RequiredFieldValidator InitialValue="0" ID="RequiredFieldValidator3"  runat="server" ControlToValidate="DrpDwnState"
     Text="Please select state" ForeColor="Red" ErrorMessage="Please select state"></asp:RequiredFieldValidator> 

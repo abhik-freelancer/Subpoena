@@ -371,9 +371,30 @@ namespace Website.Pages
         #endregion
 
 
+        //////// Added By Rahul //////////
+        protected void DropDownState_SelectedIndexChanged(object sender, EventArgs e)
+        {
+        AccreditationDataContext db = new AccreditationDataContext();
+            db.Connection.ConnectionString = System.Configuration.ConfigurationManager.AppSettings["constr"];
+            var userState =
+                from c1 in db.TblCounties
+                where c1.StateId == Convert.ToInt16(DropDownState.SelectedItem.Value)
+                select c1;
+            DropDownCountry.DataSource = userState;
+            DropDownCountry.DataTextField = "CountyName";
+            DropDownCountry.DataValueField = "CountyId";
+            DropDownCountry.DataBind();
+            DropDownCountry.Items.Insert(0, new System.Web.UI.WebControls.ListItem("----Select State----", "0"));
+        }
+
+        
+
+
 
 
     }
+    
+        
     //protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
     //{
 

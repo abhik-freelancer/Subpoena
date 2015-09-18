@@ -207,7 +207,6 @@ namespace Website.Pages
                             Sbf.RecordsPertainTo = txtRecordsPertainTo.Text.Trim();
                             Sbf.AddressIndividualBusiness = txtAddressIndividualBusiness.Text.Trim();
                             Sbf.CrimeUnderInvestigation = txtCrimeUnderInvestigation.Text.Trim();
-
                             Sbf.FSS = txtFSS.Text.Trim();
                             Sbf.Suspect = txtSuspect.Text.Trim();
                             Sbf.Offense = txtOffense.Text.Trim();
@@ -1451,5 +1450,24 @@ namespace Website.Pages
         //    Response.Close();
         //}
 
+
+        //////// Added By Rahul //////////
+        protected void OnchangeDrpDwnState(object sender, EventArgs e)
+        {
+
+            AccreditationDataContext db = new AccreditationDataContext();
+            db.Connection.ConnectionString = System.Configuration.ConfigurationManager.AppSettings["constr"];
+            var userState =
+                from c1 in db.TblCounties
+                where c1.StateId == Convert.ToInt16(DrpDwnState.SelectedItem.Value)
+                select c1;
+            DrpDwnCounty.DataSource = userState;
+            DrpDwnCounty.DataTextField = "CountyName";
+            DrpDwnCounty.DataValueField = "CountyId";
+            DrpDwnCounty.DataBind();
+            DrpDwnCounty.Items.Insert(0, new System.Web.UI.WebControls.ListItem("----Select State----", "0"));
+
+
+        }
     }
 }
