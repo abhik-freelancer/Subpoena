@@ -1,7 +1,9 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="../Site.master" CodeBehind="SubpoenaProducers.aspx.cs" Inherits="Website.Pages.SubpoenaProducers" %>
 <asp:Content ID="Content22" ContentPlaceHolderID="MainContent" runat="server">
+
+<div class="poenaFormContainer">
     <div class="row">
-        <div class="col-xs-4 form-group"> <a href="/ContentPages/SubpoenaProducers">Add New Subpoena </a></div>
+        
            
         <div class="col-xs-4 form-group">
             <asp:Label ID="Label4" Text="Open A Saved Subpoeana" runat="server"> </asp:Label>
@@ -16,28 +18,30 @@
             </asp:DropDownList>
 
          </div>
+
+        <div class="col-xs-4 form-group"> <a href="/ContentPages/SubpoenaProducers" class="fa fa-plus-circle formLink"> <span>Add New Subpoena</span> </a></div>
     </div>
 
 
     <div class="row">
         <input type="hidden" runat="server" ID="txtEditSubpoeanaId" value="" />
         <div class="col-xs-4 form-group">
-            <asp:Label ID="Label23" Text="State *:" runat="server"> </asp:Label>
-            <asp:DropDownList ID="DrpDwnState" CssClass="form-control" runat="server" TabIndex="2">
+            <asp:Label ID="Label23" Text="State" runat="server"> </asp:Label>
+            <asp:DropDownList ID="DrpDwnState" CssClass="form-control mandatory" runat="server" TabIndex="2">
             </asp:DropDownList>
             <asp:RequiredFieldValidator InitialValue="0" ID="RequiredFieldValidator3"  runat="server" ControlToValidate="DrpDwnState"
     Text="Please select state" ForeColor="Red" ErrorMessage="Please select state"></asp:RequiredFieldValidator> 
         </div>
          <div class="col-xs-4 form-group">
-            <asp:Label ID="Label24" Text="County *:" runat="server"> </asp:Label>
-            <asp:DropDownList ID="DrpDwnCounty" CssClass="form-control" OnSelectedIndexChanged="OnchangeDrpDwnCounty" AutoPostBack="true" runat="server" TabIndex="3">
+            <asp:Label ID="Label24" Text="County" runat="server"> </asp:Label>
+            <asp:DropDownList ID="DrpDwnCounty" CssClass="form-control mandatory" OnSelectedIndexChanged="OnchangeDrpDwnCounty" AutoPostBack="true" runat="server" TabIndex="3">
             </asp:DropDownList>
              <asp:RequiredFieldValidator InitialValue="0" ID="RequiredFieldValidator1"  runat="server" ControlToValidate="DrpDwnCounty"
     Text="Please select country" ForeColor="Red" ErrorMessage="Please select country"></asp:RequiredFieldValidator>
         </div>
          <div class="col-xs-4 form-group">
-            <asp:Label ID="Label5" Text="Detective *:" runat="server"> </asp:Label>
-            <asp:DropDownList ID="DropDownDetective" CssClass="form-control" runat="server" TabIndex="3">
+            <asp:Label ID="Label5" Text="Detective" runat="server"> </asp:Label>
+            <asp:DropDownList ID="DropDownDetective" CssClass="form-control mandatory" runat="server" TabIndex="3">
             </asp:DropDownList>
              <asp:RequiredFieldValidator InitialValue="0" ID="RequiredFieldValidator2"  runat="server" ControlToValidate="DropDownDetective"
     Text="Please select detective" ForeColor="Red" ErrorMessage="Please select state"></asp:RequiredFieldValidator>
@@ -58,13 +62,18 @@
         </div>
        
     </div>
+</div>
 
-    <div class="row">
+   <%-- <div class="row">
         --------------------------------------------------------------------------------------------------------------------------
-    </div>
+    </div>--%>
+
+
+
+<div class="poenaFormContainer poenaFormContainerWhite">
 
     <div class="row">
-        <div class="col-xs-12 form-group">
+        <div class="col-xs-12 form-group poenaformHeader">
             To: Office of the State Attorney  First judical Circuit :
         </div>
     </div>
@@ -88,7 +97,7 @@
 
 
     <div class="row">
-        <div class="col-xs-12 form-group">
+        <div class="col-xs-12 form-group poenaformHeader">
             ADE of the State Attomey, or his duly authorized Assistant, of the First Judical-gative assistance and.............as follows:
         </div>
     </div>
@@ -169,8 +178,23 @@
         </div>
     </div>
 
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="poenaFormContainergrey">
     <div class="row">
-        <div class="col-sm-12 Pageheader">
+        <div class="col-sm-12 poenaformHeader">
             <asp:Label ID="lblSubheading"  runat="server" Text="AUTHORIZATION:"></asp:Label>
         </div>
     </div>
@@ -182,16 +206,16 @@
     </div>
     <div class="row">
         <div class="col-xs-6 form-group">
-            <asp:Label ID="Label19" Text="Representive</br>Signature<br>(Required)" runat="server"> </asp:Label>
-            <asp:TextBox ID="txtRepresentativeSig" CssClass="form-control" runat="server"></asp:TextBox>
+            <asp:Label ID="Label19" Text="Representive Signature<br>(Required)" runat="server"> </asp:Label>
+            <asp:TextBox ID="txtRepresentativeSig" CssClass="form-control mandatory" runat="server"></asp:TextBox>
         </div>
         <div class="col-xs-6 form-group">
-            <asp:Label ID="Label20" Text="Supervisor</br>Signature<br>(Required)" runat="server"> </asp:Label>
-            <asp:TextBox ID="txtSupervisorSig" CssClass="form-control" runat="server"></asp:TextBox>
+            <asp:Label ID="Label20" Text="Supervisor Signature<br>(Required)" runat="server"> </asp:Label>
+            <asp:TextBox ID="txtSupervisorSig" CssClass="form-control mandatory" runat="server"></asp:TextBox>
         </div>
     </div>
     <div>
-        ___________________________________________________________________________________________________________________________
+       <hr />
     </div>
     <div class="row">
         <div class="col-xs-12 form-group">
@@ -200,16 +224,14 @@
     </div>
 
     <div class="row">
-        <div class="col-xs-4 form-group">
+        <div class="col-xs-4 form-group buttonContainer">
             <asp:Button ID="btnSave" CssClass="FormButtonImp" runat="server" Text="Save" OnClick="btnSave_Click" />
-        </div>
-        <div class="col-xs-4 form-group">
             <asp:Button ID="bntPreview" CssClass="FormButtonImp" runat="server" Text="Preview" OnClick="bntPreview_Click" />
-        </div>
-        <div class="col-xs-4 form-group">
             <asp:Button ID="bntSubmit" CssClass="FormButtonImp" runat="server" Text="Submit" OnClick="bntSubmit_Click" />
         </div>
+        
     </div>
+</div>
     
     <%--<script type="text/javascript">
         $(document).ready(function () {

@@ -670,41 +670,7 @@ box-shadow: 0px 1px 1px #e0e0e0 inset;
 }
 .formLink
 {
-   color: #fff;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 14px !important;
-    text-transform: uppercase;
-    background-color: #2d2d38;
-    padding: 9px 10px;
-    margin-top: 20px;
-    border-radius: 4px;
-    text-decoration:none;
-    float:right;
-    transition: all 1.5s ease;
-    
-}
-.formLink:hover
-{
-    background-color: #acda2d;
-    text-decoration:none;
-    color: #fff !important;
-     transition: all 0.5s ease;
-    
-}
-a span
-{
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
-    color: #fff !important;
-}
-.linksPanel
-{
-    float: right !important;
-    margin: 0px !important;
-}
-.linksPanel a
-{
-    margin-left:5px !important;
-    margin-top:5px !important;
+    color:#fff;
 }
 
 /***********************************/

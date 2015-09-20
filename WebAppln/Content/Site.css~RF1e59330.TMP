@@ -696,16 +696,6 @@ a span
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
     color: #fff !important;
 }
-.linksPanel
-{
-    float: right !important;
-    margin: 0px !important;
-}
-.linksPanel a
-{
-    margin-left:5px !important;
-    margin-top:5px !important;
-}
 
 /***********************************/
 .formLineDivInv
