@@ -83,14 +83,5 @@ namespace WebAppln {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btn_SignIn;
-        
-        /// <summary>
-        /// ForgotPassword_ModalPopupExtender control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::AjaxControlToolkit.ModalPopupExtender ForgotPassword_ModalPopupExtender;
     }
 }

@@ -64,3 +64,8 @@ D:\Test\subpeona\Net\Subpoena-master\Subpoena-master\LINQ\bin\Debug\LINQ.dll
 D:\Test\subpeona\Net\Subpoena-master\Subpoena-master\LINQ\bin\Debug\LINQ.pdb
 D:\Test\subpeona\Net\Subpoena-master\Subpoena-master\LINQ\obj\Debug\LINQ.dll
 D:\Test\subpeona\Net\Subpoena-master\Subpoena-master\LINQ\obj\Debug\LINQ.pdb
+E:\Test2\GITHUB\SubPoena\Subpoena\LINQ\bin\Debug\LINQ.dll.config
+E:\Test2\GITHUB\SubPoena\Subpoena\LINQ\bin\Debug\LINQ.dll
+E:\Test2\GITHUB\SubPoena\Subpoena\LINQ\bin\Debug\LINQ.pdb
+E:\Test2\GITHUB\SubPoena\Subpoena\LINQ\obj\Debug\LINQ.dll
+E:\Test2\GITHUB\SubPoena\Subpoena\LINQ\obj\Debug\LINQ.pdb
