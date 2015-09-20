@@ -115,6 +115,7 @@ namespace Website.Pages
             var stsubpoeanrs =
                 from c in db.TblSubpoenaFrms
                 where c.SaveType == "Save"
+                && c.CreatedBy == Session["UserEmail"].ToString().Trim()
                 select c;
 
             if (stsubpoeanrs.Count() > 0)
@@ -174,8 +175,8 @@ namespace Website.Pages
             //    && txtNatureofBsns1.Text.Trim() != string.Empty && txtAddr1.Text.Trim() != string.Empty)
             string queryautonum = " select isnull(MAX(CaseId),0)+1 from TblSubpoenaFrm where  ISNUMERIC(CaseId)=1";
             DataSet Result = DbConnection.GetMultitableTableData(queryautonum);
-            try
-            {
+            //try
+            //{
                 if (btnSave.Text.Equals("Save"))
                 {
 
@@ -206,7 +207,6 @@ namespace Website.Pages
                             Sbf.RecordsPertainTo = txtRecordsPertainTo.Text.Trim();
                             Sbf.AddressIndividualBusiness = txtAddressIndividualBusiness.Text.Trim();
                             Sbf.CrimeUnderInvestigation = txtCrimeUnderInvestigation.Text.Trim();
-
                             Sbf.FSS = txtFSS.Text.Trim();
                             Sbf.Suspect = txtSuspect.Text.Trim();
                             Sbf.Offense = txtOffense.Text.Trim();
@@ -277,10 +277,10 @@ namespace Website.Pages
                 }
                 Response.Redirect("SubpoenaProducers.aspx");
                 return;
-            }
-            catch(Exception Ex)
-            {
-            }
+          //  }
+            //catch(Exception Ex)
+            //{
+            //}
 
         }
 
@@ -1257,7 +1257,9 @@ namespace Website.Pages
             txtSubpoenaName.Text=stsubpoeanrs.SubpoenaName;
             DrpDwnState.SelectedValue=stsubpoeanrs.StateId.ToString();
             DrpDwnCounty.SelectedValue=stsubpoeanrs.CountyId.ToString();
+         //   if(DropDownDetective.Attributes.
             DropDownDetective.SelectedValue = stsubpoeanrs.DetectiveId.ToString();
+       //     DropDownDetective.SelectedItem.Text = stsubpoeanrs.DetativeName.ToString();
             txtSupervisor.Text=stsubpoeanrs.Supervisor;
             txtRepresentative.Text=stsubpoeanrs.Representative;
             txtDate.Text=stsubpoeanrs.Date.ToString();
@@ -1448,5 +1450,24 @@ namespace Website.Pages
         //    Response.Close();
         //}
 
+
+        //////// Added By Rahul //////////
+        protected void OnchangeDrpDwnState(object sender, EventArgs e)
+        {
+
+            AccreditationDataContext db = new AccreditationDataContext();
+            db.Connection.ConnectionString = System.Configuration.ConfigurationManager.AppSettings["constr"];
+            var userState =
+                from c1 in db.TblCounties
+                where c1.StateId == Convert.ToInt16(DrpDwnState.SelectedItem.Value)
+                select c1;
+            DrpDwnCounty.DataSource = userState;
+            DrpDwnCounty.DataTextField = "CountyName";
+            DrpDwnCounty.DataValueField = "CountyId";
+            DrpDwnCounty.DataBind();
+            DrpDwnCounty.Items.Insert(0, new System.Web.UI.WebControls.ListItem("----Select State----", "0"));
+
+
+        }
     }
 }

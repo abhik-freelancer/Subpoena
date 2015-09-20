@@ -6,12 +6,12 @@
         
            
         <div class="col-xs-4 form-group">
-            <asp:Label ID="Label4" Text="Open A Saved Subpoeana" runat="server"> </asp:Label>
+            <asp:Label ID="Label4" Text="Open A Saved Subpoena" runat="server"> </asp:Label>
             <asp:DropDownList ID="ExistingSubpoeanaList" CssClass="form-control" runat="server" OnSelectedIndexChanged="OnchangeexistingSubPoeana" AutoPostBack="true" TabIndex="2">
             </asp:DropDownList>
         </div>
          <div class="col-xs-4 form-group">
-             <asp:Label ID="Label21" Text="Choose Subpoeana Tempalte" runat="server"> </asp:Label>
+             <asp:Label ID="Label21" Text="Choose Subpoena Template" runat="server"> </asp:Label>
             <asp:DropDownList ID="ChooseSubpoeanaTempalte" CssClass="form-control" runat="server" OnSelectedIndexChanged="ChooseSubpoeanaTempalteSubPoeana" AutoPostBack="true" TabIndex="2">
                 <asp:ListItem Text="Subpoena Duces Tecum" Value="0" />
                 <asp:ListItem Text="Subpoena Duces Tecum 1" Value="1" />
@@ -26,8 +26,10 @@
     <div class="row">
         <input type="hidden" runat="server" ID="txtEditSubpoeanaId" value="" />
         <div class="col-xs-4 form-group">
-            <asp:Label ID="Label23" Text="State" runat="server"> </asp:Label>
-            <asp:DropDownList ID="DrpDwnState" CssClass="form-control mandatory" runat="server" TabIndex="2">
+
+            <asp:Label ID="Label23" Text="State *:" runat="server"> </asp:Label>
+            <asp:DropDownList ID="DrpDwnState" CssClass="form-control mandatory" runat="server" TabIndex="2" AutoPostBack="True" OnSelectedIndexChanged="OnchangeDrpDwnState">
+
             </asp:DropDownList>
             <asp:RequiredFieldValidator InitialValue="0" ID="RequiredFieldValidator3"  runat="server" ControlToValidate="DrpDwnState"
     Text="Please select state" ForeColor="Red" ErrorMessage="Please select state"></asp:RequiredFieldValidator> 
@@ -74,7 +76,7 @@
 
     <div class="row">
         <div class="col-xs-12 form-group poenaformHeader">
-            To: Office of the State Attorney  First judical Circuit :
+            To: Office of the State Attorney  First judical Circuit:
         </div>
     </div>
     <div class="row">

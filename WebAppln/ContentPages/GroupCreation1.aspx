@@ -66,7 +66,7 @@ Inherits="Website.Pages.GroupCreation1" Title=":: Group Creation ::" %>
             <asp:Label text="State *:" runat="server"> </asp:Label>
               </div>
         <div class="col-xs-9 form-group">
-            <asp:DropDownList ID="DropDownState" CssClass="form-control" runat="server" TabIndex="5">
+            <asp:DropDownList ID="DropDownState" CssClass="form-control" runat="server" TabIndex="5" AutoPostBack="True" OnSelectedIndexChanged="DropDownState_SelectedIndexChanged">
                     </asp:DropDownList>   
 
             <asp:RequiredFieldValidator InitialValue="0" ID="Req_ID"  runat="server" ControlToValidate="DropDownState"
