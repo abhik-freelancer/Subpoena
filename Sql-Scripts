@@ -1,1 +1,5 @@
---Sql Alter and creation-
+--Sql Alter and creation--
+
+ALTER table [dbo].[TblCounty] ADD [StateId1] int NULL;
+ALTER TABLE [TblSubpoenaFrm] ADD SupervisorSignatureRequired VARCHAR(500);
+ALTER TABLE [TblSubpoenaFrm] ADD DisclaimerYes VARCHAR(500);
