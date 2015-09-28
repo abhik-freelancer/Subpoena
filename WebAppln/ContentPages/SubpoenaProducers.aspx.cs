@@ -45,7 +45,10 @@ namespace Website.Pages
            
 
         }
-
+/**
+*@method TblUserRegistration CurrentUser
+*
+*/
         public TblUserRegistration CurrentUser
         {
             get
