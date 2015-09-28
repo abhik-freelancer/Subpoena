@@ -1265,7 +1265,7 @@ namespace Website.Pages
             CreatePdfFile(pdfFileName);
 
             //var userRegDetect = objDB.TblUserRegistrations.Where(x => x.UserId == Convert.ToInt16(DropDownDetective.SelectedItem.Value)).FirstOrDefault();
-            //SendMail(userRegDetect.UserEmail, userRegDetect.UserFirstName, subpoeanaCuurId, userRegDetect.Group);
+            SendMail(userRegDetect.UserEmail, userRegDetect.UserFirstName, subpoeanaCuurId, userRegDetect.Group);
 
             Response.Redirect("SubpoenaProducers.aspx");
             return;
@@ -1275,7 +1275,7 @@ namespace Website.Pages
         protected void SendMail(string YourEmail, string name, int subpoeanaCuurId, int groupid)
         {
 
-/*
+
             AccreditationDataContext db = new AccreditationDataContext();
             db.Connection.ConnectionString = System.Configuration.ConfigurationManager.AppSettings["constr"];
             var stsubpoeanrs =
@@ -1295,7 +1295,7 @@ namespace Website.Pages
                  ).FirstOrDefault();
 
 
-            YourEmail = "friend.rahul.rch@gmail.com";
+            YourEmail = "adminsubpoena@thethinkerz.co";
             string server_domain = ConfigurationManager.AppSettings["DomainName"];
             string mailFrom = ConfigurationManager.AppSettings["VerificationSenderEmail"];
             string password = ConfigurationManager.AppSettings["EmailPassword"];
@@ -1308,7 +1308,6 @@ namespace Website.Pages
             SmtpClient SmtpServer = new SmtpClient(server_domain);
             mail.From = new MailAddress(mailFrom, dispname);
             mail.To.Add(YourEmail);
-            //mail.To.Add("kajalhazra08@gmail.com");
             mail.Subject = "Notification Subpoena ";
             mail.Body += " <html>";
             mail.Body += "<body>";
@@ -1353,10 +1352,10 @@ namespace Website.Pages
             mail.IsBodyHtml = true;
             SmtpServer.Port = emailport;
             SmtpServer.Credentials = new System.Net.NetworkCredential(mailFrom, password);
-            SmtpServer.EnableSsl = true;
+           // SmtpServer.EnableSsl = true;
             SmtpServer.Send(mail);
 
-            MailMessage mailmsg = new MailMessage();
+           /* MailMessage mailmsg = new MailMessage();
             mailmsg.From = new MailAddress("aveekweb@gmail.com");
             mailmsg.Subject = "test";
             mailmsg.Body = "abc";
@@ -1371,8 +1370,8 @@ namespace Website.Pages
             smtp.UseDefaultCredentials = true;
             smtp.Credentials = NetworkCred;
             smtp.Port = 587;
-            smtp.Send(mailmsg);
-           */ 
+            smtp.Send(mailmsg);*/
+           
         }
 
         protected void OnchangeDrpDwnCounty(object sender, EventArgs e)
