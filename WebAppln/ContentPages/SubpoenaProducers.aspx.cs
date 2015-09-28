@@ -47,7 +47,7 @@ namespace Website.Pages
         }
 /**
 *@method TblUserRegistration CurrentUser
-*
+*@date 28-09-2015
 */
         public TblUserRegistration CurrentUser
         {
