@@ -91,3 +91,10 @@ E:\Test2\GITHUB\SubPoena\Subpoena\BLL\obj\Debug\BLL.pdb
 E:\Test2\GITHUB\SubPoena\Subpoena\BLL\bin\Debug\LINQ.dll
 E:\Test2\GITHUB\SubPoena\Subpoena\BLL\bin\Debug\LINQ.pdb
 E:\Test2\GITHUB\SubPoena\Subpoena\BLL\obj\Debug\BLL.csprojResolveAssemblyReference.cache
+D:\Subpoena\Subpoena\BLL\bin\Debug\BLL.dll
+D:\Subpoena\Subpoena\BLL\bin\Debug\BLL.pdb
+D:\Subpoena\Subpoena\BLL\bin\Debug\LINQ.dll
+D:\Subpoena\Subpoena\BLL\bin\Debug\LINQ.pdb
+D:\Subpoena\Subpoena\BLL\obj\Debug\BLL.csprojResolveAssemblyReference.cache
+D:\Subpoena\Subpoena\BLL\obj\Debug\BLL.dll
+D:\Subpoena\Subpoena\BLL\obj\Debug\BLL.pdb

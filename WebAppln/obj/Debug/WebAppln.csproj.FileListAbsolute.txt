@@ -497,3 +497,13 @@ E:\Test2\GITHUB\SubPoena\Subpoena\WebAppln\bin\LINQ.pdb
 E:\Test2\GITHUB\SubPoena\Subpoena\WebAppln\obj\Debug\WebAppln.csprojResolveAssemblyReference.cache
 E:\Test2\GITHUB\SubPoena\Subpoena\WebAppln\obj\Debug\WebAppln.dll
 E:\Test2\GITHUB\SubPoena\Subpoena\WebAppln\obj\Debug\WebAppln.pdb
+D:\Subpoena\Subpoena\WebAppln\bin\WebAppln.dll
+D:\Subpoena\Subpoena\WebAppln\bin\WebAppln.pdb
+D:\Subpoena\Subpoena\WebAppln\bin\BLL.dll
+D:\Subpoena\Subpoena\WebAppln\bin\LINQ.dll
+D:\Subpoena\Subpoena\WebAppln\bin\Microsoft.ScriptManager.jQuery.UI.Combined.dll
+D:\Subpoena\Subpoena\WebAppln\bin\BLL.pdb
+D:\Subpoena\Subpoena\WebAppln\bin\LINQ.pdb
+D:\Subpoena\Subpoena\WebAppln\obj\Debug\WebAppln.csprojResolveAssemblyReference.cache
+D:\Subpoena\Subpoena\WebAppln\obj\Debug\WebAppln.dll
+D:\Subpoena\Subpoena\WebAppln\obj\Debug\WebAppln.pdb

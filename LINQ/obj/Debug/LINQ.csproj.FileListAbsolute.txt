@@ -69,3 +69,9 @@ E:\Test2\GITHUB\SubPoena\Subpoena\LINQ\bin\Debug\LINQ.dll
 E:\Test2\GITHUB\SubPoena\Subpoena\LINQ\bin\Debug\LINQ.pdb
 E:\Test2\GITHUB\SubPoena\Subpoena\LINQ\obj\Debug\LINQ.dll
 E:\Test2\GITHUB\SubPoena\Subpoena\LINQ\obj\Debug\LINQ.pdb
+D:\Subpoena\Subpoena\LINQ\bin\Debug\LINQ.dll.config
+D:\Subpoena\Subpoena\LINQ\bin\Debug\LINQ.dll
+D:\Subpoena\Subpoena\LINQ\bin\Debug\LINQ.pdb
+D:\Subpoena\Subpoena\LINQ\obj\Debug\LINQ.csprojResolveAssemblyReference.cache
+D:\Subpoena\Subpoena\LINQ\obj\Debug\LINQ.dll
+D:\Subpoena\Subpoena\LINQ\obj\Debug\LINQ.pdb
