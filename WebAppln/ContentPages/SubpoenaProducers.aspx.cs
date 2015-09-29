@@ -20,6 +20,8 @@ using iTextSharp.text.html;
 using System.Net;
 using System.Web.Services;
 using System.Net.Mail;
+using BLL;
+
 
 
 namespace Website.Pages
@@ -192,6 +194,7 @@ namespace Website.Pages
             //{
             if (btnSave.Text.Equals("Save"))
             {
+             //   Constants cons = new Constants();
 
                 if (txtEditSubpoeanaId.Value != null && txtEditSubpoeanaId.Value != "" && int.Parse(txtEditSubpoeanaId.Value.ToString()) > 0)
                 {
@@ -214,7 +217,8 @@ namespace Website.Pages
                         // DetativeName = txtAddr1.Text.Trim(),
                         Sbf.OfficialName = "Test name";
                         Sbf.DetativeName = "Test";
-                        Sbf.Status = "New";
+                        
+                     //   Sbf.Status = Constants.Status.NEW.ToString();
                         Sbf.SaveType = "Save";
                         Sbf.Date = (txtDate.Text.Trim().ToString().Length > 0) ? Convert.ToDateTime(txtDate.Text.Trim()) : System.DateTime.Now;
                         Sbf.Custodian = txtCustodian.Text.Trim();
@@ -272,7 +276,7 @@ namespace Website.Pages
                             // DetativeName = txtAddr1.Text.Trim(),
                             OfficialName = "Test name",
                             DetativeName = "Test",
-                            Status = "New",
+                            Status = Constants.Status.NEW.ToString(),
                             SaveType = "Save",
                             Date = (txtDate.Text.Trim().ToString().Length > 0) ? Convert.ToDateTime(txtDate.Text.Trim()) : System.DateTime.Now,
                             Custodian = txtCustodian.Text.Trim(),
@@ -906,7 +910,7 @@ namespace Website.Pages
             
 
             cellH1 = new PdfPCell(new Phrase("Supervisor Signature (Required)" + "\n" + "______________________________", contentFont5));
-            cellH1.HorizontalAlignment = Element.ALIGN_LEFT;
+            cellH1.HorizontalAlignment = Element.ALIGN_RIGHT;
             cellH1.BorderWidthTop = 0;
             cellH1.BorderWidthLeft = 0;
             cellH1.BorderWidthRight = 0;
@@ -925,35 +929,37 @@ namespace Website.Pages
 
 
             //================3==================================
+            string imagepath = Server.MapPath("../ContentPages/Uploads/Signature/");
             if (HypRepSig.Text != "")
             {
-                string imagepath = Server.MapPath("../ContentPages/Uploads/Signature/");
+               
                 iTextSharp.text.Image gif = iTextSharp.text.Image.GetInstance(imagepath + HypRepSig.Text);
-                //cellH1 = new PdfPCell(new Phrase(gif));
-                //cellH1.HorizontalAlignment = Element.ALIGN_RIGHT;
-                //cellH1.BorderWidthTop = 0;
-                //cellH1.BorderWidthLeft = 0;
-                //cellH1.BorderWidthRight = 0;
-                //cellH1.BorderWidthBottom = 0;
-                //cellH1.Colspan = 11;
-                //     gif.ScalePercent(50f);
-                gif.SetAbsolutePosition(250, 300);
-
-                tableH1.AddCell(gif);
+                cellH1 = new PdfPCell(new Phrase("Signature"));
+                gif.ScaleToFit(150, 75);
+                cellH1.HorizontalAlignment = Element.ALIGN_LEFT;
+                cellH1.BorderWidthTop = 0;
+                cellH1.BorderWidthLeft = 0;
+                cellH1.BorderWidthRight = 0;
+                cellH1.BorderWidthBottom = 0;
+                cellH1.AddElement(gif);
+                cellH1.Colspan = 9;
+                tableH1.AddCell(cellH1);
             }
             //================3==================================
-//            string imagepath1 = Server.MapPath("../ContentPages/Uploads/Signature/");
-        //    iTextSharp.text.Image SupGif = iTextSharp.text.Image.GetInstance(imagepath + HypSupSig.Text); 
-            //cellH1.HorizontalAlignment = Element.ALIGN_RIGHT;
-            //cellH1.BorderWidthTop = 0;
-            //cellH1.BorderWidthLeft = 0;
-            //cellH1.BorderWidthRight = 0;
-            //cellH1.BorderWidthBottom = 0;
-            //cellH1.Colspan = 11;
-           // SupGif.ScalePercent(50f);
-       //     SupGif.SetAbsolutePosition(250,300);
-       //     tableH1.AddCell(SupGif);
-
+            if (HypSupSig.Text != "")
+            {
+                iTextSharp.text.Image SupGif = iTextSharp.text.Image.GetInstance(imagepath + HypSupSig.Text);
+                cellH1 = new PdfPCell(new Phrase("Signature"));
+                SupGif.ScaleToFit(150, 75);
+                cellH1.HorizontalAlignment = Element.ALIGN_RIGHT;
+                cellH1.BorderWidthTop = 0;
+                cellH1.BorderWidthLeft = 0;
+                cellH1.BorderWidthRight = 0;
+                cellH1.BorderWidthBottom = 0;
+                cellH1.AddElement(SupGif);
+                cellH1.Colspan = 6;
+                tableH1.AddCell(cellH1);
+            }
             
             //================3==================================
             cellH1 = new PdfPCell(new Phrase(txtRepresentativeSig.Text, contentFont5));
@@ -962,7 +968,7 @@ namespace Website.Pages
             cellH1.BorderWidthLeft = 0;
             cellH1.BorderWidthRight = 0;
             cellH1.BorderWidthBottom = 0;
-            cellH1.Colspan = 6;
+           // cellH1.Colspan = 6;
             tableH1.AddCell(cellH1);
 
             //================3==================================
@@ -1264,7 +1270,7 @@ namespace Website.Pages
 
             CreatePdfFile(pdfFileName);
 
-            //var userRegDetect = objDB.TblUserRegistrations.Where(x => x.UserId == Convert.ToInt16(DropDownDetective.SelectedItem.Value)).FirstOrDefault();
+            var userRegDetect = objDB.TblUserRegistrations.Where(x => x.UserId == Convert.ToInt16(DropDownDetective.SelectedItem.Value)).FirstOrDefault();
             SendMail(userRegDetect.UserEmail, userRegDetect.UserFirstName, subpoeanaCuurId, userRegDetect.Group);
 
             Response.Redirect("SubpoenaProducers.aspx");
@@ -1275,8 +1281,7 @@ namespace Website.Pages
         protected void SendMail(string YourEmail, string name, int subpoeanaCuurId, int groupid)
         {
 
-
-            AccreditationDataContext db = new AccreditationDataContext();
+        /*    AccreditationDataContext db = new AccreditationDataContext();
             db.Connection.ConnectionString = System.Configuration.ConfigurationManager.AppSettings["constr"];
             var stsubpoeanrs =
                 (from c in db.TblSubpoenaFrms
@@ -1295,7 +1300,7 @@ namespace Website.Pages
                  ).FirstOrDefault();
 
 
-            YourEmail = "adminsubpoena@thethinkerz.co";
+            YourEmail = "friend.rahul.rch@gmail.com";
             string server_domain = ConfigurationManager.AppSettings["DomainName"];
             string mailFrom = ConfigurationManager.AppSettings["VerificationSenderEmail"];
             string password = ConfigurationManager.AppSettings["EmailPassword"];
@@ -1354,26 +1359,31 @@ namespace Website.Pages
             SmtpServer.Credentials = new System.Net.NetworkCredential(mailFrom, password);
            // SmtpServer.EnableSsl = true;
             SmtpServer.Send(mail);
+    */
+            var fromAddress = new MailAddress("adminsubpoena@thethinkerz.co", "From Name");
+            var toAddress = new MailAddress("aveekweb@gmail.com", "To Name");
+            const string fromPassword = "subpoena@123";
+            const string subject = "Subject";
+            const string body = "Body";
 
-           /* MailMessage mailmsg = new MailMessage();
-            mailmsg.From = new MailAddress("aveekweb@gmail.com");
-            mailmsg.Subject = "test";
-            mailmsg.Body = "abc";
-            mailmsg.IsBodyHtml = true;
-            mailmsg.To.Add(new MailAddress("amiabhik@gmail.com"));
-            SmtpClient smtp = new SmtpClient();
-            smtp.Host = "smtp.gmail.com";
-            smtp.EnableSsl = true;
-            NetworkCredential NetworkCred = new NetworkCredential();
-            NetworkCred.UserName = mailmsg.From.Address;
-            NetworkCred.Password = "creative#321";
-            smtp.UseDefaultCredentials = true;
-            smtp.Credentials = NetworkCred;
-            smtp.Port = 587;
-            smtp.Send(mailmsg);*/
-           
+            var smtp = new SmtpClient
+            {
+                Host = "Smtpout.secureserver.net",// "smtp.gmail.com",
+                //Port = 465,
+                //EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
+            };
+            using (var message = new MailMessage(fromAddress, toAddress)
+            {
+                Subject = subject,
+                Body = body
+            })
+            {
+                smtp.Send(message);
+            }
         }
-
         protected void OnchangeDrpDwnCounty(object sender, EventArgs e)
         {
             PupulateGroup();

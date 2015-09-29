@@ -342,6 +342,17 @@ namespace BLL
         }
         #endregion
 
+        #region Enum Status
+
+        public enum Status
+        {
+            NEW,
+            YES,
+            NO,
+            MAYBE
+        }
+        #endregion
+
         #region Enum Operation
 
         public enum Operation
