@@ -1277,11 +1277,15 @@ namespace Website.Pages
             return;
         }
 
-
+        /*
+         *@Date: 30-09-2015 *
+         *@desc :This Section for sending a mail to detective mail id.
+         */
         protected void SendMail(string YourEmail, string name, int subpoeanaCuurId, int groupid)
         {
 
-        /*    AccreditationDataContext db = new AccreditationDataContext();
+        
+            AccreditationDataContext db = new AccreditationDataContext();
             db.Connection.ConnectionString = System.Configuration.ConfigurationManager.AppSettings["constr"];
             var stsubpoeanrs =
                 (from c in db.TblSubpoenaFrms
@@ -1299,70 +1303,53 @@ namespace Website.Pages
 
                  ).FirstOrDefault();
 
-
-            YourEmail = "friend.rahul.rch@gmail.com";
-            string server_domain = ConfigurationManager.AppSettings["DomainName"];
-            string mailFrom = ConfigurationManager.AppSettings["VerificationSenderEmail"];
-            string password = ConfigurationManager.AppSettings["EmailPassword"];
-            int emailport = Convert.ToInt32(ConfigurationManager.AppSettings["EmailPort"]);
-            string dispname = ConfigurationManager.AppSettings["dispname"];
-
             string SiteRoot = ConfigurationManager.AppSettings["SiteRoot"];
+            string MailBody = "";
+            MailBody += " <html>";
+            MailBody += "<body>";
 
-            MailMessage mail = new MailMessage();
-            SmtpClient SmtpServer = new SmtpClient(server_domain);
-            mail.From = new MailAddress(mailFrom, dispname);
-            mail.To.Add(YourEmail);
-            mail.Subject = "Notification Subpoena ";
-            mail.Body += " <html>";
-            mail.Body += "<body>";
+            MailBody += "<table cellspacing='5' cellpadding='4' style='width:100%;border:1px solid rgba(0, 0, 0, 0.95)'>";
+            MailBody += "<tr>";
+            MailBody += " <td align='right'>Case Id :</td>";
+            MailBody += " <td >" + stsubpoeanrs.CaseId + "</td>";
 
-            mail.Body += "<table cellspacing='5' cellpadding='4' style='width:100%;border:1px solid rgba(0, 0, 0, 0.95)'>";
-            mail.Body += "<tr>";
-            mail.Body += " <td align='right'>Case Id :</td>";
-            mail.Body += " <td >" + stsubpoeanrs.CaseId + "</td>";
+            MailBody += " </tr>";
+            MailBody += "<tr>";
+            MailBody += " <td align='right'>When :</td>";
+            MailBody += "<td>" + stsubpoeanrs.When + "</td>";
 
-            mail.Body += " </tr>";
-            mail.Body += "<tr>";
-            mail.Body += " <td align='right'>When :</td>";
-            mail.Body += "<td>" + stsubpoeanrs.When + "</td>";
+            MailBody += " </tr>";
+            MailBody += " <tr>";
+            MailBody += " <td align='right'>Where :</td>";
+            MailBody += " <td>" + stsubpoeanrs.Wherefrom + "</td>";
 
-            mail.Body += " </tr>";
-            mail.Body += " <tr>";
-            mail.Body += " <td align='right'>Where :</td>";
-            mail.Body += " <td>" + stsubpoeanrs.Wherefrom + "</td>";
+            MailBody += "</tr>";
 
-            mail.Body += "</tr>";
+            MailBody += " <tr>";
+            MailBody += "  <td align='right'>Calendar :</td>";
+            MailBody += " <td>" + stsubpoeanrs.CalendarText + "</td>";
 
-            mail.Body += " <tr>";
-            mail.Body += "  <td align='right'>Calendar :</td>";
-            mail.Body += " <td>" + stsubpoeanrs.CalendarText + "</td>";
+            MailBody += "</tr>";
+            MailBody += "<tr>";
+            MailBody += " <td align='right'>Who :</td>";
+            MailBody += " <td>None</td>";
 
-            mail.Body += "</tr>";
-            mail.Body += "<tr>";
-            mail.Body += " <td align='right'>Who :</td>";
-            mail.Body += " <td>None</td>";
+            MailBody += " </tr>";
 
-            mail.Body += " </tr>";
+            MailBody += " <tr>";
+            MailBody += "  <td align='right'>Going ?</td>";
+            MailBody += " <td><a href='" + SiteRoot + "ActiveSupoena.aspx?Status=Yes&subpoeanaId=" + stsubpoeanrs.SubpoenaFrmId + "'>Yes</a> &nbsp;&nbsp; <a href='" + SiteRoot + "ActiveSupoena.aspx?Status=No&subpoeanaId=" + stsubpoeanrs.SubpoenaFrmId + "'>No</a></td>";
 
-            mail.Body += " <tr>";
-            mail.Body += "  <td align='right'>Going ?</td>";
-            mail.Body += " <td><a href='" + SiteRoot + "ActiveSupoena.aspx?Status=Yes&subpoeanaId=" + stsubpoeanrs.SubpoenaFrmId + "'>Yes</a> &nbsp;&nbsp; <a href='" + SiteRoot + "ActiveSupoena.aspx?Status=No&subpoeanaId=" + stsubpoeanrs.SubpoenaFrmId + "'>No</a></td>";
+            MailBody += "</tr>";
 
-            mail.Body += "</tr>";
+            MailBody += "</table>";
+            MailBody += "</body>";
+            MailBody += "</html>";
 
-            mail.Body += "</table>";
-            mail.Body += "</body>";
-            mail.Body += "</html>";
-            mail.IsBodyHtml = true;
-            SmtpServer.Port = emailport;
-            SmtpServer.Credentials = new System.Net.NetworkCredential(mailFrom, password);
-           // SmtpServer.EnableSsl = true;
-            SmtpServer.Send(mail);
-    */
-            var fromAddress = new MailAddress("adminsubpoena@thethinkerz.co", "From Name");
-            var toAddress = new MailAddress("aveekweb@gmail.com", "To Name");
-            const string fromPassword = "subpoena@123";
+            var fromAddress = new MailAddress(ConfigurationManager.AppSettings["VerificationSenderEmail"], "Subpoena");
+            var toAddress = new MailAddress(YourEmail, name);
+
+            string fromPassword = ConfigurationManager.AppSettings["EmailPassword"]; //"subpoena@123";
             const string subject = "Subject";
             const string body = "Body";
 
@@ -1378,12 +1365,14 @@ namespace Website.Pages
             using (var message = new MailMessage(fromAddress, toAddress)
             {
                 Subject = subject,
-                Body = body
+                Body = MailBody,
+                IsBodyHtml=true
             })
             {
                 smtp.Send(message);
             }
         }
+        // End Mail Function
         protected void OnchangeDrpDwnCounty(object sender, EventArgs e)
         {
             PupulateGroup();
