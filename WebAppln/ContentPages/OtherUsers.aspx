@@ -1,9 +1,9 @@
 ﻿<%@ Page Language="C#" MasterPageFile="../Site.master" AutoEventWireup="true" CodeBehind="OtherUsers.aspx.cs" 
-Inherits="Website.Pages.OtherUsers" Title=":: PageforOtherUsers::" %>
+Inherits="WebAppln.ContentPages.OtherUsers" Title=":: PageforOtherUsers::" %>
 
+   <asp:Content ID="Content22" ContentPlaceHolderID="MainContent" runat="server">
     
-<asp:Content ID="Content22" ContentPlaceHolderID="MainContent" runat="server">
-    
+    <asp:TextBox class="txtAllCaseId" id="txtCaseIdAll" runat="server" type="text"  ></asp:TextBox>
     <div class="mainBgBx">
         <div class="page">
 
@@ -32,7 +32,7 @@ Inherits="Website.Pages.OtherUsers" Title=":: PageforOtherUsers::" %>
                     <div class="inBBB">
                         <div class="inGrup">
                             <label class="lblIt">Official</label>
-                          <asp:TextBox class="infldIt" runat="server" id="txtOfficial" type="text" ></asp:TextBox>
+                          <asp:TextBox class="infldIt" runat="server" id="txtOfficial" type="text" OnTextChanged="txtOfficial_TextChanged" ></asp:TextBox>
                         </div>
                         <div class="inGrup">
                             <label class="lblIt">Date</label>
@@ -87,8 +87,41 @@ Inherits="Website.Pages.OtherUsers" Title=":: PageforOtherUsers::" %>
         </div>
         <!--page-->
     </div>
-
+    <%--<script src="../Scripts/jquery-1.10.2.js"></script>--%>
+    <script src="../Scripts/jquery-ui-1.11.4.js"></script>
     <script type="text/javascript">
+
+        //Date Picker
+        $(function () {
+            $("#MainContent_txtDate").datepicker({
+                dateFormat: "yy-mm-dd"
+            });
+            $('#MainContent_txtCaseIdAll').hide();
+        });
+        function getres(res) {
+            var availableTags=  new Array();
+            for(i=0;i < res.length; i++)
+            {
+                 res[i];
+                availableTags.push(res[i]);
+            }
+      //      alert(availableTags);
+            return availableTags;
+        }
+        //End Date Picker
+        //case Id Auto Complete
+        $(function () {
+            var cases=$('#MainContent_txtCaseIdAll').val();
+            var res = cases.split(",");
+           // alert(res);
+          //  var availableTags = [
+            var availableTags=getres(res);
+         //   ];
+            $("#MainContent_txtCaseId").autocomplete({
+                source: availableTags
+            });
+        });
+        //EndCase Id Auto Complete
 
         // ----------------------------------------------------------------------------------------------------
         jQuery("#jqgrid").jqGrid({

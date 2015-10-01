@@ -19,11 +19,13 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 
-namespace Website.Pages
+namespace WebAppln.ContentPages
 {
+          
     // [PrincipalPermission(SecurityAction.Demand)]
     public partial class OtherUsers : System.Web.UI.Page
     {
+       
         public string sqlQuery = "";
         StringBuilder htmlTable = new StringBuilder();
 
@@ -55,20 +57,22 @@ namespace Website.Pages
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Session["GroupId"] == null || Session["UserEmail"] == null)
-            {
-                Response.Redirect("../Login.aspx");
-            }
-            if (!IsPostBack)
-            {
-                
+          
 
-                //HideForm();
-               // ViewData();
-            }
+       
+    if (Session["GroupId"] == null || Session["UserEmail"] == null)
+    {
+        Response.Redirect("../Login.aspx");
+    }
 
-        }
+    if (!IsPostBack)
+    {
+        GetAllCaseId();
 
+        //HideForm();
+        // ViewData();
+    }
+   }
         private void ViewData()
         {
             //<th>Case ID</th>
@@ -200,8 +204,36 @@ namespace Website.Pages
             }
         }
 
+    
 
+        protected void GetAllCaseId()
+        {
+            AccreditationDataContext db = new AccreditationDataContext();
+            db.Connection.ConnectionString = System.Configuration.ConfigurationManager.AppSettings["constr"];
+            var subpoena1 =
+                from c in db.TblSubpoenaFrms
+                
+                select c.CaseId;
+            string AllCaseId = "";
+            foreach (string CaseId in subpoena1)
+            {
+                if(AllCaseId !="")
+                AllCaseId += ",";
+                AllCaseId += CaseId.ToString();
+            }
+            //
+            if (txtCaseIdAll == null)
+            {
+                txtCaseIdAll = new TextBox();
+                txtCaseIdAll.ID="txtCaseIdAll";
+            }
+            txtCaseIdAll.Text = AllCaseId;
+        }
 
+        protected void txtOfficial_TextChanged(object sender, EventArgs e)
+        {
+
+        }
 
 
     }

@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Website.Pages {
+namespace WebAppln.ContentPages {
     
     
     public partial class OtherUsers {

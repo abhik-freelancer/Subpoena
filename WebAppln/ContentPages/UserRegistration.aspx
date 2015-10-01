@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" MasterPageFile="../Site.master" AutoEventWireup="true" CodeBehind="UserRegistration.aspx.cs"
-    Inherits="Website.Pages.UserResgistration" Title=":: Group Creation ::" %>
+    Inherits="Website.Pages.UserResgistration" Title=":: Group Creation ::" EnableViewState="true"  %>
 
 <asp:Content ID="Content22" ContentPlaceHolderID="MainContent" runat="server">
     <div class="container" style="float: left">
@@ -40,6 +40,28 @@
              <div class="col-xs-9 form-group">
             <asp:TextBox ID="txtEmail"  CssClass="form-control" runat="server"></asp:TextBox>
             <asp:RequiredFieldValidator runat="server" id="RequiredFieldValidator3" ForeColor="Red" controltovalidate="txtEmail" errormessage="Please enter Email !" />
+                 </div>
+        </div>
+        <div class="row">
+             <div class="col-xs-3 form-group">
+            <asp:Label ID="Label3" Text="State *:" runat="server"> </asp:Label>
+                 </div>
+             <div class="col-xs-9 form-group">
+            <asp:DropDownList ID="DropDownState"  CssClass="form-control" runat="server" TabIndex="4" AutoPostBack="True" OnSelectedIndexChanged="onChangeDropDownState" ViewStateMode="Enabled">
+            </asp:DropDownList>
+                 <asp:RequiredFieldValidator InitialValue="0" ID="RequiredFieldValidator5"  runat="server" ControlToValidate="DropDownGroup"
+    Text="Please select State" ForeColor="Red" ErrorMessage="Please select State"></asp:RequiredFieldValidator>  
+                 </div>
+        </div>
+        <div class="row">
+             <div class="col-xs-3 form-group">
+            <asp:Label ID="Label4" Text="County *:" runat="server"> </asp:Label>
+                 </div>
+             <div class="col-xs-9 form-group">
+            <asp:DropDownList ID="DropDownCounty"  CssClass="form-control" runat="server" TabIndex="4" AutoPostBack="True" OnSelectedIndexChanged="onChangeDropDownCounty">
+            </asp:DropDownList>
+                 <asp:RequiredFieldValidator InitialValue="0" ID="RequiredFieldValidator6"  runat="server" ControlToValidate="DropDownGroup"
+    Text="Please select County" ForeColor="Red" ErrorMessage="Please select County"></asp:RequiredFieldValidator>  
                  </div>
         </div>
         <div class="row">

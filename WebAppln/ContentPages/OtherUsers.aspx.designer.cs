@@ -7,10 +7,19 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Website.Pages {
+namespace WebAppln.ContentPages {
     
     
     public partial class OtherUsers {
+        
+        /// <summary>
+        /// txtCaseIdAll control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtCaseIdAll;
         
         /// <summary>
         /// txtCaseId control.

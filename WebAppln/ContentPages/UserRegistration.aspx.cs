@@ -14,29 +14,34 @@ using LINQ;
 using System.Security.Permissions;
 using System.Net.Mail;
 using System.Configuration;
+using System.Net;
+
 
 namespace Website.Pages
 {
-   // [PrincipalPermission(SecurityAction.Demand)]
+    // [PrincipalPermission(SecurityAction.Demand)]
     public partial class UserResgistration : System.Web.UI.Page
     {
-        
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Session["GroupId"] == null || Session["UserEmail"] == null)
             {
                 Response.Redirect("../Login.aspx");
             }
-            showGroup();
             if (!IsPostBack)
             {
+            showState();
+            showCounty();
+            showGroup();
+            
                 btnSubmit.Visible = true;
                 if (Request.QueryString["EditId"] != null && int.Parse(Request.QueryString["EditId"].ToString()) > 0)
                 {
                     ViewData(int.Parse(Request.QueryString["EditId"].ToString()));
                 }
             }
-            
+
         }
         public void ViewData(int editid)
         {
@@ -52,9 +57,9 @@ namespace Website.Pages
 
             txtLastName.Text = group.UserLastName;
             txtEmail.Text = group.UserEmail;
-           // DropDownGroup. = Convert.ToInt16(DropDownGroup.SelectedItem.Value);
+            // DropDownGroup. = Convert.ToInt16(DropDownGroup.SelectedItem.Value);
             //DropDownState.Text = group.Address1;
-           // txtZipcode.Text =Convert.ToInt16(DropDownGroup.SelectedItem.Value);
+            // txtZipcode.Text =Convert.ToInt16(DropDownGroup.SelectedItem.Value);
             // DropDownCountry.Text = group.Address1;
             hdneditId.Value = editid.ToString();
 
@@ -74,13 +79,9 @@ namespace Website.Pages
             }
 
             DropdownUserrole.SelectedValue = group.userRole.ToString();
-           // DropdownUserrole.DataBind();
-            
+            // DropdownUserrole.DataBind();
+
         }
-        
-
-       
-
         public void showGroup()
         {
             AccreditationDataContext db = new AccreditationDataContext();
@@ -97,29 +98,29 @@ namespace Website.Pages
                 DropDownGroup.DataBind();
                 DropDownGroup.Items.Insert(0, new ListItem("----Select group----", "0"));
             }
-            
+
         }
 
         protected void btnView_Click(object sender, EventArgs e)
         {
-           // ViewData();
+            // ViewData();
             HideForm();
         }
 
         private void HideForm()
         {
-           // tblForm.Visible = false;
+            // tblForm.Visible = false;
             //tblGrid.Visible = true;
             //btnView.Visible = false;
-           // btnAddNew.Visible = true;
+            // btnAddNew.Visible = true;
 
         }
         private void ShowForm()
         {
             //tblForm.Visible = true;
             //tblGrid.Visible = false;
-           // btnView.Visible = true;
-           // btnAddNew.Visible = false;
+            // btnView.Visible = true;
+            // btnAddNew.Visible = false;
         }
         private void ClearForm()
         {
@@ -128,7 +129,7 @@ namespace Website.Pages
             txtEmail.Text = "";
             DropDownGroup.SelectedIndex = 0;
 
-          //  DropDownGroup.Items.Insert(0, "----Select Group----");           
+            //  DropDownGroup.Items.Insert(0, "----Select Group----");           
 
 
         }
@@ -157,79 +158,42 @@ namespace Website.Pages
         {
             //if (txtFirstName.Text.Trim().Length > 0 && txtLastName.Text.Trim().Length > 0 && txtEmail.Text.Trim().Length > 0 && DropDownGroup.SelectedIndex > 0)
             //{
-                if (btnSubmit.Text.Equals("Submit"))
-                {
-                   
-                        if (hdneditId.Value != null && hdneditId.Value != "" && int.Parse(hdneditId.Value.ToString()) > 0)
-                        {
-                            AccreditationDataContext objDB = new AccreditationDataContext();
-                            objDB.Connection.ConnectionString = System.Configuration.ConfigurationManager.AppSettings["constr"];
-                            using (AccreditationDataContext group = new AccreditationDataContext())
-                            {
-                                LINQ.TblUserRegistration grp = objDB.TblUserRegistrations.First(D => D.UserId == int.Parse(hdneditId.Value.ToString()));
-                                if (grp.UserEmail.Trim() == txtEmail.Text.Trim())
-                                {
-                                    grp.UserFirstName = txtFirstName.Text.Trim();
-                                    grp.UserLastName = txtLastName.Text.Trim();
-                                    grp.UserEmail = txtEmail.Text.Trim();
-                                    grp.Group = Convert.ToInt16(DropDownGroup.SelectedItem.Value);
-                                    grp.UpdatedOn = DateTime.Now;
-                                   grp.UpdatedBy = Session["UeseEmail"].ToString();
-                                    grp.userRole = DropdownUserrole.SelectedItem.Value;
-                                    //grp.Active = true;
-                                    
-                                    objDB.SubmitChanges();
-                                }
-                                else
-                                {
-                                    if (!IsExistEmail(txtEmail.Text.Trim(), int.Parse(hdneditId.Value.ToString())))
-                                    {
-                                        grp.UserFirstName = txtFirstName.Text.Trim();
-                                        grp.UserLastName = txtLastName.Text.Trim();
-                                        grp.UserEmail = txtEmail.Text.Trim();
-                                        grp.Group = Convert.ToInt16(DropDownGroup.SelectedItem.Value);
-                                        grp.UpdatedOn = DateTime.Now;
-                                        grp.UpdatedBy = Session["UeseEmail"].ToString();
-                                        grp.userRole = DropdownUserrole.SelectedItem.Text;
-                                       // grp.Active = true;
-                                        objDB.SubmitChanges();
-                                    }
-                                    else
-                                    {
-                                        Response.Write("<script>alert('This Email Already exist.')</script>");
-                                        return;
-                                        //Utilities.CreateMessageLabel(this, BLL.Constants.UnableToCreateGroup, false);
-                                    }
+            if (btnSubmit.Text.Equals("Submit"))
+            {
 
-                                }
-                            }
+                if (hdneditId.Value != null && hdneditId.Value != "" && int.Parse(hdneditId.Value.ToString()) > 0)
+                {
+                    AccreditationDataContext objDB = new AccreditationDataContext();
+                    objDB.Connection.ConnectionString = System.Configuration.ConfigurationManager.AppSettings["constr"];
+                    using (AccreditationDataContext group = new AccreditationDataContext())
+                    {
+                        LINQ.TblUserRegistration grp = objDB.TblUserRegistrations.First(D => D.UserId == int.Parse(hdneditId.Value.ToString()));
+                        if (grp.UserEmail.Trim() == txtEmail.Text.Trim())
+                        {
+                            grp.UserFirstName = txtFirstName.Text.Trim();
+                            grp.UserLastName = txtLastName.Text.Trim();
+                            grp.UserEmail = txtEmail.Text.Trim();
+                            grp.Group = Convert.ToInt16(DropDownGroup.SelectedItem.Value);
+                            grp.UpdatedOn = DateTime.Now;
+                            grp.UpdatedBy = Session["UeseEmail"].ToString();
+                            grp.userRole = DropdownUserrole.SelectedItem.Value;
+                            //grp.Active = true;
+
+                            objDB.SubmitChanges();
                         }
                         else
                         {
-                            if (!IsExistEmail(txtEmail.Text.Trim(),0))
+                            if (!IsExistEmail(txtEmail.Text.Trim(), int.Parse(hdneditId.Value.ToString())))
                             {
-                               string temppass=CreateRandomPassword(6);
-                                using (AccreditationDataContext registration = new AccreditationDataContext())
-                                {
-                                    TblUserRegistration registration1 = new TblUserRegistration
-                                    {
-                                        UserFirstName = txtFirstName.Text.Trim(),
-                                        UserLastName = txtLastName.Text.Trim(),
-                                        UserEmail = txtEmail.Text.Trim(),
-                                        Group = Convert.ToInt16(DropDownGroup.SelectedItem.Value),
-                                        CreatedBy = Session["UserEmail"].ToString(),
-                                         CreatedOn=DateTime.Now,
-                                        Active = false,
-                                        userRole = DropdownUserrole.SelectedItem.Text,
-                                        TempPass = temppass,
-                                        HashPass=""
-                                    };
-                                    registration.Connection.ConnectionString = System.Configuration.ConfigurationManager.AppSettings["constr"];
-                                    registration.TblUserRegistrations.InsertOnSubmit(registration1);
-                                    registration.SubmitChanges();
-                                    SendMail(txtEmail.Text.Trim(), txtFirstName.Text, temppass);
-
-                                }
+                                grp.UserFirstName = txtFirstName.Text.Trim();
+                                grp.UserLastName = txtLastName.Text.Trim();
+                                grp.UserEmail = txtEmail.Text.Trim();
+                                grp.Group = Convert.ToInt16(DropDownGroup.SelectedItem.Value);
+                                grp.UpdatedOn = DateTime.Now;
+                                grp.UpdatedBy = Session["UeseEmail"].ToString();
+                                grp.userRole = DropdownUserrole.SelectedItem.Text;
+                                // grp.Active = true;
+                                objDB.SubmitChanges();
                             }
                             else
                             {
@@ -237,16 +201,53 @@ namespace Website.Pages
                                 return;
                                 //Utilities.CreateMessageLabel(this, BLL.Constants.UnableToCreateGroup, false);
                             }
-                        } //--
-                    
-                   
+
+                        }
+                    }
                 }
-                
-                
-            
+                else
+                {
+                    if (!IsExistEmail(txtEmail.Text.Trim(), 0))
+                    {
+                        string temppass = CreateRandomPassword(6);
+                        using (AccreditationDataContext registration = new AccreditationDataContext())
+                        {
+                            TblUserRegistration registration1 = new TblUserRegistration
+                            {
+                                UserFirstName = txtFirstName.Text.Trim(),
+                                UserLastName = txtLastName.Text.Trim(),
+                                UserEmail = txtEmail.Text.Trim(),
+                                Group = Convert.ToInt16(DropDownGroup.SelectedItem.Value),
+                                CreatedBy = Session["UserEmail"].ToString(),
+                                CreatedOn = DateTime.Now,
+                                Active = false,
+                                userRole = DropdownUserrole.SelectedItem.Text,
+                                TempPass = temppass,
+                                HashPass = ""
+                            };
+                            registration.Connection.ConnectionString = System.Configuration.ConfigurationManager.AppSettings["constr"];
+                            registration.TblUserRegistrations.InsertOnSubmit(registration1);
+                            registration.SubmitChanges();
+                            SendMail(txtEmail.Text.Trim(), txtFirstName.Text, temppass);
+
+                        }
+                    }
+                    else
+                    {
+                        Response.Write("<script>alert('This Email Already exist.')</script>");
+                        return;
+                        //Utilities.CreateMessageLabel(this, BLL.Constants.UnableToCreateGroup, false);
+                    }
+                } //--
+
+
+            }
+
+
+
             Response.Redirect("UserRegList.aspx");
             return;
-            
+
         }
 
         private static string CreateRandomPassword(int passwordLength)
@@ -262,48 +263,60 @@ namespace Website.Pages
 
             return new string(chars);
         }
-
+        
+        /***********************************************************
+         * @method SendMail
+         * @created By Abhik Ghosh
+         * @Date 29/09/2015
+         * @version 1.0
+         * @abhik@websnipeit.com
+         * ********************************************************/
         protected void SendMail(string YourEmail, string name, string temppass)
         {
-            //YourEmail = "kajalhazra08@gmail.com";
-            string server_domain = ConfigurationManager.AppSettings["DomainName"];
-            string mailFrom = ConfigurationManager.AppSettings["VerificationSenderEmail"];
-            string password = ConfigurationManager.AppSettings["EmailPassword"];
-            int emailport = Convert.ToInt32(ConfigurationManager.AppSettings["EmailPort"]);
-            string dispname = ConfigurationManager.AppSettings["dispname"];
-
-             string SiteRoot = ConfigurationManager.AppSettings["SiteRoot"];
-
-            MailMessage mail = new MailMessage();
-            SmtpClient SmtpServer = new SmtpClient(server_domain);
-            mail.From = new MailAddress(mailFrom, dispname);
-            mail.To.Add(YourEmail);
-            //mail.To.Add("kajalhazra08@gmail.com");
-            mail.Subject = "Temporary password ";
-            mail.Body += " <html>";
-            mail.Body += "<body>";
-            mail.Body += "<table>";
-            mail.Body += "<tr>";
-            mail.Body += "<td>User Name : </td><td> " + YourEmail + "</td>";
-            mail.Body += "</tr>";
-
-            mail.Body += "<tr>";
-            mail.Body += "<td>Password : </td><td>" + temppass + "</td>";
-            mail.Body += "</tr>";
-            mail.Body += "<tr>";
-            mail.Body += "<td colspan=2> <a href='" + SiteRoot + "ChangePasswordSecure.aspx?Userid=" + YourEmail + "'>Click here for change password</a> </td>";
-            mail.Body += "</tr>";
-            mail.Body += "</table>";
-            mail.Body += "</body>";
-            mail.Body += "</html>";
-            mail.IsBodyHtml = true;
-            SmtpServer.Port = emailport;
-            SmtpServer.Credentials = new System.Net.NetworkCredential(mailFrom, password);
-            SmtpServer.EnableSsl = true;
-            SmtpServer.Send(mail);
-
+            string to = YourEmail;// "friend.rahul.rch@gmail.com";//ConfigurationManager.AppSettings["DomainName"];
+            string smtpName = "a2plcpnl0051.prod.iad2.secureserver.net";//ConfigurationManager.AppSettings["DomainName"];
+            string from = "rahul@websnipeit.com";//ConfigurationManager.AppSettings["VerificationSenderEmail"];
+            string password = "rAhhul@15";// ConfigurationManager.AppSettings["EmailPassword"];
+            string SiteRoot = ConfigurationManager.AppSettings["SiteRoot"];
+            string subject = "==Temporary password==";
+            string Body = "";
+            Body += " <html>";
+            Body += "<body>";
+            Body += "<table>";
+            Body += "<tr>";
+            Body += "<td>User Name : </td><td> " + YourEmail + "</td>";
+            Body += "</tr>";
+            Body += "<tr>";
+            Body += "<td>Password : </td><td>" + temppass + "</td>";
+            Body += "</tr>";
+            Body += "<tr>";
+            Body += "<td colspan=2> <a href='" + SiteRoot + "ChangePasswordSecure.aspx?Userid=" + YourEmail + "'>Click here for change password</a> </td>";
+            Body += "</tr>";
+            Body += "</table>";
+            Body += "</body>";
+            Body += "</html>";
+            using (MailMessage mm = new MailMessage(from, to))
+            {
+                mm.Subject = subject;
+                mm.Body = Body;
+                //if (fuAttachment.HasFile)
+                //{
+                //    string FileName = Path.GetFileName(fuAttachment.PostedFile.FileName);
+                //    mm.Attachments.Add(new Attachment(fuAttachment.PostedFile.InputStream, FileName));
+                //}
+                mm.IsBodyHtml = true;
+                SmtpClient smtp = new SmtpClient();
+                smtp.Host = smtpName; //"smtp.gmail.com";
+                smtp.EnableSsl = true;
+                NetworkCredential NetworkCred = new NetworkCredential(from, password);
+                smtp.UseDefaultCredentials = true;
+                smtp.Credentials = NetworkCred;
+                smtp.Port = 587;
+                smtp.Send(mm);
+                //         ClientScript.RegisterStartupScript(GetType(), "alert", "alert('Email sent.');", true);
+            }
         }
-
+        /*********************************************************************/
 
         protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
         {
@@ -315,7 +328,7 @@ namespace Website.Pages
                 Label lblUserEmail = (Label)e.Row.FindControl("lblUserEmail");
                 Label lblGroupId = (Label)e.Row.FindControl("lblGroupId");
                 Label lblGroupName = (Label)e.Row.FindControl("lblGroupName");
-              
+
                 DropDownList DropDownGroup = (DropDownList)e.Row.FindControl("DropDownGroup");
 
                 if (lblUserId != null) lblUserId.Text = ((LINQ.TblUserRegistration)e.Row.DataItem).UserId.ToString();
@@ -326,12 +339,9 @@ namespace Website.Pages
                 if (lblGroupName != null) lblGroupName.Text = ((LINQ.TblUserRegistration)e.Row.DataItem).TblGroupCreation.GrpName.ToString();
                 if (lblGroupId != null) lblGroupId.Text = ((LINQ.TblUserRegistration)e.Row.DataItem).TblGroupCreation.GrpId.ToString();
 
-                
+
             }
         }
-
-        
-     
 
         #region  Delete User
         public static bool Delete(int intDelUser)
@@ -359,7 +369,7 @@ namespace Website.Pages
         #endregion
 
         #region Edit
-        public static void Update(int UserId, string UserFirstName, string UserLastName, string UserEmail,int Group)
+        public static void Update(int UserId, string UserFirstName, string UserLastName, string UserEmail, int Group)
         {
             AccreditationDataContext objDB = new AccreditationDataContext();
             objDB.Connection.ConnectionString = System.Configuration.ConfigurationManager.AppSettings["constr"];
@@ -371,26 +381,25 @@ namespace Website.Pages
                 urr.UserLastName = UserLastName;
                 urr.UserEmail = UserEmail;
                 urr.Group = Group;
-                
-                
+
+
                 objDB.SubmitChanges();
-              //  report = BLL.Constants.Update;
+                //  report = BLL.Constants.Update;
             }
             catch (Exception ex)
             {
-              //  report = BLL.Constants.NotUpdated;
+                //  report = BLL.Constants.NotUpdated;
             }
 
-          //  return report;
+            //  return report;
         }
         #endregion
-
 
         protected void btnFNameSearch_Click(object sender, EventArgs e)
         {
 
             showData();
-                        
+
         }
         public void showData()
         {
@@ -401,14 +410,96 @@ namespace Website.Pages
             //    where c.UserFirstName.Contains(txtNameSearch.Text) && c.Active.Equals(true)
             //    select c;
 
-           
+
         }
 
-      
+
         protected void btnReset_Click(object sender, EventArgs e)
         {
             ClearForm();
         }
-        
+
+        protected void onChangeDropDownState(object sender, EventArgs e)
+        {
+            var a =DropDownState.SelectedIndex;
+
+            if (Convert.ToInt16(DropDownState.SelectedItem.Value) != 0)
+            {
+                AccreditationDataContext db = new AccreditationDataContext();
+                db.Connection.ConnectionString = System.Configuration.ConfigurationManager.AppSettings["constr"];
+                var userState =
+                    from c1 in db.TblCounties
+                    where c1.StateId == Convert.ToInt16(DropDownState.SelectedItem.Value)
+                    select c1;
+                DropDownCounty.DataSource = userState;
+                DropDownCounty.DataTextField = "CountyName";
+                DropDownCounty.DataValueField = "CountyId";
+                DropDownCounty.DataBind();
+                DropDownCounty.Items.Insert(0, new System.Web.UI.WebControls.ListItem("----Select County----", "0"));
+            }
+        }
+        protected void onChangeDropDownCounty(object sender, EventArgs e)
+        {
+            AccreditationDataContext db = new AccreditationDataContext();
+            db.Connection.ConnectionString = System.Configuration.ConfigurationManager.AppSettings["constr"];
+            var Group =
+                from c in db.TblGroupCreations
+                where c.CountryId == Convert.ToInt32(DropDownCounty.SelectedItem.Value)
+                select c;
+
+            if (Group.Count() > 0)
+            {
+                DropDownGroup.DataSource = Group;
+                DropDownGroup.DataTextField = "GrpName";
+                DropDownGroup.DataValueField = "GrpId";
+                DropDownGroup.DataBind();
+                DropDownGroup.Items.Insert(0, new System.Web.UI.WebControls.ListItem("----Select Group----", "0"));
+                //    DropDownGroup.SelectedValue = CurrentUserGroup.StateId.ToString();
+                //DropDownGroup.DataBind();
+            }
+        }
+        private void showState()
+        {
+            AccreditationDataContext db = new AccreditationDataContext();
+            db.Connection.ConnectionString = System.Configuration.ConfigurationManager.AppSettings["constr"];
+            var state =
+                from c in db.TblStates
+                select c;
+
+            if (state.Count() > 0)
+            {
+                DropDownState.DataSource = state;
+                DropDownState.DataTextField = "StateName";
+                DropDownState.DataValueField = "StateId";
+                DropDownState.DataBind();
+                DropDownState.Items.Insert(0, new System.Web.UI.WebControls.ListItem("----Select State----", "0"));
+                //DrpDwnState.SelectedValue = CurrentUserGroup.StateId.ToString();
+                //DrpDwnState.DataBind();
+            }
+
+        }
+        private void showCounty()
+        {
+            if (Convert.ToInt16(DropDownState.SelectedItem.Value) != 0)
+            {
+                AccreditationDataContext db = new AccreditationDataContext();
+                db.Connection.ConnectionString = System.Configuration.ConfigurationManager.AppSettings["constr"];
+                var county =
+                    from c in db.TblCounties
+                    select c;
+
+                if (county.Count() > 0)
+                {
+                    DropDownCounty.DataSource = county;
+                    DropDownCounty.DataTextField = "CountyName";
+                    DropDownCounty.DataValueField = "CountyId";
+                    DropDownCounty.DataBind();
+                    DropDownCounty.Items.Insert(0, new System.Web.UI.WebControls.ListItem("----Select county----", "0"));
+                    //DrpDwnCounty.SelectedValue = CurrentUserGroup.CountryId.ToString();
+                    //DrpDwnCounty.DataBind();
+                }
+            }
+           
+        }
     }
 }

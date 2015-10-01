@@ -1,9 +1,9 @@
 ﻿<%@ Page Language="C#" MasterPageFile="../Site.master" AutoEventWireup="true" CodeBehind="AdminUsers.aspx.cs" 
-Inherits="Website.Pages.OtherUsers" Title=":: PageforOtherUsers::" %>
+Inherits="WebAppln.ContentPages.OtherUsers" Title=":: PageforOtherUsers::" %>
 
     
 <asp:Content ID="Content22" ContentPlaceHolderID="MainContent" runat="server">
-    
+     
     <div class="mainBgBx">
         <div class="page">
 

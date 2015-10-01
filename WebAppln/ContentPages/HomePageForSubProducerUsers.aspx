@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" MasterPageFile="../Site.master" AutoEventWireup="true" CodeBehind="HomePageForSubProducerUsers.aspx.cs" 
-Inherits="Website.Pages.OtherUsers" Title=":: PageforOtherUsers::" %>
+Inherits="Website.ContentPages.OtherUsers" Title=":: PageforOtherUsers::" %>
 
     
 <asp:Content ID="Content22" ContentPlaceHolderID="MainContent" runat="server">
