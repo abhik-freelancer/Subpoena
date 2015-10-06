@@ -68,7 +68,7 @@ namespace WebAppln.ContentPages
             }
 
         }
-
+/*
         private void ViewData()
         {
             //<th>Case ID</th>
@@ -181,7 +181,7 @@ namespace WebAppln.ContentPages
         }
 
 
-
+        */
 
 
     }

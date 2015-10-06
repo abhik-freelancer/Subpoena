@@ -14,7 +14,7 @@
         <asp:UpdateProgress ID="UpdateProgressLogin" runat="server" DisplayAfter="10" DynamicLayout="True" AssociatedUpdatePanelID="UpdatePanelLogin">
             <ProgressTemplate>
                 <div class="Loading">
-                    <img alt="" src="Images/loading.gif" />
+                    <img alt="" src="Images/loader2.gif" class="LoadingImage" />
                     Please Wait Contents are Loading...    
                 </div>
 

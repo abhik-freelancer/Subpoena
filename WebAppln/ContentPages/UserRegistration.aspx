@@ -1,13 +1,17 @@
 ﻿<%@ Page Language="C#" MasterPageFile="../Site.master" AutoEventWireup="true" CodeBehind="UserRegistration.aspx.cs"
-    Inherits="Website.Pages.UserResgistration" Title=":: Group Creation ::" EnableViewState="true"  %>
+    Inherits="Website.Pages.UserResgistration" Title=":: User Creation ::" EnableViewState="true"  %>
 
 <asp:Content ID="Content22" ContentPlaceHolderID="MainContent" runat="server">
-    <div class="container" style="float: left">
+       <div class="container" style="float: left">
 
         <div class="row">
             <div class="col-sm-12 Pageheader">
                 <asp:Label ID="lblSubheading" runat="server" Text="Register With Subpoena Tool"></asp:Label>
             </div>
+        </div>
+         
+        <div class="blankGeneric" id="dvOutPutMsg" runat="server">
+            <asp:Label ID="lblOutPutMsg" runat="server" Text="success"></asp:Label>
         </div>
         <%--<div class="main_box_in">
         <span class="Sectionheader">Register With Subpoena Tool</span>

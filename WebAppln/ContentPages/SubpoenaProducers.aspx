@@ -1,7 +1,10 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="../Site.master" CodeBehind="SubpoenaProducers.aspx.cs" Inherits="Website.Pages.SubpoenaProducers" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="../Site.master" MaintainScrollPositionOnPostback="true" CodeBehind="SubpoenaProducers.aspx.cs" Inherits="Website.Pages.SubpoenaProducers" %>
 <asp:Content ID="Content22" ContentPlaceHolderID="MainContent" runat="server">
 
 <div class="poenaFormContainer">
+    <div class="blankGeneric" id="dvOutPutMsg" runat="server">
+            <asp:Label ID="lblOutPutMsg" runat="server" Text="success"></asp:Label>
+        </div>
     <div class="row">
         
            
@@ -90,7 +93,7 @@
         </div>
         <div class="col-xs-4 form-group">
             <asp:Label ID="Label3" Text="Date *:" runat="server"> </asp:Label>
-            <asp:TextBox ID="txtDate" runat="server" CssClass="form-control" TextMode="Date"></asp:TextBox>
+            <asp:TextBox ID="txtDate" runat="server" CssClass="form-control" ></asp:TextBox>
             <%-- <img src="../Images/calender.png"/>   --%><asp:RequiredFieldValidator runat="server" ID="RequiredFieldValidator4" ForeColor="Red" ControlToValidate="txtDate" ErrorMessage="Please enter date!" /></div>
     </div>
 

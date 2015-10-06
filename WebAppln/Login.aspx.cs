@@ -54,27 +54,27 @@ namespace WebAppln
                     }
                     else if (user.userRole == "GroupLeader")
                     {
-                        Session["HomePage"] = "Dashboard.aspx";
-                        Response.Redirect("ContentPages/Dashboard.aspx");
+                        Session["HomePage"] = "CalendarDashboard.aspx";
+                        Response.Redirect("ContentPages/CalendarDashboard.aspx");
 
                     }
                 }
                 else
                 {
-                    lbFailureText.Text = "OOPS! Password mismatch";
+                    lbFailureText.Text = "The email and password you entered don't match.";
 
                 }
             }
             else
             {
-                lbFailureText.Text = "This is not active";
+                lbFailureText.Text = "The email and password you entered don't match.";
 
             }
 
             }
             else
             {
-                lbFailureText.Text = "Please Enter Username/Password";
+                lbFailureText.Text = "The email and password you entered don't match.";
 
             }
                

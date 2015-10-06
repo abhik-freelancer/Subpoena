@@ -16,7 +16,7 @@ Inherits="WebAppln.ContentPages.OtherUsers" Title=":: PageforOtherUsers::" %>
                     Display Subpoena ..
                 </div>
 
-                <div class="inClm">
+                <%--<div class="inClm">
                     <div class="inAAA">
                         <div class="inGrup">
                             <label class="lblIt">Case ID</label>
@@ -46,7 +46,7 @@ Inherits="WebAppln.ContentPages.OtherUsers" Title=":: PageforOtherUsers::" %>
                         </div>
                     </div>
                     <div class="magic"></div>
-                </div>
+                </div>--%>
                 <!--inClm-->
             </div>
             <!--inPtSec-->
@@ -130,9 +130,9 @@ Inherits="WebAppln.ContentPages.OtherUsers" Title=":: PageforOtherUsers::" %>
             postData: { QueryString: "<%=sqlQuery %>" },
             datatype: 'json',
             height: '360',
-            colNames: ['SubpoenaFrmId', 'CaseId', 'Subpoena Name', 'Official Name', 'Detative Name', 'Date', 'PDFPath'], // 'Actions',
+            colNames: ['Actions', 'SubpoenaFrmId', 'CaseId', 'Subpoena Name', 'Official Name', 'Detactive Name', 'Date', 'PDFPath'], // 'Actions',
             colModel: [
-                //{ name: 'act', index: 'act', sortable: false, search: false, width: 70 },
+                { name: 'act', index: 'act', sortable: false, search: false, width: 70 },
                  { name: 'SubpoenaFrmId', label: 'SubpoenaFrmId', hidden: true },
                 { name: 'CaseId', index: 'CaseId', sortable: true },
                 { name: 'SubpoenaName', index: 'SubpoenaName', sortable: true },
@@ -148,16 +148,24 @@ Inherits="WebAppln.ContentPages.OtherUsers" Title=":: PageforOtherUsers::" %>
             sortname: 'SubpoenaFrmId',
             toolbarfilter: true,
             viewrecords: true,
-            sortorder: "asc",
+            sortorder: "desc",
             gridComplete: function () {
                 var ids = jQuery("#jqgrid").jqGrid('getDataIDs');
                 for (var i = 0; i < ids.length; i++) {
                     var cl = ids[i];
-                    be = "<span class='btn btn-xs btn-default btn-quick' title='Edit Row' onclick=\"editRow('" + cl + "'); \"><i class='fa fa-pencil'></i></span>";
-                    //se = "<button class='btn btn-xs btn-default btn-quick' title='Save Row' onclick=\"jQuery('#jqgrid').saveRow('"+cl+"');\"><i class='fa fa-save'></i></button>";
-                    ca = "<span class='btn btn-xs btn-default btn-quick delete_row' title='Delete Row' onclick=\"deleteRow('" + cl + "');\"><i class='fa fa-times'></i></span>";
-
-                    jQuery("#jqgrid").jqGrid('setRowData', ids[i], { act: be + ca });  //act:be+se+ca
+                    if('<%=actionType %>' =='save')
+                    {
+                        be = "<span class='btn btn-xs btn-default btn-quick' title='Edit Row' onclick=\"editRow('" + cl + "'); \"><i class='fa fa-pencil'></i></span>";
+                    }
+                    else{
+                        be = "<span class='btn btn-xs btn-default btn-quick delete_row' title='view Row' onclick=\"viewRow('" + cl + "');\"><i class='fa fa-times'></i></span>";
+                    }
+                    jQuery("#jqgrid").jqGrid('setRowData', ids[i], { act: be});  //act:be+se+ca
+                   // be = "<span class='btn btn-xs btn-default btn-quick' title='Edit Row' onclick=\"editRow('" + cl + "'); \"><i class='fa fa-pencil'></i></span>";
+                   // //se = "<button class='btn btn-xs btn-default btn-quick' title='Save Row' onclick=\"jQuery('#jqgrid').saveRow('"+cl+"');\"><i class='fa fa-save'></i></button>";
+                   //// ca = "<span class='btn btn-xs btn-default btn-quick delete_row' title='Delete Row' onclick=\"deleteRow('" + cl + "');\"><i class='fa fa-times'></i></span>";
+                   // ca = "<span class='btn btn-xs btn-default btn-quick delete_row' title='view Row' onclick=\"viewRow('" + cl + "');\"><i class='fa fa-times'></i></span>";
+                   // jQuery("#jqgrid").jqGrid('setRowData', ids[i], { act: be + ca });  //act:be+se+ca
                 }
             },
             editurl: "",
@@ -208,11 +216,39 @@ Inherits="WebAppln.ContentPages.OtherUsers" Title=":: PageforOtherUsers::" %>
         });
 
         function editRow(row_ID) {
-            var sitename = jQuery("#jqgrid").getCell(row_ID, 'GrpId');
+            var sitename = jQuery("#jqgrid").getCell(row_ID, 'SubpoenaFrmId');
             //location.href = 'Modify?USR_ID=' + sitename;
             //alert(sitename);
-            window.location.href = 'GroupCreation1.aspx?EditId=' + sitename;
+            window.location.href = 'SubpoenaProducers.aspx?Type=Edit&&Id=' + sitename;
             //window.open();
+            //History.replaceState({ state: 3 }, "State 3", "#MBO=Define=id=" + sitename)
+            // ClickHeaderLinkMenu(url);
+        }
+        function viewRow(row_ID) {
+            
+            var sitename = jQuery("#jqgrid").getCell(row_ID, 'SubpoenaFrmId');
+                // e.preventDefault();
+                var url = 'SubpoenaProducers.aspx?Type=view&&Id=' + sitename;
+                window.location.href = url;
+                //  jQuery.ajax({
+                //      method: "GET",
+                //      datatype: 'text',
+                //      url: url,
+                //      data: {}
+                //  })
+                //.done(function (msg) {
+                //    //alert(msg);
+
+                //}).always(function () {
+                //    //location.reload(true);
+                //    //jQuery('#jqgrid').GridDestroy();
+                //    jQuery("#jqgrid").trigger('reloadGrid');
+                //});
+           
+
+            //window.open('GroupCreation1.aspx?DeleteId=' + sitename);
+            // alert(sitename);
+            //var url = '$siteRoot/User/Modify.html?USR_ID=' + sitename;
             //History.replaceState({ state: 3 }, "State 3", "#MBO=Define=id=" + sitename)
             // ClickHeaderLinkMenu(url);
         }
@@ -220,7 +256,7 @@ Inherits="WebAppln.ContentPages.OtherUsers" Title=":: PageforOtherUsers::" %>
             if (confirm("Do you Want to Delete this record ? ")) {
                 var sitename = jQuery("#jqgrid").getCell(row_ID, 'GrpId');
                 // e.preventDefault();
-                var url = "GroupList.aspx?Type=deleted&&DeleteId=" + sitename;
+                var url = "SubpoenaProducers.aspx?Type=deleted&&DeleteId=" + sitename;
                 window.location.href = url;
                 //  jQuery.ajax({
                 //      method: "GET",

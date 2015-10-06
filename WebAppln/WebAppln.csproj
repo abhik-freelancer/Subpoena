@@ -56,6 +56,9 @@
     <Reference Include="itextsharp">
       <HintPath>DLL\itextsharp.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.ApplicationBlocks.Data">
+      <HintPath>DLL\Microsoft.ApplicationBlocks.Data.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.ScriptManager.jQuery.UI.Combined, Version=1.8.20.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ScriptManager.jQuery.UI.Combined.1.8.20.1\lib\net40\Microsoft.ScriptManager.jQuery.UI.Combined.dll</HintPath>
@@ -221,8 +224,10 @@
     <Content Include="bin\WebGrease.dll" />
     <Content Include="ChangePasswordSecure.aspx" />
     <Content Include="Contact.aspx" />
+    <Content Include="ContentPages\CalendarDashboard.aspx" />
     <Content Include="ContentPages\ChangePassword.aspx" />
     <Content Include="ContentPages\AdminUsers.aspx" />
+    <Content Include="ContentPages\DetectiveVacationManage.aspx" />
     <Content Include="ContentPages\HomePageForSubProducerUsers.aspx" />
     <Content Include="ContentPages\PasswordList.aspx" />
     <Content Include="ContentPages\SubpoeanaProduserLanding.aspx" />
@@ -423,14 +428,6 @@
     <Content Include="ImageHandler.ashx" />
     <Content Include="Handler1.ashx" />
     <Content Include="bin\WebAppln.dll.config" />
-    <Content Include="PdfReport\20150823002039571_Subpoeana.pdf" />
-    <Content Include="PdfReport\20150823003350564_Subpoeana.pdf" />
-    <Content Include="PdfReport\20150823003700294_Subpoeana.pdf" />
-    <Content Include="PdfReport\20150823003818625_Subpoeana.pdf" />
-    <Content Include="PdfReport\20150823004327357_Subpoeana.pdf" />
-    <Content Include="PdfReport\SubpoeanaPdfReport.pdf" />
-    <Content Include="PdfReport\TestPdfReport.pdf" />
-    <Content Include="PdfReport\TestPdfReport1.pdf" />
     <None Include="Properties\PublishProfiles\Subpoeana.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Pages\images\1.png" />
@@ -645,6 +642,13 @@
     <Compile Include="Contact.aspx.designer.cs">
       <DependentUpon>Contact.aspx</DependentUpon>
     </Compile>
+    <Compile Include="ContentPages\CalendarDashboard.aspx.cs">
+      <DependentUpon>CalendarDashboard.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ContentPages\CalendarDashboard.aspx.designer.cs">
+      <DependentUpon>CalendarDashboard.aspx</DependentUpon>
+    </Compile>
     <Compile Include="ContentPages\ChangePassword.aspx.cs">
       <DependentUpon>ChangePassword.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -658,6 +662,13 @@
     </Compile>
     <Compile Include="ContentPages\AdminUsers.aspx.designer.cs">
       <DependentUpon>AdminUsers.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ContentPages\DetectiveVacationManage.aspx.cs">
+      <DependentUpon>DetectiveVacationManage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ContentPages\DetectiveVacationManage.aspx.designer.cs">
+      <DependentUpon>DetectiveVacationManage.aspx</DependentUpon>
     </Compile>
     <Compile Include="ContentPages\HomePageForSubProducerUsers.aspx.cs">
       <DependentUpon>HomePageForSubProducerUsers.aspx</DependentUpon>
@@ -813,6 +824,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="PdfReport\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BLL\BLL.csproj">

@@ -346,10 +346,11 @@ namespace BLL
 
         public enum Status
         {
-            NEW,
+            NEW=0,
             YES,
             NO,
-            MAYBE
+            MAYBE,
+            CLOSE
         }
         #endregion
 
@@ -467,5 +468,15 @@ namespace BLL
 
         #endregion
 
+        #region MessageType
+        public enum MessageType
+        {
+            Success,
+            Fail,
+            Blank
+        }
+
+        #endregion
+      
     }
 }

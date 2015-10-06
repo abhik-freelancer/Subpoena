@@ -75,7 +75,12 @@
         //Change the 5000 to a value which you need so that loading image shows till your page completely
         $(window).load(function () { $("#spinner").fadeOut(5000); })
     </script>--%>
-
+   <script type="text/javascript">
+       function autoHide(id) {  //hide after 3 seconds
+           //setTimeout(function () { document.getElementById(id).style.display = 'none'; }, 5000);
+           window.setTimeout(function () { document.getElementById(id).className = 'blankGeneric'; }, 3000);
+        }
+    </script>
   </head>
 <body>
 
@@ -86,7 +91,7 @@
                         <ul class="gn-menu" id="menu">
    		                <li>
                                            
-                                <a class="gn-icon gn-icon-home" href="Dashboard.aspx">Home</a>
+                                <a class="gn-icon gn-icon-home" href="CalendarDashboard.aspx">Home</a>
                                             
                         </li>
                             <li>
@@ -164,7 +169,8 @@
               
             	<li><a href="<%=HomePage %>">Home</a></li>
            
-            	 <li><a href="Dashboard.aspx">Calendar</a></li>
+            	 <li><a href="CalendarDashboard.aspx">Calendar</a></li>
+                <%--<li><a href="DetectiveVacationManage.aspx">Manage Vacation</a></li>--%>
              <% if (GroupName == "SuperAdmin" || GroupName == "Admin")
                  { %>
                 <li><a href="GroupList.aspx">Group</a></li>
@@ -180,6 +186,10 @@
                  <% if (GroupName == "SuperAdmin" || GroupName == "Admin" || GroupName == "GroupLeader")
                  { %>
                <li><a href="SubpoeanaProduserLanding.aspx">Subpoena</a></li>
+                  <% } %>
+                 <% if (GroupName == "Detective")
+                 { %>
+               <li><a href="DetectiveVacationManage.aspx">Manage Vacation</a></li>
                   <% } %>
             </ul>
 </div>

@@ -13,6 +13,10 @@ using System.Xml.Linq;
 using LINQ;
 using System.Security.Permissions;
 using System.Text;
+using System.Data.SqlClient;
+using Microsoft.ApplicationBlocks.Data;
+using System.Collections.Generic;
+using BLL;
 
 namespace Website.Pages
 {
@@ -21,7 +25,8 @@ namespace Website.Pages
     {
         public string sqlQuery = "";
         StringBuilder htmlTable = new StringBuilder();
-        string[] holidays1 = new String[10];
+        DataTable dtCalendar = new DataTable();
+
         public TblUserRegistration CurrentUser
         {
             get
@@ -56,29 +61,12 @@ namespace Website.Pages
             }
             if (!IsPostBack)
             {
-                                            
+                getDetectiveCalendarDetails(DateTime.Today);                     
             }
+            sqlQuery = "SELECT  SubpoenaFrmId,CaseId, SubpoenaName, OfficialName, DetativeName, convert(varchar(10),[DATE],110) 'Date' , PDFPath  FROM  (SELECT  ROW_NUMBER() OVER (ORDER BY   ##ID##   ##desc##) as row,* FROM TblSubpoenaFrm  WHERE  DetectiveId = " + CurrentUser.UserId + "  and  ##filters## ) L   Where   ##paging##  ";
             ViewData();
-            Createselecteddate();
         }
-
-        private void Createselecteddate()
-        {
-            AccreditationDataContext db = new AccreditationDataContext();
-            db.Connection.ConnectionString = System.Configuration.ConfigurationManager.AppSettings["constr"];
-            var subpoena =
-                from c in db.TblSubpoenaFrms
-                where (c.Status != "Submit" && c.DetectiveId == CurrentUser.UserId)
-                select c;
-            int i = 0;
-            foreach (var item in subpoena)
-            {
-                holidays1[i] = item.Date.ToShortDateString();
-                i++;
-            }
-
-        }
-
+        
         void MonthChange(Object sender, MonthChangedEventArgs e)
         {
 
@@ -95,37 +83,90 @@ namespace Website.Pages
 
         protected void Calendar1_SelectionChanged(object sender, EventArgs e)
         {
-            Createselecteddate();
-            //lblDates.Text = "You selected these dates:<br />";
+            getDetectiveCalendarDetails(Calendar1.SelectedDate);
+        }
 
-            //foreach (DateTime dt in MyCalendar.SelectedDates)
-            //{
-            //    lblDates.Text += dt.ToLongDateString() + "<br />";
-            //}
+        private void getDetectiveCalendarDetails(DateTime calendarDate)
+        {
+            string conString = System.Configuration.ConfigurationManager.ConnectionStrings["constrww"].ToString();
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter("@DetectiveId", CurrentUser.UserId));
+            parameters.Add(new SqlParameter("@FromDate", calendarDate));
 
+            DataSet dsDetective = SqlHelper.ExecuteDataset(conString, "SpDetectiveCalendar", parameters.ToArray());
+            dtCalendar = dsDetective.Tables[0];
+        }
+
+        protected void Calendar1_VisibleMonthChanged(object sender, MonthChangedEventArgs e)
+        {
+            getDetectiveCalendarDetails(e.NewDate);
         }
 
         protected void Calendar1_DayRender(object sender, DayRenderEventArgs e)
         {
-            //string aHoliday;
-            DateTime theDate = e.Day.Date;
-           // aHoliday = holidays[theDate.Month, theDate.Day];
-            for (int i = 0; i < holidays1.Length; i++)
-                if (Convert.ToDateTime(holidays1[i]) == theDate)
-                {
-                    e.Day.IsSelectable = false;
-                    //e.Cell. = false;
-                    e.Cell.BackColor = System.Drawing.Color.Red;
-                    // e.Cell.Controls.Add(aLabel);
-                }
+            foreach (DataRow item in dtCalendar.Rows)
+            {
+                Label engagement = new Label();
+                HtmlTable engagement1 = new HtmlTable();
+                HtmlTableRow tr = new HtmlTableRow();
+                HtmlTableCell tc = new HtmlTableCell();
 
-            //if (aHoliday != null)
-            //{
-            //    Label aLabel = new Label();
-            //    aLabel.Text = " <br>" + aHoliday;
-            //    e.Cell.BackColor = System.Drawing.Color.Yellow;
-            //    e.Cell.Controls.Add(aLabel);
-            //}
+                Literal lineBreak = new Literal();
+                if (e.Day.Date.ToString() == item["LeaveDate"].ToString())
+                {
+                    string CalDayStatus = Constants.Status.NEW.ToString();
+                    switch (int.Parse(item["SubPoenaStatus"].ToString()))
+                    {
+                        case (int)BLL.Constants.Status.NEW:
+                            tc.Width = "30";
+                            tc.Height = "7";
+                            tc.BgColor = "Yellow";
+                            //tc.Attributes.Add("title", Server.HtmlDecode(item["DayType"].ToString()));
+                            tc.Attributes.Add("title", Server.HtmlDecode(item["DayType"].ToString().Replace("<b>", "").Replace("</b>", "").Replace("<u>", "").Replace("</u>", "").Replace("<br/>", " : ")));
+                            tr.Cells.Add(tc);
+                            engagement1.Rows.Add(tr);
+                            e.Cell.Controls.Add(engagement1);
+                            break;
+                        case (int)BLL.Constants.Status.MAYBE:
+                            tc.Width = "30";
+                            tc.Height = "7";
+                            tc.BgColor = "Blue";
+                            tc.Attributes.Add("title", Server.HtmlDecode(item["DayType"].ToString().Replace("<b>", "").Replace("</b>", "").Replace("<u>", "").Replace("</u>", "").Replace("<br/>", " : ")));
+                            tr.Cells.Add(tc);
+                            engagement1.Rows.Add(tr);
+                            e.Cell.Controls.Add(engagement1);
+                            break;
+                        case (int)BLL.Constants.Status.YES:
+                            tc.Width = "30";
+                            tc.Height = "7";
+                            tc.BgColor = "Green";
+                            tc.Attributes.Add("title", Server.HtmlDecode(item["DayType"].ToString().Replace("<b>", "").Replace("</b>", "").Replace("<u>", "").Replace("</u>", "").Replace("<br/>", " : ")));
+                            // tc.Attributes.Add("title", Server.HtmlDecode(item["DayType"].ToString()));
+                            tr.Cells.Add(tc);
+                            engagement1.Rows.Add(tr);
+                            e.Cell.Controls.Add(engagement1);
+                            break;
+                        case (int)BLL.Constants.Status.NO:
+                            tc.Width = "30";
+                            tc.Height = "7";
+                            tc.BgColor = "Red";
+                            tc.Attributes.Add("title", Server.HtmlDecode(item["DayType"].ToString().Replace("<b>", "").Replace("</b>", "").Replace("<u>", "").Replace("</u>", "").Replace("<br/>", " : ")));
+                            tr.Cells.Add(tc);
+                            engagement1.Rows.Add(tr);
+                            e.Cell.Controls.Add(engagement1);
+                            break;
+                        case 100: //Leave
+                            tc.Width = "30";
+                            tc.Height = "7";
+                            tc.BgColor = "SandyBrown";
+                            tc.Attributes.Add("title", Server.HtmlDecode(item["DayType"].ToString().Replace("<b>", "").Replace("</b>", "").Replace("<u>", "").Replace("</u>", "").Replace("<br/>", " : ")));
+                            tr.Cells.Add(tc);
+                            engagement1.Rows.Add(tr);
+                            e.Cell.Controls.Add(engagement1);
+                            break;
+                    }
+                }
+            }
 
         }
 
@@ -145,7 +186,7 @@ namespace Website.Pages
             db.Connection.ConnectionString = System.Configuration.ConfigurationManager.AppSettings["constr"];
             var subpoena =
                 from c in db.TblSubpoenaFrms
-                where (c.Status != "New" && c.DetectiveId == CurrentUser.UserId)
+                where (c.Status != ((int)BLL.Constants.Status.NEW).ToString() && c.DetectiveId == CurrentUser.UserId)
                 select new { c.CaseId,
                     state=db.TblStates.Where(x=>x.StateId==c.StateId).FirstOrDefault().StateName, 
                 c.SubpoenaName,
@@ -162,7 +203,7 @@ namespace Website.Pages
                 htmlTable.Append("<td>" + xval.SubpoenaName + "</td>");
                 htmlTable.Append("<td>" + xval.OfficialName + "</td>");
                 htmlTable.Append("<td>" + xval.DetativeName + "</td>");
-                htmlTable.Append("<td>" + xval.Date + "</td>");
+                htmlTable.Append("<td>" + xval.Date.ToString("MM-dd-yyyy") + "</td>");
                 //htmlTable.Append("<td>" + xval.Status + "</td>");
                 htmlTable.Append("<td>  <a href='../PdfReport/" + xval.PDFPath + "' target=\"_blank\">Pdf</a></td>");
               
@@ -176,31 +217,32 @@ namespace Website.Pages
         }
         protected void bntSearch_Click(object sender, EventArgs e)
         {
-            //ViewData();
-            string subquery = " Status='Close'";
-            if (txtCaseId.Text != "")
-            {
-                subquery += " and CaseId='" + txtCaseId.Text+"'";
-            }
-            if (txtDate.Text != "")
-            {
-                subquery += " and Date='" + txtDate.Text + "'";
-            }
-            if (txtStatus.Text != "")
-            {
-                subquery += " and Status='" + txtStatus.Text + "'";
-            }
-            if (txtOfficial.Text != "")
-            {
-                subquery += " and OfficialName='" + txtOfficial.Text + "'";
-            }
-            //if (txtCaseId.Text != "")
-            //{
-            //    subquery += " and CaseId='" + txtCaseId.Text + "'";
-            //}
+        //    //ViewData();
+        //   // string subquery = " Status='Close'";
+        //    string subquery = " Status='" + ((int)BLL.Constants.Status.CLOSE).ToString() + "'";
+        //    if (txtCaseId.Text != "")
+        //    {
+        //        subquery += " and CaseId='" + txtCaseId.Text+"'";
+        //    }
+        //    if (txtDate.Text != "")
+        //    {
+        //        subquery += " and Date='" + txtDate.Text + "'";
+        //    }
+        //    if (txtStatus.Text != "")
+        //    {
+        //        subquery += " and Status='" + txtStatus.Text + "'";
+        //    }
+        //    if (txtOfficial.Text != "")
+        //    {
+        //        subquery += " and OfficialName='" + txtOfficial.Text + "'";
+        //    }
+        //    //if (txtCaseId.Text != "")
+        //    //{
+        //    //    subquery += " and CaseId='" + txtCaseId.Text + "'";
+        //    //}
 
 
-            sqlQuery = "SELECT  SubpoenaFrmId,CaseId, SubpoenaName, OfficialName, DetativeName, Date, PDFPath  FROM  (SELECT  ROW_NUMBER() OVER (ORDER BY   ##ID##   ##desc##) as row,* FROM TblSubpoenaFrm  WHERE  " + subquery + "  and  ##filters## ) L   Where   ##paging##  ";
+        //    sqlQuery = "SELECT  SubpoenaFrmId,CaseId, SubpoenaName, OfficialName, DetativeName, Date, PDFPath  FROM  (SELECT  ROW_NUMBER() OVER (ORDER BY   ##ID##   ##desc##) as row,* FROM TblSubpoenaFrm  WHERE  " + subquery + "  and  ##filters## ) L   Where   ##paging##  ";
         }
 
         //protected void Calendar2_DayRender(object sender, DayRenderEventArgs e)
@@ -234,11 +276,14 @@ namespace Website.Pages
             //ClearForm();
             AccreditationDataContext db = new AccreditationDataContext();
             db.Connection.ConnectionString = System.Configuration.ConfigurationManager.AppSettings["constr"];
+            //var subpoena1 =
+            //    from c in db.TblSubpoenaFrms
+            //    where (c.Status=="new")
+            //    select c;
             var subpoena1 =
                 from c in db.TblSubpoenaFrms
-                where (c.Status=="new")
+                where (c.Status == ((int)BLL.Constants.Status.NEW).ToString())
                 select c;
-
             //GridView2.DataSource = subpoena1;
            // GridView2.DataBind();
         }

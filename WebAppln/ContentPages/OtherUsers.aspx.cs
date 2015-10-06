@@ -27,6 +27,7 @@ namespace WebAppln.ContentPages
     {
        
         public string sqlQuery = "";
+        public string actionType = "";
         StringBuilder htmlTable = new StringBuilder();
 
         public TblUserRegistration CurrentUser
@@ -57,22 +58,71 @@ namespace WebAppln.ContentPages
 
         protected void Page_Load(object sender, EventArgs e)
         {
-          
 
-       
-    if (Session["GroupId"] == null || Session["UserEmail"] == null)
-    {
-        Response.Redirect("../Login.aspx");
-    }
+            if (Session["GroupId"] == null || Session["UserEmail"] == null)
+            {
+                Response.Redirect("../Login.aspx");
+            }
+            if (Request.QueryString["Type"] == "deleted")
+            {
+                Delete(int.Parse(Request.QueryString["DeleteId"].ToString()));
+                Response.Redirect("UserRegList.aspx");
+                return;
+            }
+            else
+            {
+                string subQuery = string.Empty;
+                if (Request.QueryString["Type"] == "save")
+                {
+                    subQuery = "saveType='save'";
+                    actionType = "save";
+                }
+                else if (Request.QueryString["Type"] == "submit")
+                {
+                    subQuery = "saveType='submit'";
+                    actionType = "submit";
+                }
+                sqlQuery = "SELECT  SubpoenaFrmId,CaseId, SubpoenaName, OfficialName, DetativeName, convert(varchar(10),[DATE],110) 'Date', PDFPath  FROM  (SELECT  ROW_NUMBER() OVER (ORDER BY   ##ID##   ##desc##) as row,* FROM TblSubpoenaFrm  WHERE  " + subQuery + "  and  ##filters## ) L   Where   ##paging##  ";
+            }
 
-    if (!IsPostBack)
-    {
-        GetAllCaseId();
 
-        //HideForm();
-        // ViewData();
-    }
-   }
+
+            if (!IsPostBack)
+            {
+               // GetAllCaseId();
+                //HideForm();
+                // ViewData();
+            }
+        }
+        #region  Delete Group
+        public void Delete(int intDelSubPonena)
+        {
+            bool boolMess = false;
+            try
+            {
+                AccreditationDataContext objDb = new AccreditationDataContext();
+                objDb.Connection.ConnectionString = System.Configuration.ConfigurationManager.AppSettings["constr"];
+
+                LINQ.TblSubpoenaFrm gc = objDb.TblSubpoenaFrms.Where(D => D.SubpoenaFrmId == intDelSubPonena).Single();
+                gc.Active = false;
+
+                objDb.SubmitChanges();
+
+                boolMess = true;
+                // Console.WriteLine("ok");
+                // Response.Redirect("GroupList.aspx");
+            }
+            catch (Exception ex)
+            {
+                boolMess = false;
+            }
+
+
+            return;
+            // return boolMess;
+
+        }
+        #endregion
         private void ViewData()
         {
             //<th>Case ID</th>
@@ -120,39 +170,6 @@ namespace WebAppln.ContentPages
             // GridView1.DataSource = subpoena;
             // GridView1.DataBind();
         }
-        protected void bntSearch_Click(object sender, EventArgs e)
-        {
-            string subquery = " Status='Close'";
-            if (txtCaseId.Text != "")
-            {
-                subquery += " and CaseId='" + txtCaseId.Text + "'";
-            }
-            if (txtDate.Text != "")
-            {
-                subquery += " and Date='" + txtDate.Text + "'";
-            }
-            if (txtStatus.Text != "")
-            {
-                subquery += " and Status='" + txtStatus.Text + "'";
-            }
-            if (txtOfficial.Text != "")
-            {
-                subquery += " and OfficialName='" + txtOfficial.Text + "'";
-            }
-            sqlQuery = "SELECT  SubpoenaFrmId,CaseId, SubpoenaName, OfficialName, DetativeName, Date, PDFPath  FROM  (SELECT  ROW_NUMBER() OVER (ORDER BY   ##ID##   ##desc##) as row,* FROM TblSubpoenaFrm  WHERE  " + subquery + "  and  ##filters## ) L   Where   ##paging##  ";
-        }
-
-        protected void Calendar2_DayRender(object sender, DayRenderEventArgs e)
-        {
-            AccreditationDataContext db = new AccreditationDataContext();
-            db.Connection.ConnectionString = System.Configuration.ConfigurationManager.AppSettings["constr"];
-            var subpoena =
-                from c in db.TblSubpoenaFrms
-                where (c.Status != "Submit" && c.DetectiveId == CurrentUser.UserId)
-                select c;
-           
-
-        }
 
 
         private void ViewNewSubpoena()
@@ -162,7 +179,7 @@ namespace WebAppln.ContentPages
             db.Connection.ConnectionString = System.Configuration.ConfigurationManager.AppSettings["constr"];
             var subpoena1 =
                 from c in db.TblSubpoenaFrms
-                where (c.Status == "new")
+                where (c.Status == ((int)BLL.Constants.Status.NEW).ToString())// "new")
                 select c;
 
             //GridView2.DataSource = subpoena1;

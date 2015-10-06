@@ -45,7 +45,7 @@
         sortname: 'PasswordChangeId',
         toolbarfilter: true,
         viewrecords: true,
-        sortorder: "asc",
+        sortorder: "desc",
         gridComplete: function () {
             var ids = jQuery("#jqgrid").jqGrid('getDataIDs');
             for (var i = 0; i < ids.length; i++) {

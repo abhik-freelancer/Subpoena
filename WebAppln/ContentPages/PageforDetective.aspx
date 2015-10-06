@@ -17,15 +17,15 @@
            ShowGridLines="True" 
            ShowTitle="True"
            OnSelectionChanged="Calendar1_SelectionChanged"
-           runat="server"/>
+           runat="server" OnVisibleMonthChanged="Calendar1_VisibleMonthChanged"/>
                 </div>
                 <div class="colmB">
-                    <div class="hdCC">
+                    <%--<div class="hdCC">
                         <span><a href="/ContentPages/SubpoenaProducers">New Subpoeana</a></span>
-                    </div>
+                    </div>--%>
 
                     <div class="tblBxBB">
-                       
+                    <%--<div class="colmB">  --%> 
                         <table class="hdingIt">
                             <tr>
                                 <th>Case ID</th>
@@ -50,52 +50,6 @@
             <div class="inPtSec">
                 <div class="hdln2">
                     Display Archived ..
-                </div>
-
-                <div class="inClm">
-                    <div class="SerchformBlock">
-                        <div class="inGrup">
-                            <label class="lblIt">Case ID</label>
-                            <asp:TextBox class="infldIt spclSize" id="txtCaseId" runat="server" type="text" ></asp:TextBox>
-                        </div>
-
-                    </div>
-
-                     <div class="SerchformBlock">
-                         <div class="inGrup">
-                            <label class="lblIt">Status</label>
-                           <asp:TextBox class="infldIt spclSize" runat="server" id="txtStatus"  type="text" ></asp:TextBox>
-                        </div>
-
-                    </div>
-
-                     <div class="SerchformBlock">
-                         <div class="inGrup">
-                            <label class="lblIt">Official</label>
-                          <asp:TextBox class="infldIt spclSize" runat="server" id="txtOfficial" type="text" ></asp:TextBox>
-                        </div>
-
-                    </div>
-
-                     <div class="SerchformBlock">
-                         <div class="inGrup">
-                            <label class="lblIt">Date</label>
-                            <asp:TextBox class="infldIt spclSize" id="txtDate" runat="server" TextMode="Date"  type="text" ></asp:TextBox>
-                        </div>
-
-                    </div>
-
-                    <div class="SerchformBlock ">
-                        <div class="srcBtnB">
-                             <asp:Button ID="bntSearch" CssClass="FormButtonImp" runat="server" Text="Search Case" OnClick="bntSearch_Click" />
-                          
-                        </div>
-                    </div>
-
-
-
-                    
-                    <div class="magic"></div>
                 </div>
                 <!--inClm-->
             </div>
@@ -147,7 +101,7 @@
             postData: { QueryString: "<%=sqlQuery %>" },
             datatype: 'json',
             height: '360',
-            colNames: ['SubpoenaFrmId', 'CaseId', 'Subpoena Name', 'Official Name', 'Detative Name', 'Date', 'PDFPath'], // 'Actions',
+            colNames: ['SubpoenaFrmId', 'CaseId', 'Subpoena Name', 'Official Name', 'Detactive Name', 'Date', 'PDFPath'], // 'Actions',
             colModel: [
                 //{ name: 'act', index: 'act', sortable: false, search: false, width: 70 },
                  { name: 'SubpoenaFrmId', label: 'SubpoenaFrmId', hidden: true },
@@ -165,16 +119,19 @@
             sortname: 'SubpoenaFrmId',
             toolbarfilter: true,
             viewrecords: true,
-            sortorder: "asc",
+            sortorder: "desc",
             gridComplete: function () {
                 var ids = jQuery("#jqgrid").jqGrid('getDataIDs');
                 for (var i = 0; i < ids.length; i++) {
                     var cl = ids[i];
-                    be = "<span class='btn btn-xs btn-default btn-quick' title='Edit Row' onclick=\"editRow('" + cl + "'); \"><i class='fa fa-pencil'></i></span>";
-                    //se = "<button class='btn btn-xs btn-default btn-quick' title='Save Row' onclick=\"jQuery('#jqgrid').saveRow('"+cl+"');\"><i class='fa fa-save'></i></button>";
-                    ca = "<span class='btn btn-xs btn-default btn-quick delete_row' title='Delete Row' onclick=\"deleteRow('" + cl + "');\"><i class='fa fa-times'></i></span>";
+                    be = "<span class='btn btn-xs btn-default btn-quick delete_row' title='view Row' onclick=\"viewRow('" + cl + "');\"><i class='fa fa-times'></i></span>";
+                    jQuery("#jqgrid").jqGrid('setRowData', ids[i], { act: be });
 
-                    jQuery("#jqgrid").jqGrid('setRowData', ids[i], { act: be + ca });  //act:be+se+ca
+                    //be = "<span class='btn btn-xs btn-default btn-quick' title='Edit Row' onclick=\"editRow('" + cl + "'); \"><i class='fa fa-pencil'></i></span>";
+                    ////se = "<button class='btn btn-xs btn-default btn-quick' title='Save Row' onclick=\"jQuery('#jqgrid').saveRow('"+cl+"');\"><i class='fa fa-save'></i></button>";
+                    //ca = "<span class='btn btn-xs btn-default btn-quick delete_row' title='Delete Row' onclick=\"deleteRow('" + cl + "');\"><i class='fa fa-times'></i></span>";
+
+                    //jQuery("#jqgrid").jqGrid('setRowData', ids[i], { act: be + ca });  //act:be+se+ca
                 }
             },
             editurl: "",
@@ -260,6 +217,14 @@
             //var url = '$siteRoot/User/Modify.html?USR_ID=' + sitename;
             //History.replaceState({ state: 3 }, "State 3", "#MBO=Define=id=" + sitename)
             // ClickHeaderLinkMenu(url);
+        }
+
+        function viewRow(row_ID) {
+
+            var sitename = jQuery("#jqgrid").getCell(row_ID, 'SubpoenaFrmId');
+            // e.preventDefault();
+            var url = 'SubpoenaProducers.aspx?Type=view&&Id=' + sitename;
+            window.location.href = url;
         }
 
         // On Resize

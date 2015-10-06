@@ -21,3 +21,14 @@ O:\Subpoena-master\WebAppln\obj\Release\WebAppln.csprojResolveAssemblyReference.
 O:\Subpoena-master\WebAppln\obj\Release\WebAppln.dll
 O:\Subpoena-master\WebAppln\obj\Release\WebAppln.pdb
 O:\Subpoena-master\WebAppln\bin\Microsoft.ScriptManager.jQuery.UI.Combined.dll
+C:\personal\Project\Subpoena\WebAppln\bin\WebAppln.dll
+C:\personal\Project\Subpoena\WebAppln\bin\WebAppln.pdb
+C:\personal\Project\Subpoena\WebAppln\bin\BLL.dll
+C:\personal\Project\Subpoena\WebAppln\bin\LINQ.dll
+C:\personal\Project\Subpoena\WebAppln\bin\Microsoft.ApplicationBlocks.Data.dll
+C:\personal\Project\Subpoena\WebAppln\bin\Microsoft.ScriptManager.jQuery.UI.Combined.dll
+C:\personal\Project\Subpoena\WebAppln\bin\BLL.pdb
+C:\personal\Project\Subpoena\WebAppln\bin\LINQ.pdb
+C:\personal\Project\Subpoena\WebAppln\obj\Release\WebAppln.csprojResolveAssemblyReference.cache
+C:\personal\Project\Subpoena\WebAppln\obj\Release\WebAppln.dll
+C:\personal\Project\Subpoena\WebAppln\obj\Release\WebAppln.pdb

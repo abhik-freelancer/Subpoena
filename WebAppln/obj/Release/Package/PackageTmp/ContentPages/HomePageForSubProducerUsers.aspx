@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" MasterPageFile="../Site.master" AutoEventWireup="true" CodeBehind="HomePageForSubProducerUsers.aspx.cs" 
-Inherits="Website.Pages.OtherUsers" Title=":: PageforOtherUsers::" %>
+Inherits="Website.ContentPages.OtherUsers" Title=":: PageforOtherUsers::" %>
 
     
 <asp:Content ID="Content22" ContentPlaceHolderID="MainContent" runat="server">
@@ -17,13 +17,13 @@ Inherits="Website.Pages.OtherUsers" Title=":: PageforOtherUsers::" %>
 
          <div class="row">
          <div class="col-xs-4 form-group">
-           <a href="../ContentPages/OtherUsers">Open a Saved Subpoena</a>
+           <a href="../ContentPages/OtherUsers?Type=save">Open a Saved Subpoena</a>
              </div>
          <div class="col-xs-4 form-group">
              <a href="../ContentPages/SubpoenaProducers">Create a New Subpoena</a>
              </div>  
              <div class="col-xs-4 form-group">
-             <a href="../ContentPages/OtherUsers">Display Subpoena</a>
+             <a href="../ContentPages/OtherUsers?Type=submit">Display Subpoena</a>
              </div> 
     </div>
                 

@@ -12,3 +12,10 @@ O:\Subpoena-master\BLL\bin\Release\LINQ.pdb
 O:\Subpoena-master\BLL\obj\Release\BLL.csprojResolveAssemblyReference.cache
 O:\Subpoena-master\BLL\obj\Release\BLL.dll
 O:\Subpoena-master\BLL\obj\Release\BLL.pdb
+C:\personal\Project\Subpoena\BLL\bin\Release\BLL.dll
+C:\personal\Project\Subpoena\BLL\bin\Release\BLL.pdb
+C:\personal\Project\Subpoena\BLL\bin\Release\LINQ.dll
+C:\personal\Project\Subpoena\BLL\bin\Release\LINQ.pdb
+C:\personal\Project\Subpoena\BLL\obj\Release\BLL.csprojResolveAssemblyReference.cache
+C:\personal\Project\Subpoena\BLL\obj\Release\BLL.dll
+C:\personal\Project\Subpoena\BLL\obj\Release\BLL.pdb

@@ -13,6 +13,24 @@ namespace Website.Pages {
     public partial class SubpoenaProducers {
         
         /// <summary>
+        /// dvOutPutMsg control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl dvOutPutMsg;
+        
+        /// <summary>
+        /// lblOutPutMsg control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblOutPutMsg;
+        
+        /// <summary>
         /// Label4 control.
         /// </summary>
         /// <remarks>

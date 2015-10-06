@@ -98,3 +98,17 @@ D:\Subpoena\Subpoena\BLL\bin\Debug\LINQ.pdb
 D:\Subpoena\Subpoena\BLL\obj\Debug\BLL.csprojResolveAssemblyReference.cache
 D:\Subpoena\Subpoena\BLL\obj\Debug\BLL.dll
 D:\Subpoena\Subpoena\BLL\obj\Debug\BLL.pdb
+C:\personal\Project\Subpoena\BLL\bin\Debug\BLL.dll
+C:\personal\Project\Subpoena\BLL\bin\Debug\BLL.pdb
+C:\personal\Project\Subpoena\BLL\obj\Debug\BLL.dll
+C:\personal\Project\Subpoena\BLL\obj\Debug\BLL.pdb
+C:\personal\Project\Subpoena\BLL\bin\Debug\LINQ.dll
+C:\personal\Project\Subpoena\BLL\bin\Debug\LINQ.pdb
+C:\personal\Project\Subpoena\BLL\obj\Debug\BLL.csprojResolveAssemblyReference.cache
+C:\personal\Project\New folder\Subpoena\BLL\bin\Debug\BLL.dll
+C:\personal\Project\New folder\Subpoena\BLL\bin\Debug\BLL.pdb
+C:\personal\Project\New folder\Subpoena\BLL\bin\Debug\LINQ.dll
+C:\personal\Project\New folder\Subpoena\BLL\bin\Debug\LINQ.pdb
+C:\personal\Project\New folder\Subpoena\BLL\obj\Debug\BLL.csprojResolveAssemblyReference.cache
+C:\personal\Project\New folder\Subpoena\BLL\obj\Debug\BLL.dll
+C:\personal\Project\New folder\Subpoena\BLL\obj\Debug\BLL.pdb

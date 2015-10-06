@@ -507,3 +507,14 @@ D:\Subpoena\Subpoena\WebAppln\bin\LINQ.pdb
 D:\Subpoena\Subpoena\WebAppln\obj\Debug\WebAppln.csprojResolveAssemblyReference.cache
 D:\Subpoena\Subpoena\WebAppln\obj\Debug\WebAppln.dll
 D:\Subpoena\Subpoena\WebAppln\obj\Debug\WebAppln.pdb
+C:\personal\Project\Subpoena\WebAppln\bin\WebAppln.dll
+C:\personal\Project\Subpoena\WebAppln\bin\WebAppln.pdb
+C:\personal\Project\Subpoena\WebAppln\bin\BLL.dll
+C:\personal\Project\Subpoena\WebAppln\bin\LINQ.dll
+C:\personal\Project\Subpoena\WebAppln\bin\Microsoft.ApplicationBlocks.Data.dll
+C:\personal\Project\Subpoena\WebAppln\bin\Microsoft.ScriptManager.jQuery.UI.Combined.dll
+C:\personal\Project\Subpoena\WebAppln\bin\BLL.pdb
+C:\personal\Project\Subpoena\WebAppln\bin\LINQ.pdb
+C:\personal\Project\Subpoena\WebAppln\obj\Debug\WebAppln.csprojResolveAssemblyReference.cache
+C:\personal\Project\Subpoena\WebAppln\obj\Debug\WebAppln.dll
+C:\personal\Project\Subpoena\WebAppln\obj\Debug\WebAppln.pdb

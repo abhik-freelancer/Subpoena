@@ -30,12 +30,16 @@ namespace Website.Pages
     {
 
 //Commit Test//
+        string Actiontype, poenaId;
+        const string SUPERVISOR_SIGNATURE = "supervisor";
+        const string REPRESENTATIVE_SIGNATURE = "representative";
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Session["GroupId"] == null || Session["UserEmail"] == null)
             {
                 Response.Redirect("../Login.aspx");
             }
+           
             if (!IsPostBack)
             {
                 showsubpoeana();
@@ -46,9 +50,47 @@ namespace Website.Pages
                 ShowDetectiveuser();
                 chkRepChanges();
                 chkSupChanges();
+                viewEditSubPoena();
             }
+            //For view / edit from diff page.'SubpoenaProducers.aspx?Type=view&&Id=' + sitename;
+        }
 
+        private void viewEditSubPoena()
+        {
+            if (Request.QueryString["Type"] != null)
+            {
+                Actiontype = Request.QueryString["Type"].ToString();
+                poenaId = Request.QueryString["Id"].ToString();
+            }
+            else
+            {
+                return;
+            }
+            AccreditationDataContext db = new AccreditationDataContext();
+            db.Connection.ConnectionString = System.Configuration.ConfigurationManager.AppSettings["constr"];
+            //View /edit subpoena id from diff page. 
+            if (int.Parse(poenaId) > 0)
+            {
+                var viewEditSubpoena =
+                from c in db.TblSubpoenaFrms
+                where c.SubpoenaFrmId == int.Parse(poenaId)
+                select new { c.SubpoenaFrmId, SubpoenaName = c.SubpoenaName };
 
+                if (viewEditSubpoena.Count() > 0)
+                {
+                    ExistingSubpoeanaList.DataSource = viewEditSubpoena;
+                    ExistingSubpoeanaList.DataTextField = "SubpoenaName";
+                    ExistingSubpoeanaList.DataValueField = "SubpoenaFrmId";
+                    ExistingSubpoeanaList.DataBind();
+                    ExistingSubpoeanaList.SelectedValue = poenaId;
+                    //ExistingSubpoeanaList.Items.Insert(0, new System.Web.UI.WebControls.ListItem("----Select subpoeana----", "0"));
+                }
+                OnchangeexistingSubPoeana(ExistingSubpoeanaList, new EventArgs());
+            }
+            if (Actiontype == "view")
+            {
+                DisableFormContrl();
+            }
 
         }
 
@@ -83,6 +125,25 @@ namespace Website.Pages
 
         }
 
+        #region show outdiv message
+        public void showOutputMessage(int type, string message)
+        {
+            lblOutPutMsg.Text = message;
+            switch (type)
+            {
+                case (int)BLL.Constants.MessageType.Success:
+                    dvOutPutMsg.Attributes.Add("class", "successGeneric");
+                    break;
+                case (int)BLL.Constants.MessageType.Fail:
+                    dvOutPutMsg.Attributes.Add("class", "errorGeneric");
+                    break;
+                default:
+                    dvOutPutMsg.Attributes.Add("class", "blankGeneric");
+                    break;
+            }
+            //Page.ClientScript.RegisterStartupScript(this.GetType(), "hideMsgDiv", "autoHide('" + dvOutPutMsg.ClientID + "');", true);
+        }
+        #endregion
 
         private void ShowDetectiveuser()
         {
@@ -136,8 +197,11 @@ namespace Website.Pages
                 ExistingSubpoeanaList.DataBind();
                 ExistingSubpoeanaList.Items.Insert(0, new System.Web.UI.WebControls.ListItem("----Select subpoeana----", "0"));
             }
+
+           
         }
 
+       
         private void showState()
         {
             AccreditationDataContext db = new AccreditationDataContext();
@@ -190,6 +254,7 @@ namespace Website.Pages
             //string queryautonum = " select isnull(MAX(CaseId),0)+1 from TblSubpoenaFrm where  ISNUMERIC(CaseId)=1";
             string queryautonum = "select isnull(MAX(SUBSTRING(CaseId,6,6)),0)+1 from TblSubpoenaFrm";
             DataSet Result = DbConnection.GetMultitableTableData(queryautonum);
+            String CaseIdUpld="";
             //try
             //{
             if (btnSave.Text.Equals("Save"))
@@ -203,7 +268,7 @@ namespace Website.Pages
                     using (AccreditationDataContext group = new AccreditationDataContext())
                     {
                         LINQ.TblSubpoenaFrm Sbf = objDB.TblSubpoenaFrms.First(D => D.SubpoenaFrmId == int.Parse(txtEditSubpoeanaId.Value.ToString()));
-
+                        CaseIdUpld=Sbf.CaseId;
                         Sbf.SubpoenaName = txtSubpoenaName.Text.Trim();
                         Sbf.StateId = Convert.ToInt16(DrpDwnState.SelectedItem.Value);
                         Sbf.CountyId = Convert.ToInt16(DrpDwnCounty.SelectedItem.Value);
@@ -215,10 +280,10 @@ namespace Website.Pages
                         // Sbf.CaseId = "CASE-" + Result.Tables[0].Rows[0][0].ToString().PadLeft(6, Convert.ToChar("0"));
                         // OfficialName = 
                         // DetativeName = txtAddr1.Text.Trim(),
-                        Sbf.OfficialName = "Test name";
-                        Sbf.DetativeName = "Test";
-                        
-                     //   Sbf.Status = Constants.Status.NEW.ToString();
+                        Sbf.OfficialName = string.Empty;// "Test name";
+                        Sbf.DetativeName = DropDownDetective.SelectedItem.Text;// "Test";
+
+                        //   Sbf.Status = Constants.Status.NEW.ToString();
                         Sbf.SaveType = "Save";
                         Sbf.Date = (txtDate.Text.Trim().ToString().Length > 0) ? Convert.ToDateTime(txtDate.Text.Trim()) : System.DateTime.Now;
                         Sbf.Custodian = txtCustodian.Text.Trim();
@@ -241,15 +306,14 @@ namespace Website.Pages
                         Sbf.SupervisorSignatureRequired = txtSupervisorSig.Text.Trim();
                         Sbf.RepresentativeSig = txtRepresentativeSig.Text.Trim();
                         Sbf.Active = true;
-                        if(UploadRepFile.FileName !="")
-                        Sbf.RepresentiveSignatureFile=UploadRepFile.FileName;
-                        if (UploadSupFile.FileName != "")
-                        Sbf.SupervisorSignatureFile = UploadSupFile.FileName;
+                        if (UploadRepFile.HasFile)
+                            Sbf.RepresentiveSignatureFile = getUploadFileName(CaseIdUpld, UploadRepFile.FileName, REPRESENTATIVE_SIGNATURE);
+                        if (UploadSupFile.HasFile)
+                            Sbf.SupervisorSignatureFile = getUploadFileName(CaseIdUpld, UploadSupFile.FileName, SUPERVISOR_SIGNATURE);
                         // CreatedOn = System.DateTime.Now,
                         Sbf.UpdatedBy = Session["UserEmail"].ToString();
                         Sbf.UpdatedOn = System.DateTime.Now;
                         objDB.SubmitChanges();
-
                     }
 
                 }
@@ -258,8 +322,8 @@ namespace Website.Pages
 
                     using (AccreditationDataContext subpoena = new AccreditationDataContext())
                     {
-
-
+                        
+                        CaseIdUpld="CASE-" + Result.Tables[0].Rows[0][0].ToString().PadLeft(6, Convert.ToChar("0"));
                         TblSubpoenaFrm subpoena1 = new TblSubpoenaFrm
 
                         {
@@ -271,12 +335,11 @@ namespace Website.Pages
                             Representative = txtRepresentative.Text.Trim(),
                             DetectiveId = Convert.ToInt16(DropDownDetective.SelectedItem.Value),
                             CaseId = "CASE-" + Result.Tables[0].Rows[0][0].ToString().PadLeft(6, Convert.ToChar("0")),
-                            
                             // OfficialName = 
                             // DetativeName = txtAddr1.Text.Trim(),
-                            OfficialName = "Test name",
-                            DetativeName = "Test",
-                            Status = Constants.Status.NEW.ToString(),
+                            OfficialName =string.Empty,// "Test name",
+                            DetativeName = DropDownDetective.SelectedItem.Text,//string.Empty,//"Test",
+                            Status =((int)BLL.Constants.Status.NEW).ToString(),// Constants.Status.NEW.ToString(),
                             SaveType = "Save",
                             Date = (txtDate.Text.Trim().ToString().Length > 0) ? Convert.ToDateTime(txtDate.Text.Trim()) : System.DateTime.Now,
                             Custodian = txtCustodian.Text.Trim(),
@@ -301,8 +364,8 @@ namespace Website.Pages
                             Active = true,
                             CreatedBy = Session["UserEmail"].ToString(),
                             CreatedOn = System.DateTime.Now,
-                            RepresentiveSignatureFile=UploadRepFile.FileName,
-                            SupervisorSignatureFile=UploadSupFile.FileName
+                            RepresentiveSignatureFile=UploadRepFile.HasFile==true?getUploadFileName(CaseIdUpld,UploadRepFile.FileName,REPRESENTATIVE_SIGNATURE):string.Empty,
+                            SupervisorSignatureFile = UploadSupFile.HasFile == true ? getUploadFileName(CaseIdUpld, UploadSupFile.FileName, SUPERVISOR_SIGNATURE) : string.Empty,
                             //UpdatedOn = System.DateTime.Now
                         };
 
@@ -314,22 +377,71 @@ namespace Website.Pages
 
                     }
                 }
-                if(UploadRepFile.FileName !="")
-                UploadRepFile.SaveAs(Server.MapPath("Uploads/Signature\\" + UploadRepFile.FileName));
+                if (UploadRepFile.HasFile)
+                {
+                    UploadFile(getUploadFileName(CaseIdUpld, UploadRepFile.FileName, REPRESENTATIVE_SIGNATURE), REPRESENTATIVE_SIGNATURE);
+                    HypRepSig.Text = getUploadFileName(CaseIdUpld, UploadRepFile.FileName, REPRESENTATIVE_SIGNATURE);
+                    HypRepSig.NavigateUrl = "Uploads/Signature/" + getUploadFileName(CaseIdUpld, UploadRepFile.FileName, REPRESENTATIVE_SIGNATURE);
+                }
+
                 if (UploadSupFile.FileName != "")
-                UploadSupFile.SaveAs(Server.MapPath("Uploads/Signature\\" + UploadSupFile.FileName));
+                {
+                    UploadFile(getUploadFileName(CaseIdUpld, UploadSupFile.FileName, SUPERVISOR_SIGNATURE), SUPERVISOR_SIGNATURE);
+                    HypSupSig.Text = getUploadFileName(CaseIdUpld, UploadSupFile.FileName, SUPERVISOR_SIGNATURE);
+                    HypSupSig.NavigateUrl = getUploadFileName(CaseIdUpld, UploadSupFile.FileName, SUPERVISOR_SIGNATURE);
+                }
+
+                
+                
             }
             if(NewCaseId !="")
-                Page.ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('Subpoena Saved Successfully..Case ID is " + NewCaseId + "');window.location.href='SubpoenaProducers.aspx';", true);
+                showOutputMessage((int)BLL.Constants.MessageType.Success, "Subpoena Saved Successfully..Case ID is " + NewCaseId);
+                //Page.ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('Subpoena Saved Successfully..Case ID is " + NewCaseId + "');window.location.href='SubpoenaProducers.aspx';", true);
             else
-                Page.ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('Subpoena Updated Successfully');window.location.href='SubpoenaProducers.aspx';", true);
-         //   Response.Redirect("SubpoenaProducers.aspx");
+                showOutputMessage((int)BLL.Constants.MessageType.Success, "Subpoena Updated Successfully");
+                //Page.ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('Subpoena Updated Successfully');window.location.href='SubpoenaProducers.aspx';", true);
+            Response.AddHeader("REFRESH", "5;URL=SubpoenaProducers.aspx");
             return;
             //  }
             //catch(Exception Ex)
             //{
             //}
 
+        }
+
+        private string getUploadFileName(string caseId, string uploadFileName, string signType)
+        {
+            string fileName = string.Empty;
+            fileName = String.Format("{0}_{1}_{2}", caseId, signType, uploadFileName);
+            return fileName;
+        }
+
+        private void UploadFile(string uploadFileName, string signType)
+        {
+            string fileNamePath = "Uploads/Signature\\" + uploadFileName;
+            if (signType == REPRESENTATIVE_SIGNATURE)
+            {
+                if (UploadRepFile.HasFile)
+                {
+                    if (File.Exists(fileNamePath))
+                    {
+                        File.Delete(fileNamePath);
+                    }
+                    UploadRepFile.SaveAs(Server.MapPath(fileNamePath));
+
+                }
+            }
+            else
+            {
+                if (UploadSupFile.HasFile)
+                {
+                    if (File.Exists(fileNamePath))
+                    {
+                        File.Delete(fileNamePath);
+                    }
+                    UploadSupFile.SaveAs(Server.MapPath(fileNamePath));
+                }
+            }
         }
 
         private void ClearForm()
@@ -351,6 +463,32 @@ namespace Website.Pages
             DrpDwnCounty.SelectedIndex = 0;
             DrpDwnState.SelectedIndex = 0;
             //btnSave.Text = "Save";
+        }
+
+        private void DisableFormContrl()
+        {
+            txtSubpoenaName.Enabled = false;
+            txtSupervisor.Enabled = false;
+            txtRepresentative.Enabled = false;
+            txtDate.Enabled = false;
+            txtCustodian.Enabled = false;
+            txtRecordsPertainTo.Enabled = false;
+            txtAddressIndividualBusiness.Enabled = false;
+            txtCrimeUnderInvestigation.Enabled = false;
+            txtFSS.Enabled = false;
+            //Logo.ImageUrl = string.Empty;
+            txtSuspect.Enabled = false;
+            txtOffense.Enabled = false;
+            txtInformationRequested.Enabled = false;
+            txtProbableCause.Enabled = false;
+            ExistingSubpoeanaList.Enabled = false;
+            DrpDwnCounty.Enabled = false;
+            DrpDwnState.Enabled = false;
+            DropDownGroup.Enabled = false;
+            DropDownDetective.Enabled = false;
+            ChooseSubpoeanaTempalte.Enabled = false;
+            btnSave.Enabled = false;
+            bntSubmit.Enabled = false;
         }
 
         protected void bntPreview_Click(object sender, EventArgs e)
@@ -1147,10 +1285,11 @@ namespace Website.Pages
 
         protected void bntSubmit_Click(object sender, EventArgs e)
         {
+            //string pdfFileName = DateTime.Now.ToString("yyyyMMddHHmmssfff") + "_Subpoeana.pdf";
             string pdfFileName = DateTime.Now.ToString("yyyyMMddHHmmssfff") + "_Subpoeana.pdf";
             AccreditationDataContext objDB = new AccreditationDataContext();
             objDB.Connection.ConnectionString = System.Configuration.ConfigurationManager.AppSettings["constr"];
-
+            String CaseIdUpld = "";
             int subpoeanaCuurId = 0;
 
             if (txtEditSubpoeanaId.Value != null && txtEditSubpoeanaId.Value != "" && int.Parse(txtEditSubpoeanaId.Value.ToString()) > 0)
@@ -1159,7 +1298,7 @@ namespace Website.Pages
                 using (AccreditationDataContext group = new AccreditationDataContext())
                 {
                     LINQ.TblSubpoenaFrm Sbf = objDB.TblSubpoenaFrms.First(D => D.SubpoenaFrmId == int.Parse(txtEditSubpoeanaId.Value.ToString()));
-
+                    CaseIdUpld = Sbf.CaseId;
                     Sbf.SubpoenaName = txtSubpoenaName.Text.Trim();
                     Sbf.StateId = Convert.ToInt16(DrpDwnState.SelectedItem.Value);
                     Sbf.CountyId = Convert.ToInt16(DrpDwnCounty.SelectedItem.Value);
@@ -1171,19 +1310,19 @@ namespace Website.Pages
                     // Sbf.CaseId = "CASE-" + Result.Tables[0].Rows[0][0].ToString().PadLeft(6, Convert.ToChar("0"));
                     // OfficialName = 
                     // DetativeName = txtAddr1.Text.Trim(),
-                    Sbf.OfficialName = "Test name";
-                    Sbf.DetativeName = "Test";
-                    Sbf.Status = "New";
+                    Sbf.OfficialName = string.Empty;// "Test name";
+                    Sbf.DetativeName = DropDownDetective.SelectedItem.Text;// string.Empty;// "Test";
+                    Sbf.Status = ((int)BLL.Constants.Status.NEW).ToString();// "New";
                     Sbf.SaveType = "Submit";
                     Sbf.Date = (txtDate.Text.Trim().ToString().Length > 0) ? Convert.ToDateTime(txtDate.Text.Trim()) : System.DateTime.Now;
                     Sbf.Custodian = txtCustodian.Text.Trim();
                     Sbf.RecordsPertainTo = txtRecordsPertainTo.Text.Trim();
                     Sbf.AddressIndividualBusiness = txtAddressIndividualBusiness.Text.Trim();
                     Sbf.CrimeUnderInvestigation = txtCrimeUnderInvestigation.Text.Trim();
-                    if (UploadRepFile.FileName != "")
-                        Sbf.RepresentiveSignatureFile = UploadRepFile.FileName;
-                    if (UploadSupFile.FileName != "")
-                        Sbf.SupervisorSignatureFile = UploadSupFile.FileName;
+                    if (UploadRepFile.HasFile)
+                        Sbf.RepresentiveSignatureFile = getUploadFileName(CaseIdUpld, UploadRepFile.FileName, REPRESENTATIVE_SIGNATURE);
+                    if (UploadSupFile.HasFile)
+                        Sbf.SupervisorSignatureFile = getUploadFileName(CaseIdUpld, UploadSupFile.FileName, SUPERVISOR_SIGNATURE);
                     Sbf.FSS = txtFSS.Text.Trim();
                     Sbf.Suspect = txtSuspect.Text.Trim();
                     Sbf.Offense = txtOffense.Text.Trim();
@@ -1193,13 +1332,13 @@ namespace Website.Pages
                     // Disclaimer = 
                     Sbf.ProbableCause = txtProbableCause.Text.Trim();
                     //   Sbf.SignatureRequired=txt
-
+                  
                     Sbf.Active = true;
                     Sbf.UpdatedBy = Session["UserEmail"].ToString();
                     // Sbf.CreatedOn = System.DateTime.Now;
                     Sbf.UpdatedOn = System.DateTime.Now;
                     objDB.SubmitChanges();
-
+                    showOutputMessage((int)BLL.Constants.MessageType.Success, "Subpoena submitted Successfully");
                 }
 
             }
@@ -1211,7 +1350,7 @@ namespace Website.Pages
                 DataSet Result = DbConnection.GetMultitableTableData(queryautonum);
                 using (AccreditationDataContext subpoena = new AccreditationDataContext())
                 {
-
+                    CaseIdUpld = "CASE-" + Result.Tables[0].Rows[0][0].ToString().PadLeft(6, Convert.ToChar("0"));
                     TblSubpoenaFrm subpoena1 = new TblSubpoenaFrm
 
                     {
@@ -1226,9 +1365,9 @@ namespace Website.Pages
                         CaseId = "CASE-" + Result.Tables[0].Rows[0][0].ToString().PadLeft(6, Convert.ToChar("0")),
                         // OfficialName = 
                         // DetativeName = txtAddr1.Text.Trim(),
-                        OfficialName = "Test name",
-                        DetativeName = "Test",
-                        Status = "New",
+                        OfficialName =string.Empty,// "Test name",
+                        DetativeName =DropDownDetective.SelectedItem.Text,// "Test",
+                        Status = ((int)BLL.Constants.Status.NEW).ToString(),//"New",
                         SaveType = "Submit",
                         Date = (txtDate.Text.Trim().ToString().Length > 0) ? Convert.ToDateTime(txtDate.Text.Trim()) : System.DateTime.Now,
                         Custodian = txtCustodian.Text.Trim(),
@@ -1238,6 +1377,8 @@ namespace Website.Pages
 
                         IsDigitalSupervisor = RdoSupDigSig.Checked == true ? true : false,
                         IsDigitalRepresentative = RdoDigSig.Checked == true ? true : false,
+                        RepresentiveSignatureFile = UploadRepFile.HasFile == true ? getUploadFileName(CaseIdUpld, UploadRepFile.FileName, REPRESENTATIVE_SIGNATURE) : string.Empty,
+                        SupervisorSignatureFile = UploadSupFile.HasFile == true ? getUploadFileName(CaseIdUpld, UploadSupFile.FileName, SUPERVISOR_SIGNATURE) : string.Empty,
 
                         FSS = txtFSS.Text.Trim(),
                         Suspect = txtSuspect.Text.Trim(),
@@ -1255,14 +1396,26 @@ namespace Website.Pages
                         //UpdatedOn = System.DateTime.Now
                     };
 
-                    if (UploadRepFile.FileName != "")
-                        UploadRepFile.SaveAs(Server.MapPath("Uploads/Signature\\" + UploadRepFile.FileName));
+                    if (UploadRepFile.HasFile)
+                    {
+                        UploadFile(getUploadFileName(CaseIdUpld, UploadRepFile.FileName, REPRESENTATIVE_SIGNATURE), REPRESENTATIVE_SIGNATURE);
+                        HypRepSig.Text = getUploadFileName(CaseIdUpld, UploadRepFile.FileName, REPRESENTATIVE_SIGNATURE);
+                        HypRepSig.NavigateUrl = "Uploads/Signature/" + getUploadFileName(CaseIdUpld, UploadRepFile.FileName, REPRESENTATIVE_SIGNATURE);
+                    }
+
                     if (UploadSupFile.FileName != "")
-                        UploadSupFile.SaveAs(Server.MapPath("Uploads/Signature\\" + UploadSupFile.FileName));
+                    {
+                        UploadFile(getUploadFileName(CaseIdUpld, UploadSupFile.FileName, SUPERVISOR_SIGNATURE), SUPERVISOR_SIGNATURE);
+                        HypSupSig.Text = getUploadFileName(CaseIdUpld, UploadSupFile.FileName, SUPERVISOR_SIGNATURE);
+                        HypSupSig.NavigateUrl = getUploadFileName(CaseIdUpld, UploadSupFile.FileName, SUPERVISOR_SIGNATURE);
+                    }
+
+                    //UploadSupFile.SaveAs(Server.MapPath("Uploads/Signature\\" + UploadSupFile.FileName));
                     subpoena.Connection.ConnectionString = System.Configuration.ConfigurationManager.AppSettings["constr"];
                     subpoena.TblSubpoenaFrms.InsertOnSubmit(subpoena1);
                     subpoena.SubmitChanges();
                     subpoeanaCuurId = subpoena1.SubpoenaFrmId;
+                    showOutputMessage((int)BLL.Constants.MessageType.Success, "Subpoena submitted Successfully");
                 }
 
             }
@@ -1272,8 +1425,8 @@ namespace Website.Pages
 
             var userRegDetect = objDB.TblUserRegistrations.Where(x => x.UserId == Convert.ToInt16(DropDownDetective.SelectedItem.Value)).FirstOrDefault();
             SendMail(userRegDetect.UserEmail, userRegDetect.UserFirstName, subpoeanaCuurId, userRegDetect.Group);
-
-            Response.Redirect("SubpoenaProducers.aspx");
+            Response.AddHeader("REFRESH", "5;URL=SubpoenaProducers.aspx");
+            //Response.Redirect("SubpoenaProducers.aspx");
             return;
         }
 
@@ -1284,7 +1437,7 @@ namespace Website.Pages
         protected void SendMail(string YourEmail, string name, int subpoeanaCuurId, int groupid)
         {
 
-        
+        /*
             AccreditationDataContext db = new AccreditationDataContext();
             db.Connection.ConnectionString = System.Configuration.ConfigurationManager.AppSettings["constr"];
             var stsubpoeanrs =
@@ -1355,8 +1508,8 @@ namespace Website.Pages
 
             var smtp = new SmtpClient
             {
-                Host = "Smtpout.secureserver.net",// "smtp.gmail.com",
-                //Port = 465,
+                Host = ConfigurationManager.AppSettings["DomainName"],//"Smtpout.secureserver.net",// "smtp.gmail.com",
+                //Port = 25,
                 //EnableSsl = true,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 UseDefaultCredentials = false,
@@ -1370,6 +1523,115 @@ namespace Website.Pages
             })
             {
                 smtp.Send(message);
+            }
+
+            */
+
+
+
+
+
+
+            AccreditationDataContext db = new AccreditationDataContext();
+            db.Connection.ConnectionString = System.Configuration.ConfigurationManager.AppSettings["constr"];
+            var stsubpoeanrs =
+                (from c in db.TblSubpoenaFrms
+                 where c.SubpoenaFrmId == subpoeanaCuurId
+                 select new
+                 {
+                     c.CaseId,
+                     When = c.Date,
+                     Wherefrom = (from x in db.TblGroupCreations.Where(p => p.GrpId == groupid) select x).FirstOrDefault().City + " " + (from x in db.TblStates.Where(p => p.StateId == c.StateId) select x).FirstOrDefault().StateName + "  " + (from x in db.TblCounties.Where(p => p.CountyId == c.CountyId) select x).FirstOrDefault().CountyName,
+                     CalendarText = c.OfficialName,
+                     EhoText = c.Offense,
+                     c.SubpoenaFrmId
+                 }
+
+
+                 ).FirstOrDefault();
+            string to = YourEmail;// "friend.rahul.rch@gmail.com";//ConfigurationManager.AppSettings["DomainName"];
+            string smtpName = ConfigurationManager.AppSettings["DomainName"];
+            string smtpPort = ConfigurationManager.AppSettings["EmailPort"];
+            string bolssl = ConfigurationManager.AppSettings["isSSL"];
+            string from = ConfigurationManager.AppSettings["VerificationSenderEmail"];
+            string password = ConfigurationManager.AppSettings["EmailPassword"];
+            string SiteRoot = ConfigurationManager.AppSettings["SiteRoot"];
+            string subject = "Subpoena : New Subpoena Generated";
+            string Body = "";
+            Body += " <html>";
+            Body += "<body>";
+
+            Body += "<table cellspacing='5' cellpadding='4' style='width:100%;border:1px solid rgba(0, 0, 0, 0.95)'>";
+            Body += "<tr>";
+            Body += " <td align='right'>Case Id :</td>";
+            Body += " <td >" + stsubpoeanrs.CaseId + "</td>";
+
+            Body += " </tr>";
+            Body += "<tr>";
+            Body += " <td align='right'>When :</td>";
+            Body += "<td>" + stsubpoeanrs.When + "</td>";
+
+            Body += " </tr>";
+            Body += " <tr>";
+            Body += " <td align='right'>Where :</td>";
+            Body += " <td>" + stsubpoeanrs.Wherefrom + "</td>";
+
+            Body += "</tr>";
+
+            Body += " <tr>";
+            Body += "  <td align='right'>Calendar :</td>";
+            Body += " <td>" + stsubpoeanrs.CalendarText + "</td>";
+
+            Body += "</tr>";
+            Body += "<tr>";
+            Body += " <td align='right'>Who :</td>";
+            Body += " <td>None</td>";
+
+            Body += " </tr>";
+
+            Body += " <tr>";
+            Body += "  <td align='right'>Going ?</td>";
+            Body += " <td><a href='" + SiteRoot + "ActiveSupoena.aspx?Status=Yes&subpoeanaId=" + stsubpoeanrs.SubpoenaFrmId + "'>Yes</a> "+
+                            "&nbsp;&nbsp; <a href='" + SiteRoot + "ActiveSupoena.aspx?Status=No&subpoeanaId=" + stsubpoeanrs.SubpoenaFrmId + "'>No</a>"+
+                            "&nbsp;&nbsp; <a href='" + SiteRoot + "ActiveSupoena.aspx?Status=MayBe&subpoeanaId=" + stsubpoeanrs.SubpoenaFrmId + "'>Later</a>" +
+                            "</td>";
+
+            Body += "</tr>";
+
+            Body += "</table>";
+            Body += "</body>";
+            Body += "</html>";
+            MailAddress mailAddFrom = new MailAddress(from, "Subpoena Admin");
+            MailAddress mailAddTo= new MailAddress(to);
+            using (MailMessage mm = new MailMessage(mailAddFrom, mailAddTo))
+            {
+                mm.Subject = subject;
+                mm.Body = Body;
+                //if (fuAttachment.HasFile)
+                //{
+                //    string FileName = Path.GetFileName(fuAttachment.PostedFile.FileName);
+                //    mm.Attachments.Add(new Attachment(fuAttachment.PostedFile.InputStream, FileName));
+                //}
+
+                string pdfFileName = txtSubpoenaName.Text + "_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_Subpoeana.pdf";
+
+                CreatePdfFile(pdfFileName);
+
+                string FilePath = Server.MapPath("~\\PdfReport\\" + pdfFileName);
+
+                Attachment attachment = new Attachment(FilePath);
+                mm.Attachments.Add(attachment);
+
+                mm.IsBodyHtml = true;
+                SmtpClient smtp = new SmtpClient();
+                smtp.Host = smtpName; //"smtp.gmail.com";
+                smtp.EnableSsl = bool.Parse(bolssl);
+                NetworkCredential NetworkCred = new NetworkCredential(from, password);
+                smtp.UseDefaultCredentials = true;
+                smtp.Credentials = NetworkCred;
+                smtp.Port = int.Parse(smtpPort);
+                smtp.Send(mm);
+                //         ClientScript.RegisterStartupScript(GetType(), "alert", "alert('Email sent.');", true);
             }
         }
         // End Mail Function

@@ -17,9 +17,9 @@ Inherits="WebAppln.ContentPages.OtherUsers" Title=":: PageforOtherUsers::" %>
 <div class="poenaFormContainer poenaFormContainerWhite">
          <div class="row">
          <div class="col-xs-8 form-group linksPanel">
-           <a href="../ContentPages/OtherUsers" class="fa fa-folder-open formLink"> <span>Open a Saved Subpoena</span></a>
+           <a href="../ContentPages/OtherUsers?Type=save" class="fa fa-folder-open formLink"> <span>Open a Saved Subpoena</span></a>
              <a href="../ContentPages/SubpoenaProducers" class="fa fa-paper-plane formLink"> <span>Create a New Subpoena</span></a>
-              <a href="../ContentPages/OtherUsers" class="fa fa-paint-brush formLink"> <span>Display Subpoena</span></a>
+              <a href="../ContentPages/OtherUsers?Type=submit" class="fa fa-paint-brush formLink"> <span>Display Subpoena</span></a>
              </div>
          
         </div>

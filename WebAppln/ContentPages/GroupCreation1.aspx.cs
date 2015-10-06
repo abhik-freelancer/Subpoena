@@ -40,6 +40,26 @@ namespace Website.Pages
 
         }
 
+        #region show outdiv message
+        public void showOutputMessage(int type, string message)
+        {
+            lblOutPutMsg.Text = message;
+            switch (type)
+            {
+                case (int)BLL.Constants.MessageType.Success:
+                    dvOutPutMsg.Attributes.Add("class", "successGeneric");
+                    break;
+                case (int)BLL.Constants.MessageType.Fail:
+                    dvOutPutMsg.Attributes.Add("class", "errorGeneric");
+                    break;
+                default:
+                    dvOutPutMsg.Attributes.Add("class", "blankGeneric");
+                    break;
+            }
+            //Page.ClientScript.RegisterStartupScript(this.GetType(), "hideMsgDiv", "autoHide('" + dvOutPutMsg.ClientID + "');", true);
+        }
+        #endregion
+
         public void ViewData(int editid)
         {
             //ClearForm();
@@ -214,6 +234,7 @@ namespace Website.Pages
                             grp.CountryId = Convert.ToInt16(DropDownCountry.SelectedItem.Value);
                             grp.Active = true;
                             objDB.SubmitChanges();
+                            showOutputMessage((int)BLL.Constants.MessageType.Success, "Group updated successfully.");
                         }
                         else
                         {
@@ -228,10 +249,12 @@ namespace Website.Pages
                                 grp.CountryId = Convert.ToInt16(DropDownCountry.SelectedItem.Value);
                                 grp.Active = true;
                                 objDB.SubmitChanges();
+                                showOutputMessage((int)BLL.Constants.MessageType.Success, "Group updated successfully.");
                             }
                             else
                             {
-                                Response.Write("<script>alert('This Group Name Already exist.')</script>");
+                               // Response.Write("<script>alert('This Group Name Already exist.')</script>");
+                                showOutputMessage((int)BLL.Constants.MessageType.Fail, "This Group Name Already exist.");
                                 return;
                                 //Utilities.CreateMessageLabel(this, BLL.Constants.UnableToCreateGroup, false);
                             }
@@ -260,13 +283,14 @@ namespace Website.Pages
                             group.Connection.ConnectionString = System.Configuration.ConfigurationManager.AppSettings["constr"];
                             group.TblGroupCreations.InsertOnSubmit(group1);
                             group.SubmitChanges();
-
+                            showOutputMessage((int)BLL.Constants.MessageType.Success, "Group created successfully.");
 
                         }
                     }
                     else
                     {
-                        Response.Write("<script>alert('This Group Name Already exist.')</script>");
+                       // Response.Write("<script>alert('This Group Name Already exist.')</script>");
+                        showOutputMessage((int)BLL.Constants.MessageType.Fail, "This Group Name Already exist.");
                         return;
                         //Utilities.CreateMessageLabel(this, BLL.Constants.UnableToCreateGroup, false);
                     }
@@ -278,8 +302,8 @@ namespace Website.Pages
             }
 
 
-
-            Response.Redirect("GroupList.aspx");
+            Response.AddHeader("REFRESH", "5;URL=GroupList.aspx");
+            //Response.Redirect("GroupList.aspx");
             return;
         }
 

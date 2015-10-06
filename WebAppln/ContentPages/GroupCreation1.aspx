@@ -24,7 +24,9 @@ Inherits="Website.Pages.GroupCreation1" Title=":: Group Creation ::" %>
     <%--<div class="main_box_in">
         <span class="Sectionheader">Create Group</span>
     </div>--%>
-   
+   <div class="blankGeneric" id="dvOutPutMsg" runat="server">
+            <asp:Label ID="lblOutPutMsg" runat="server" Text="success"></asp:Label>
+        </div>
     <div class="row">
          <div class="col-xs-3 form-group">
             <asp:Label text="Group Name *:" runat="server"> </asp:Label>
